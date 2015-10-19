@@ -1,10 +1,8 @@
 var mongo = require('mongodb');
-var Server = mongo.Server,
-    Db = mongo.Db,
-    BSON = mongo.BSONPure;
+var commonService = require('./commonService');
+var BSON = mongo.BSONPure;
 
-var server = new Server('localhost', 27017, {auto_reconnect: true});
-db = new Db('usersDB', server);
+var db = commonService.db;
 
 db.open(function(err, db) {
     if(!err) {
@@ -69,28 +67,18 @@ exports.deleteIngredient = function(req, res) {
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.
 // You'd typically not find this code in a real-life app, since the database would already exist.
-/*var populateDB = function() {
+var populateDB = function() {
 
     var users = [
-    {
-        username: "Tchitos",
-        password: "1234",
-        right: "3",
-    },
-    {
-        username: "Toto",
-        password: "azerty",
-        right: "1",
-    },
-    {
-        username: "Titi",
-        password: "123",
-        right: "1",
-        
-    }
+        {
+            name: "pepper",
+        },
+        {
+            username: "rice",
+        }
     ];
     db.collection('users', function(err, collection) {
         collection.insert(users, {safe:true}, function(err, result) {});
     });
 
-};*/
+};

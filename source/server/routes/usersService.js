@@ -1,10 +1,8 @@
 var mongo = require('mongodb');
-var Server = mongo.Server,
-    Db = mongo.Db,
-    BSON = mongo.BSONPure;
+var commonService = require('./commonService');
+var BSON = mongo.BSONPure;
 
-var server = new Server('localhost', 27017, {auto_reconnect: true});
-db = new Db('usersDB', server);
+var db = commonService.db;
 
 db.open(function(err, db) {
     if(!err) {
@@ -29,7 +27,7 @@ exports.findUserById = function(req, res) {
 };
 
 exports.findAllUsers = function(req, res) {
-    console.log('getting all users');
+    
     db.collection('users', function(err, collection) {
         collection.find().toArray(function(err, items) {
             res.send(items);
@@ -66,25 +64,26 @@ exports.deleteUser = function(req, res) {
     //     });
     // });
 }
+
 var populateDB = function() {
 
     var users = [
-    {
-        username: "Tchitos",
-        password: "1234",
-        right: "3",
-    },
-    {
-        username: "Toto",
-        password: "azerty",
-        right: "1",
-    },
-    {
-        username: "Titi",
-        password: "123",
-        right: "1",
-        
-    }
+        {
+            username: "Tchitos",
+            password: "1234",
+            right: "3",
+        },
+        {
+            username: "Toto",
+            password: "azerty",
+            right: "1",
+        },
+        {
+            username: "Titi",
+            password: "123",
+            right: "1",
+            
+        }
     ];
     db.collection('users', function(err, collection) {
         collection.insert(users, {safe:true}, function(err, result) {});
