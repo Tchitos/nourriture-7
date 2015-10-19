@@ -1,5 +1,6 @@
 var express = require('express'),
-    usersService = require('./routes/usersService');
+    usersService = require('./routes/usersService'),
+    ingredientsService = require('./routes/ingredientsService');
 
 var app = express();
 
@@ -23,6 +24,23 @@ app.delete('/users', usersService.deleteUser);
 
 /***************************
 *     END USERS SERVICE
+****************************/
+
+/***************************
+*     START INGREDIENTS SERVICE
+****************************/
+
+//Get the list of all ingredients in the DB
+app.get('/ingredients', ingredientsService.findAllIngredients);
+//Get a ingredient by ID
+app.get('/ingredients/:id', ingredientsService.findIngredientById);
+//Add a ingredient
+app.post('/ingredients', ingredientsService.addIngredient);
+//Delete a ingredient
+app.delete('/ingredients', ingredientsService.deleteIngredient);
+
+/***************************
+*     END INGREDIENTS SERVICE
 ****************************/
 
 app.listen(3000);

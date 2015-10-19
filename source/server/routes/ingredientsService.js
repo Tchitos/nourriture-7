@@ -9,39 +9,38 @@ db = new Db('usersDB', server);
 db.open(function(err, db) {
     if(!err) {
         console.log("Connected to 'usersDB' database");
-        db.collection('users', {strict:true}, function(err, collection) {
+        db.collection('ingredients', {strict:true}, function(err, collection) {
             if (err) {
-                console.log("The 'users' collection doesn't exist. Creating it with sample data...");
+                console.log("The 'ingredients' collection doesn't exist. Creating it with sample data...");
                 populateDB();
             }
         });
     }
 });
 
-exports.findUserById = function(req, res) {
+exports.findIngredientById = function(req, res) {
     var id = req.params.id;
-    console.log('Get a user: ' + id);
-    db.collection('users', function(err, collection) {
+    console.log('Get an ingredient: ' + id);
+    db.collection('ingredients', function(err, collection) {
         collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
             res.send(item);
         });
     });
 };
 
-exports.findAllUsers = function(req, res) {
-    console.log('getting all users');
-    db.collection('users', function(err, collection) {
+exports.findAllIngredients = function(req, res) {
+    db.collection('ingredients', function(err, collection) {
         collection.find().toArray(function(err, items) {
             res.send(items);
         });
     });
 };
 
-exports.addUser = function(req, res) {
-    var user = req.body;
-    console.log('Add user: ' + JSON.stringify(user));
-    db.collection('users', function(err, collection) {
-        collection.insert(user, {safe:true}, function(err, result) {
+exports.addIngredient = function(req, res) {
+    var ingredient = req.body;
+    console.log('Add ingredient: ' + JSON.stringify(ingredient));
+    db.collection('ingredients', function(err, collection) {
+        collection.insert(ingredient, {safe:true}, function(err, result) {
             if (err) {
                 res.send({'error':'An error has occurred'});
             } else {
@@ -52,10 +51,10 @@ exports.addUser = function(req, res) {
     });
 }
 
-exports.deleteUser = function(req, res) {
+exports.deleteIngredient = function(req, res) {
     var id = req.params.id;
-    console.log('Deleting user: ' + id);
-    // db.collection('users', function(err, collection) {
+    console.log('Deleting ingredient: ' + id);
+    // db.collection('ingredients', function(err, collection) {
     //     collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
     //         if (err) {
     //             res.send({'error':'An error has occurred - ' + err});
@@ -70,7 +69,7 @@ exports.deleteUser = function(req, res) {
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.
 // You'd typically not find this code in a real-life app, since the database would already exist.
-var populateDB = function() {
+/*var populateDB = function() {
 
     var users = [
     {
@@ -94,4 +93,4 @@ var populateDB = function() {
         collection.insert(users, {safe:true}, function(err, result) {});
     });
 
-};
+};*/
