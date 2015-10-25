@@ -5,6 +5,6 @@
   "private": true,
   "dependencies": {
     "express": "3.x",
-    "oauth2-provider": "1.x"
+    "oauth20-provider": "1.x"
   }
 }
