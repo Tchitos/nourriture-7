@@ -4,18 +4,6 @@ var BSON = mongo.BSONPure;
 
 var db = commonService.db;
 
-db.open(function(err, db) {
-    if(!err) {
-        console.log("Connected to 'usersDB' database");
-        db.collection('ingredients', {strict:true}, function(err, collection) {
-            if (err) {
-                console.log("The 'ingredients' collection doesn't exist. Creating it with sample data...");
-                populateDB();
-            }
-        });
-    }
-});
-
 exports.findIngredientById = function(req, res) {
     var id = req.params.id;
     console.log('Get an ingredient: ' + id);
@@ -69,16 +57,18 @@ exports.deleteIngredient = function(req, res) {
 // You'd typically not find this code in a real-life app, since the database would already exist.
 var populateDB = function() {
 
-    var users = [
+    var ingredients = [
         {
             name: "pepper",
         },
         {
-            username: "rice",
+            name: "rice",
         }
     ];
-    db.collection('users', function(err, collection) {
-        collection.insert(users, {safe:true}, function(err, result) {});
+    db.collection('ingredients', function(err, collection) {
+        collection.insert(ingredients, {safe:true}, function(err, result) {});
     });
 
 };
+
+commonService.prepareCheckCollection('ingredients', populateDB);

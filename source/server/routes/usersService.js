@@ -1,20 +1,9 @@
 var mongo = require('mongodb');
 var commonService = require('./commonService');
 var BSON = mongo.BSONPure;
+//var oauth2lib = require('oauth20-provider')
 
 var db = commonService.db;
-
-db.open(function(err, db) {
-    if(!err) {
-        console.log("Connected to 'usersDB' database");
-        db.collection('users', {strict:true}, function(err, collection) {
-            if (err) {
-                console.log("The 'users' collection doesn't exist. Creating it with sample data...");
-                populateDB();
-            }
-        });
-    }
-});
 
 exports.findUserById = function(req, res) {
     var id = req.params.id;
@@ -90,3 +79,5 @@ var populateDB = function() {
     });
 
 };
+
+commonService.prepareCheckCollection('users', populateDB);
