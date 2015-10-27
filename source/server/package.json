@@ -1,9 +1,11 @@
 {
-    "name": "nourriture",
-    "description": "BJTU Nourriture Application",
-    "version": "0.0.1",
-    "private": true,
-    "dependencies": {
-        "express": "3.x"
-    }
+  "name": "nourriture",
+  "description": "BJTU Nourriture Application",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x",
+    "express-session": "^1.11.3",
+    "oauth20-provider": "^0.6.0"
+  }
 }

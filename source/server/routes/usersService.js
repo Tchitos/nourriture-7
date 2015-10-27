@@ -1,8 +1,6 @@
 var mongo = require('mongodb');
 var commonService = require('./commonService');
 var BSON = mongo.BSONPure;
-//var oauth2lib = require('oauth20-provider')
-
 var db = commonService.db;
 
 exports.findUserById = function(req, res) {
