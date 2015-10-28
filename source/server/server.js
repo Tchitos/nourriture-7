@@ -46,8 +46,48 @@ routerAPI.post('/token', oauth20.controller.token);
 *     START OAUTH SERVICE
 ****************************/
 
+/*
+** Get a login and a password, return a token
+*/
+routerAPI.post('/gettoken', function(req, res, next) {
+
+    if (req.body.username && req.body.password) {
+
+        model.user.fetchByUsername(req.body.username, function(err, user) {
+
+            if (err || !user)
+            	next(err);
+            else {
+
+                model.user.checkPassword(user, req.body.password, function(err, valid) {
+
+                    if (err)
+                    	next(err);
+                    else if (!valid)
+                    	res.status(401).send('Login failure.');
+                    else {
+
+                    	model.token.generateToken(user, function(err, token) {
+                    		
+                    		if (err)
+                    			next(err);
+                    		else {
+
+                    			res.send(token);
+                    		}
+                    	});
+                    }
+                });
+            }
+        });
+    }
+    else
+    	res.redirect(req.url);
+});
+
 //login
 server.post('/login', function(req, res, next) {
+
     var backUrl = req.query.backUrl ? req.query.backUrl : '/';
     delete(req.query.backUrl);
     backUrl += backUrl.indexOf('?') > -1 ? '&' : '?';
