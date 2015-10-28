@@ -4,7 +4,9 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "express": "3.x",
+    "async": "^1.5.0",
+    "body-parser": "^1.14.1",
+    "express": "4.x",
     "express-session": "^1.11.3",
     "oauth20-provider": "^0.6.0"
   }
