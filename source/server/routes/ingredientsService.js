@@ -1,6 +1,7 @@
 var mongo = require('mongodb');
 var commonService = require('./commonService');
 var BSON = mongo.BSONPure;
+var ObjectId = require('mongodb').ObjectID;
 
 var db = commonService.db;
 
@@ -21,6 +22,40 @@ exports.findAllIngredients = function(req, res) {
         });
     });
 };
+
+var findMatch = function(recipes, id) {
+    var res = [{}];
+    var i = 0;
+    var j = 0;
+    var h = 0;
+
+
+    while (recipes[i]) {
+        while (recipes[i].ingredients[j]) {
+            if (recipes[i].ingredients[j] == id) {
+                res[h] = recipes[i];
+                h += 1;
+            }
+            j += 1;
+        }
+        j = 0;
+        i += 1;
+    }
+
+    return (res);
+}
+
+exports.getIngredientRecipe = function(req, res) {
+    var id = req.params.id;
+
+    db.collection('recipes', function(err, collection) {
+        collection.find().toArray(function(err, items) {
+            res.send(findMatch(items, id));
+        });
+    });
+}
+
+
 
 exports.addIngredient = function(req, res) {
     var ingredient = req.body;
@@ -52,6 +87,8 @@ exports.deleteIngredient = function(req, res) {
     // });
 }
 
+
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.
 // You'd typically not find this code in a real-life app, since the database would already exist.
@@ -59,12 +96,23 @@ var populateDB = function() {
 
     var ingredients = [
         {
-            name: "pepper",
+            _id: "4e54ed9f48dc5922c0094a41",
+            name: "milk",
+            recipes: [
+                ObjectId("4e54ed9f48dc5922c0094a40"),
+            ],
+            composition: null
         },
         {
-            name: "rice",
+            _id: "4e54ed9f48dc5922c0094a42",
+            name: "chocolate powder",
+            recipes: [
+                ObjectId("4e54ed9f48dc5922c0094a40"),
+            ],
+            composition: null
         }
-    ];
+        ];
+
     db.collection('ingredients', function(err, collection) {
         collection.insert(ingredients, {safe:true}, function(err, result) {});
     });

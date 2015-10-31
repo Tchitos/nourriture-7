@@ -2,6 +2,8 @@ var mongo = require('mongodb');
 var commonService = require('./commonService');
 var BSON = mongo.BSONPure;
 var db = commonService.db;
+var ObjectId = require('mongodb').ObjectID;
+
 
 exports.findUserById = function(req, res) {
     var id = req.params.id;
@@ -54,22 +56,32 @@ exports.deleteUser = function(req, res) {
 
 var populateDB = function() {
 
+    //User collection (right 1: consumers 2: gastronomist 3: supplier)
     var users = [
         {
-            username: "Tchitos",
-            password: "1234",
-            right: "3",
+            _id: "4e54ed9f48dc5922c0094a30",
+            username: "Foo",
+            password: "bar",
+            right: 1,
+            recipes: [
+                ObjectId("4e54ed9f48dc5922c0094a40"),
+            ]
         },
         {
-            username: "Toto",
-            password: "azerty",
-            right: "1",
-        },
-        {
+            _id: "4e54ed9f48dc5922c0094a31",
             username: "Titi",
-            password: "123",
-            right: "1",
-            
+            password: "titipwd",
+            right: 2,
+            recipes: [
+            ]
+        },
+        {
+            _id: "4e54ed9f48dc5922c0094a32",
+            username: "toto",
+            password: "totopwd",
+            right: 3,
+            recipes: [
+            ]
         }
     ];
     db.collection('users', function(err, collection) {

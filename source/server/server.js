@@ -6,6 +6,7 @@ var
 	query				= require('querystring'),
     usersService		= require('./routes/usersService'),
     ingredientsService	= require('./routes/ingredientsService'),
+    recipeService       = require('./routes/recipeService'),
 	oauth20 			= require('./oauth20.js')(TYPE),
 	model				= require('./model/' + TYPE)
 	session				= require('express-session')
@@ -169,9 +170,25 @@ routerAPI.post('/ingredients', ingredientsService.addIngredient);
 //Delete a ingredient
 routerAPI.delete('/ingredients', ingredientsService.deleteIngredient);
 
+routerAPI.get('/ingredientrecipes/:id', ingredientsService.getIngredientRecipe);
+
 /***************************
 *     END INGREDIENTS SERVICE
 ****************************/
+
+
+/***************************
+*     START RECIPES SERVICE
+****************************/
+
+routerAPI.get('/recipes', recipeService.findAllRecipes);
+routerAPI.get('/recipeingredient/:id', recipeService.getRecipeIngredient);
+routerAPI.get('/getrecipeowner/:id', recipeService.getRecipeOwner);
+
+/***************************
+*     END RECIPES SERVICE
+****************************/
+
 
 server.use('/api', routerAPI);
 
