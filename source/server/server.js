@@ -1,14 +1,14 @@
 var TYPE = 'mongodb';
 
 var
-    express				= require('express'),
-    config				= require('./config.js'),
-	query				= require('querystring'),
-    usersService		= require('./routes/usersService'),
-    ingredientsService	= require('./routes/ingredientsService'),
+    express             = require('express'),
+    query               = require('querystring'),
+    usersService        = require('./routes/usersService'),
+    ingredientsService  = require('./routes/ingredientsService'),
     recipeService       = require('./routes/recipeService'),
-	oauth20 			= require('./oauth20.js')(TYPE),
-	model				= require('./model/' + TYPE)
+    oauth20             = require('./oauth20.js')(TYPE),
+    model               = require('./model/' + TYPE),
+    config				= require('./config'),
 	session				= require('express-session')
 	bodyParser			= require('body-parser');
 	server				= express();
@@ -34,6 +34,41 @@ function isUserAuthorized(req, res, next) {
 // Routers
 var routerAPI = express.Router();
 
+function getRequirement(url, method) {
+
+    if (config.acl[url] === undefined)
+        return false;
+    if (config.acl[url][method] === undefined)
+        return false;
+    return config.acl[url][method];
+}
+
+function checkAcl(req, res, next) {
+
+    var url = req.path;
+    var method = req.method;
+    var requirement = getRequirement(url, method);
+    console.log(req.connection.remoteAddress + ' access to ' + method + ' ' + url + ' (lvl' + requirement + ')');
+
+    if (requirement === false)
+        return res.status(404).send();
+    if (requirement <= 0)
+        return next();
+
+    var token = req.headers.token;
+    if (token === undefined)
+        return res.status(401).send();
+
+    model.user.getLvlFromToken(token, function(err, user_lvl) {
+
+        if (user_lvl < requirement)
+            return res.status(403).send();
+        next();
+    });
+}
+
+routerAPI.use(checkAcl);
+
 // Define OAuth2 Authorization Endpoint
 routerAPI.get('/authorization', isUserAuthorized, oauth20.controller.authorization, function(req, res) {
     res.render('authorization', { layout: false });
@@ -52,38 +87,29 @@ routerAPI.post('/token', oauth20.controller.token);
 */
 routerAPI.post('/gettoken', function(req, res, next) {
 
-    if (req.body.username && req.body.password) {
+    if (!req.body.username || !req.body.password)
+        return res.send('Missing parameters');
 
-        model.user.fetchByUsername(req.body.username, function(err, user) {
+    model.user.fetchByUsername(req.body.username, function(err, user) {
 
-            if (err || !user)
-            	next(err);
-            else {
+        if (err || !user)
+            return res.status(401).send('User does not exits');
 
-                model.user.checkPassword(user, req.body.password, function(err, valid) {
+        model.user.checkPassword(user, req.body.password, function(err, valid) {
 
-                    if (err)
-                    	next(err);
-                    else if (!valid)
-                    	res.status(401).send('Login failure.');
-                    else {
+            if (err)
+                return res.status(500).send('An error occured.');
+            else if (!valid)
+            	return res.status(401).send('Login failure.');
 
-                    	model.token.generateToken(user, function(err, token) {
-                    		
-                    		if (err)
-                    			next(err);
-                    		else {
-
-                    			res.send(token);
-                    		}
-                    	});
-                    }
-                });
-            }
+        	model.token.generateToken(user, function(err, token) {
+        		
+        		if (err)
+        			return res.status(500).send('An error occured.');
+       			res.send(token);
+        	});
         });
-    }
-    else
-    	res.redirect(req.url);
+    });
 });
 
 //login
@@ -183,7 +209,7 @@ routerAPI.get('/ingredientrecipes/:id', ingredientsService.getIngredientRecipe);
 
 routerAPI.get('/recipes', recipeService.findAllRecipes);
 routerAPI.get('/recipeingredient/:id', recipeService.getRecipeIngredient);
-routerAPI.get('/getrecipeowner/:id', recipeService.getRecipeOwner);
+//routerAPI.get('/getrecipeowner/:id', recipeService.getRecipeOwner);
 
 /***************************
 *     END RECIPES SERVICE
@@ -192,9 +218,18 @@ routerAPI.get('/getrecipeowner/:id', recipeService.getRecipeOwner);
 
 server.use('/api', routerAPI);
 
-server.listen(config.server.port, config.server.host, function(err) {
-    if (err)
-        console.error(err);
-    else
-        console.log('Server started at ' + config.server.host + ':' + config.server.port);
-});
+var start = module.exports.start = function() {
+    
+    server.listen(config.server.port, config.server.host, function(err) {
+        if (err)
+            console.error(err);
+        else
+            console.log('Server started at ' + config.server.host + ':' + config.server.port);
+    });
+};
+
+module.exports = server;
+
+if (require.main == module) {
+    start();
+}

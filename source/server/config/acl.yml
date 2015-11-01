@@ -1,0 +1,4 @@
+/gettoken:
+    POST: 0
+/users:
+    GET: 2
