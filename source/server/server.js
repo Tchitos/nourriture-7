@@ -67,7 +67,7 @@ function checkAcl(req, res, next) {
     });
 }
 //plop
-//routerAPI.use(checkAcl);
+routerAPI.use(checkAcl);
 
 // Define OAuth2 Authorization Endpoint
 routerAPI.get('/authorization', isUserAuthorized, oauth20.controller.authorization, function(req, res) {
