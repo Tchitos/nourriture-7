@@ -12,11 +12,8 @@ var
 	session				= require('express-session')
 	bodyParser			= require('body-parser');
 	server				= express();
-	path = require('path');
-	ejs = require('ejs');
 	
 server.set('oauth2', oauth20);
-server.engine('html',ejs.__express);
 server.set('views', path.join(__dirname, '../web/views'));
 server.set('view engine', 'html');
 
@@ -25,7 +22,6 @@ server.use(session({ secret: 'nourriture', resave: false, saveUninitialized: fal
 server.use(bodyParser.urlencoded({extended: false}));
 server.use(bodyParser.json());
 server.use(oauth20.inject());
-server.use(express.static(path.join(__dirname, '../web/public')));
 
 // Middleware. User authorization
 function isUserAuthorized(req, res, next) {
