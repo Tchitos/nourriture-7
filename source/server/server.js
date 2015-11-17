@@ -66,7 +66,7 @@ function checkAcl(req, res, next) {
         next();
     });
 }
-
+//plop
 routerAPI.use(checkAcl);
 
 // Define OAuth2 Authorization Endpoint
@@ -198,8 +198,9 @@ routerAPI.get('/ingredients/:id', ingredientsService.findIngredientById);
 //Add a ingredient
 routerAPI.post('/ingredients', ingredientsService.addIngredient);
 //Delete a ingredient
-routerAPI.delete('/ingredients', ingredientsService.deleteIngredient);
+//routerAPI.delete('/ingredients', ingredientsService.deleteIngredient);
 
+//Return all recipe wich contain the ingredient (id)
 routerAPI.get('/ingredientrecipes/:id', ingredientsService.getIngredientRecipe);
 
 /***************************
@@ -211,9 +212,16 @@ routerAPI.get('/ingredientrecipes/:id', ingredientsService.getIngredientRecipe);
 *     START RECIPES SERVICE
 ****************************/
 
+//Get the list of all recipes in the DB
 routerAPI.get('/recipes', recipeService.findAllRecipes);
+//Get a recipe by ID
+routerAPI.get('/recipes/:id', recipeService.findRecipeById);
+//Add a recipe
+routerAPI.post('/recipes', recipeService.addRecipe);
+//Return all ingredients for the recipe (id)
 routerAPI.get('/recipeingredient/:id', recipeService.getRecipeIngredient);
-//routerAPI.get('/getrecipeowner/:id', recipeService.getRecipeOwner);
+//Get all the recipes of the user (id)
+routerAPI.get('/getownerrecipes/:id', recipeService.getOwnerRecipes);
 
 /***************************
 *     END RECIPES SERVICE

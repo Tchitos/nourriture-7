@@ -30,7 +30,6 @@ var findMatch = function(ingredients, id) {
     var j = 0;
     var h = 0;
 
-
     while (ingredients[i]) {
         while (ingredients[i].recipes[j]) {
             if (ingredients[i].recipes[j] == id) {
@@ -42,7 +41,6 @@ var findMatch = function(ingredients, id) {
         j = 0;
         i += 1;
     }
-
     return (res);
 }
 
@@ -56,11 +54,36 @@ exports.getRecipeIngredient = function(req, res) {
     });
 }
 
-exports.addRecipe = function(req, res) {
-    var user = req.body;
-    console.log('Add recipe: ' + JSON.stringify(user));
+var userRecipes = function(recipes, id) {
+    var res = [{}];
+    var i = 0;
+    var h = 0;
+
+    while (recipes[i]) {
+        if (recipes[i].user == id){
+            res[h] = recipes[i];
+            h += 1;
+        }
+        i += 1;
+    }
+    return (res);
+}
+
+exports.getOwnerRecipes = function(req, res) {
+    var id = req.params.id;
+    
     db.collection('recipes', function(err, collection) {
-        collection.insert(user, {safe:true}, function(err, result) {
+        collection.find().toArray(function(err, items){
+            res.send(userRecipes(items, id));
+        });
+    });
+}
+
+exports.addRecipe = function(req, res) {
+    var recipe = req.body;
+    console.log('Add recipe: ' + JSON.stringify(recipe));
+    db.collection('recipes', function(err, collection) {
+        collection.insert(recipe, {safe:true}, function(err, result) {
             if (err) {
                 res.send({'error':'An error has occurred'});
             } else {
@@ -70,6 +93,8 @@ exports.addRecipe = function(req, res) {
         });
     });
 }
+
+
 
 exports.deleteRecipe = function(req, res) {
     var id = req.params.id;

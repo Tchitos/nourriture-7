@@ -6,7 +6,7 @@ nourritureApp.config(function ($routeProvider) {
 		.when('/',
 		{
 			controller: 'WelcomeController',
-			templateUrl: '/views/Welcome.html'
+			templateUrl: '/views/welcome.html'
 		})
 		.when('/login',
 		{
