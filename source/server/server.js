@@ -14,8 +14,6 @@ var
 	server				= express();
 	
 server.set('oauth2', oauth20);
-server.set('views', path.join(__dirname, '../web/views'));
-server.set('view engine', 'html');
 
 //Middleware
 server.use(session({ secret: 'nourriture', resave: false, saveUninitialized: false }));
