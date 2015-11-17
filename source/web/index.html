@@ -18,6 +18,58 @@
 		<script src="/js/controllers/LoginController.js"></script>
 		<script src="/js/controllers/RegistrationController.js"></script>
 
-		<div ng-view></div>
+		<div class="c_bar" style="_text-align: center;">
+			<div class="w1000m">
+				<p class="c_bar_1">Join us! Enjor yourself!</p>
+				<div class="c_bar_r0">
+					<a href="#/register">Sign up</a>
+					<span>|</span>
+					<a href="#/login">Sign in</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="header">
+			
+				<div class="header-top">
+					<div class="logo">
+						<a href="#/"><img src="public/images/logo.png" alt="" /></a>
+					</div>
+					<div class="search">
+						<form>
+							<input type="text" value=" Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}" >
+							<input type="submit"  value="">
+						</form>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="top-nav">
+					<span class="menu"><img src="public/images/menu.png" alt="">  </span>
+					<ul>
+						<li class="active"><a href="index.html" > Home </a></li>
+						<li><a href="about.html" > Recipe </a></li>
+						<li><a href="page.html" > Ingredients</a></li>
+						<li><a href="gallery.html" >Nutrition</a></li>						
+						<li><a href="contact.html" >Contact</a></li>
+					<div class="clearfix"></div>
+					</ul>
+				</div>			
+				
+			</div>
+
+			<div ng-view></div>
+
+		</div>
+		
+		<footer>
+			<div class="footer_midle">
+				<div class="footer_bottom">
+					<div class="copy">
+						<p>Copyright © 2015.Company name All rights reserved.</p>
+					</div>
+				</div>
+			</div>
+		</footer>
 	</body>
 </html> 
