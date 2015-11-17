@@ -1,8 +1,11 @@
-nourritureApp.controller('LoginController', ['$scope', '$cookies', function($scope, $cookies) {
+nourritureApp.controller('LoginController', ['$scope', '$cookies', 'loginService', function($scope, $cookies, loginService) {
 	
-	$scope.login = function() {
+	$scope.makeLogin = function() {
 
-		console.log($scope.password);
+		login = $scope.login;
+		password = $scope.password;
+
+		loginService.login(login, password);
 	}
 
 	//$cookies.put('token', '123456');
