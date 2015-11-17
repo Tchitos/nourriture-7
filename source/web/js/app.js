@@ -1,4 +1,4 @@
-var nourritureApp = angular.module('nourritureApp', ['ngRoute']);
+var nourritureApp = angular.module('nourritureApp', ['ngRoute', 'ngCookies']);
 
 nourritureApp.config(function ($routeProvider) {
 
