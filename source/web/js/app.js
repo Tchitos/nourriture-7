@@ -8,5 +8,15 @@ nourritureApp.config(function ($routeProvider) {
 			controller: 'WelcomeController',
 			templateUrl: '/views/Welcome.html'
 		})
+		.when('/login',
+		{
+			controller: 'LoginController',
+			templateUrl: '/views/login.html'
+		})
+		.when('/register',
+		{
+			controller: 'RegistrationController',
+			templateUrl: '/views/register.html'
+		})
 		.otherwise({redirectTo: '/'});
 });
