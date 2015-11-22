@@ -265,6 +265,105 @@ register.htmlmedia="all"
 }
 /*----End add by wzz*/
 
+/*----add by hlh----*/
+.material {
+	margin: 10px 0;
+}
+.steps{
+	margin-top: 20px;
+}
+.steps-pic{
+	margin-bottom: 10px;
+}
+/*---Recipe_Detail page ----*/
+.recipe_De_imgBox{
+	margin: 20px 0;
+
+}
+.recipeStep_sub {
+	border-bottom: 1px dotted #e5e5e5;
+	padding-top: 20px;
+    padding-bottom: 20px;
+}
+.recipeCategory {
+border-top: 1px solid #E4E4E4;
+border-left: 1px solid #E4E4E4;
+color: #333;
+margin: 20px 0;
+}
+.recipeCategory_sub {
+border-right: 1px solid #E4E4E4;
+border-bottom: 1px solid #E4E4E4;
+background: #F4F4F4;
+line-height: 180%;
+margin-right: 0px;
+margin-left: 0px;
+}
+.clear {
+zoom: 1;
+}
+.recipeCategory_sub_L {
+float: left;
+font-size: 14px;
+padding: 10px;
+width: 25%;
+text-align: center;
+}
+.recipeCategory_sub_R {
+border-left: 1px solid #E4E4E4;
+float: left;
+background: #fff;
+padding: 10px;
+width: 75%;
+}
+.recipeCategory_sub_R li {
+float: left;
+width: 33%;
+padding: 1px 0;
+}
+/*---end of Recipe_Detail page ----*/
+
+/*---Ingredients page ----*/
+.fd_tit {
+margin-top: 20px;
+}
+.fd_dl {
+margin-top: 10px;
+}
+.fd_dl dt {
+width: 10%;
+margin: 10px;
+padding: 18px;
+background-color: #fff6f2;
+font-weight: bold;
+text-align: center;
+color: #ff6c22;
+float: left;
+}
+fd_dl dd {
+overflow: hidden;
+}
+.fd_dl a, .fd_dl span {
+width: 10%;
+margin-left: 10px;
+vertical-align: top;
+text-align: center;
+display: inline-block;
+overflow: hidden;
+}
+.fd_dl span {
+margin: 10px;
+padding: 18px;
+background-color: #fff6f2;
+}
+.fd_dl img {
+width: 100%;
+margin: 10px 0 5px 0;
+}
+/*---End of Ingredients page ----*/
+
+/*----End hlh-----*/
+
 /*----*/
 .search {
 	  margin-top: 4px;
