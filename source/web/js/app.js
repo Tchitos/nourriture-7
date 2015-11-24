@@ -33,5 +33,10 @@ nourritureApp.config(function ($routeProvider) {
 			controller: 'RecipeDetailController',
 			templateUrl: '/views/recipe_detail.html'
 		})
+		.when('/ingredient_detail',
+		{
+			controller: 'IngredientDetailController',
+			templateUrl: '/views/ingredient_detail.html'
+		})
 		.otherwise({redirectTo: '/'});
 });
