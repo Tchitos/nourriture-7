@@ -1,4 +1,4 @@
-nourritureApp.factory('loginService', ['$http', function($http) {
+nourritureApp.factory('loginService', ['$http', 'httpService', function($http, httpService) {
 
 	var loginServiceInstance = {
 
@@ -12,17 +12,23 @@ nourritureApp.factory('loginService', ['$http', function($http) {
 			'login': login,
 			'password': password
 		};
+		var url = httpService.makeUrl('/login');
 
-		$http.post('/api/login', data).then(function(response) {
-
+		$http.post(url, data).then(function(response) {
 
 			console.log(response);
-		}, function(response) {
-
-			console.log("ERROR");
-			console.log(response);
-		});
+		}, httpService.httpError);
 	};
+
+	function logoutFunction() {
+
+		var url = httpService.makeUrl('/api/logout');
+
+		$http.get(url).then(function(response) {
+
+			console.log(response);
+		}, httpService.httpError);
+	}
 
 	return loginServiceInstance;
 }]);

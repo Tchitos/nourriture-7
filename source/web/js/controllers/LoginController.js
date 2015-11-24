@@ -8,6 +8,4 @@ nourritureApp.controller('LoginController', ['$scope', '$cookies', 'loginService
 		loginService.login(login, password);
 	}
 
-	//$cookies.put('token', '123456');
-
 }]);
