@@ -20,7 +20,7 @@ nourritureApp.config(function ($routeProvider) {
 		})
 		.when('/recipes',
 		{
-			controller: 'RecipiesController',
+			controller: 'RecipesController',
 			templateUrl: '/views/recipes.html'
 		})
 		.when('/ingredients',
