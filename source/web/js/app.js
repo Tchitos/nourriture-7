@@ -23,5 +23,20 @@ nourritureApp.config(function ($routeProvider) {
 			controller: 'RecipiesController',
 			templateUrl: '/views/recipes.html'
 		})
+		.when('/ingredients',
+		{
+			controller: 'IngredientsController',
+			templateUrl: '/views/ingredients.html'
+		})
+		.when('/recipes_detail',
+		{
+			controller: 'RecipeDetailController',
+			templateUrl: '/views/recipe_detail.html'
+		})
+		.when('/ingredient_detail',
+		{
+			controller: 'IngredientDetailController',
+			templateUrl: '/views/ingredient_detail.html'
+		})
 		.otherwise({redirectTo: '/'});
 });
