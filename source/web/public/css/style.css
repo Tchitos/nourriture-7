@@ -74,6 +74,116 @@ h1,h2,h3,h4,h5,h6,p,label{
 }
 
 /*----Add by wzz*/
+/*------Nutrition-Detail*/
+.nutrition-detail {
+	margin-bottom:20px;
+	overflow:hidden;
+}
+.categoryTitle h2 {
+    float: left;
+    font-size: 24px;
+    color: #333;
+    line-height: 24px;
+    padding: 0 0 10px 0;
+}
+.category_txt {
+    line-height: 20px;
+    font-size: 14px;
+    color: #999;
+    overflow: hidden;
+    _height: 3.0em;
+	margin-top: 20px;
+}
+.mt10 {
+    margin-top: 10px;
+}
+.ui_title {
+    height: 35px;
+    border-bottom: 1px solid #E8E8E8;
+    position: relative;
+}
+.ui_title_wrap {
+    line-height: 30px;
+    font-size: 0;
+}
+span.ui_title_wrap_right {
+    float: right;
+    font-size: 14px;
+    margin: 0;
+    padding: 3px 5px 0 0;
+    color: #999;
+}
+/*------Nutrition-Detail-End*/
+/*------Nutritions*/
+/*------Nutritions*/
+.nutritions {
+	margin-bottom:20px;
+	overflow:hidden;
+}
+.category_title {
+    color: #ba2020;
+    font-size: 20px;
+    padding: 40px 0 10px;
+}
+.category_title span {
+    float: left;
+}
+.yingyang .category_sub {
+    background: #fff;
+}
+.category_sub {
+    width: 100%;
+    overflow: hidden;
+    background: #f8f8f8;
+    position: relative;
+    border-top: 1px solid #EAEAEA;
+    border-bottom: 1px solid #EAEAEA;
+}
+.yingyang .category_sub2 {
+    float: left;
+    margin-left: -1px;
+    width: 100%;
+}
+.category_sub2 {
+    background: #fff;
+    margin-bottom: -1px;
+    height: auto;
+    overflow: hidden;
+}
+.category_sub a {
+    height: 45px;
+    line-height: 75px;
+    padding-left: 20px;
+    border-left: 1px solid #EAEAEA;
+    border-bottom: 1px solid #EAEAEA;
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+}
+.category_sub2_new a {
+    height: 45px;
+    line-height: 65px;
+    padding-left: 10px;
+    border-left: 1px solid #EAEAEA;
+    border-bottom: 1px solid #EAEAEA;
+    font-size: 13px;
+    color: #333;
+    text-decoration: none;
+}
+.mt20 {
+    margin-top: 20px;
+}
+.yingyang .category_sub a span {
+    display: block;
+    line-height: 20px;
+    color: #999;
+    font-size: 12px;
+    margin-top: -20px;
+}
+.yingyang .category_sub a {
+    height: 75px;
+}
+/*------Nutritions-End*/
 /*------Ingredient-Avoid*/
 .bkdescri {
 	margin-top:10px;
@@ -393,7 +503,7 @@ h1,h2,h3,h4,h5,h6,p,label{
 }
 .category-list {
 	margin-right:-20%;
-	padding-left:5%;
+	
 }
 .category-list dt {
     line-height: 1.7;
@@ -405,7 +515,7 @@ h1,h2,h3,h4,h5,h6,p,label{
 .category-list dd {
     display: inline-block;
     float: left;
-    width: 55px;
+    
 }
 .recipe-sidebar {
 	border:1px solid #ccc;
