@@ -1,4 +1,4 @@
-nourritureApp.factory('loginService', ['$http', 'httpService', function($http, httpService) {
+nourritureApp.factory('loginService', ['$http', 'httpService', '$cookies', function($http, httpService, $cookies) {
 
 	var loginServiceInstance = {
 
@@ -6,10 +6,12 @@ nourritureApp.factory('loginService', ['$http', 'httpService', function($http, h
 		'logout': logoutFunction
 	};
 
-	function loginFunction(login, password) {
+	function loginFunction(username, password) {
+
+		$cookies.put('lol', 'lol');
 
 		var data = {
-			'login': login,
+			'username': username,
 			'password': password
 		};
 		var url = httpService.makeUrl('/login');

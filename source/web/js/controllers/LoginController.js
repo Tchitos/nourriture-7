@@ -2,10 +2,10 @@ nourritureApp.controller('LoginController', ['$scope', '$cookies', 'loginService
 	
 	$scope.makeLogin = function() {
 
-		login = $scope.login;
+		username = $scope.username;
 		password = $scope.password;
 
-		loginService.login(login, password);
+		loginService.login(username, password);
 	}
 
 }]);

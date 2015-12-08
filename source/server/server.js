@@ -9,8 +9,8 @@ var
     oauth20             = require('./oauth20.js')(TYPE),
     model               = require('./model/' + TYPE),
     config				= require('./config'),
-	session				= require('express-session')
-	bodyParser			= require('body-parser');
+	session				= require('express-session'),
+	bodyParser			= require('body-parser'),
 	server				= express();
 	
 server.set('oauth2', oauth20);
@@ -20,6 +20,15 @@ server.use(session({ secret: 'nourriture', resave: false, saveUninitialized: fal
 server.use(bodyParser.urlencoded({extended: false}));
 server.use(bodyParser.json());
 server.use(oauth20.inject());
+
+server.use(function (req, res, next) {
+
+    res.setHeader('Access-Control-Allow-Origin', config.server.origin);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 
 // Middleware. User authorization
 function isUserAuthorized(req, res, next) {
@@ -127,29 +136,32 @@ server.post('/login', function(req, res, next) {
     // Already logged in
     if (req.session.authorized)
     	res.redirect(backUrl);
-    // Trying to log in
-    else if (req.body.username && req.body.password) {
-        model.oauth2.user.fetchByUsername(req.body.username, function(err, user) {
+
+    if (!req.body.username || !req.body.password)
+        return res.send('Missing parameters');
+
+    model.user.fetchByUsername(req.body.username, function(err, user) {
+
+        if (err || !user)
+            return res.status(401).send('User does not exits');
+
+        model.user.checkPassword(user, req.body.password, function(err, valid) {
+
             if (err)
-            	next(err);
-            else {
-                model.oauth2.user.checkPassword(user, req.body.password, function(err, valid) {
-                    if (err)
-                    	next(err);
-                    else if (!valid)
-                    	res.redirect(req.url);
-                    else {
-                        req.session.user = user;
-                        req.session.authorized = true;
-                        res.redirect(backUrl);
-                    }
-                });
-            }
+                return res.status(500).send('An error occured.');
+            else if (!valid)
+                return res.status(401).send('Login failure.');
+
+            model.token.generateToken(user, function(err, token) {
+                
+                if (err)
+                    return res.status(500).send('An error occured.');
+                req.session.user = user;
+                req.session.authorized = true;
+                res.send(JSON.stringify(user));
+            });
         });
-    }
-    // Please login
-    else
-    	res.redirect(req.url);
+    });
 });
 
 // Some secure method
