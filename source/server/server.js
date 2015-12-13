@@ -20,6 +20,7 @@ server.use(session({ secret: 'nourriture', resave: false, saveUninitialized: fal
 server.use(bodyParser.urlencoded({extended: false}));
 server.use(bodyParser.json());
 server.use(oauth20.inject());
+server.use(express.static('../web'));
 
 server.use(function (req, res, next) {
 

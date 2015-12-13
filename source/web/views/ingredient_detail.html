@@ -4,7 +4,7 @@
 			<img src="../public/images/eggplant.jpg">
 		</div>
 		<div class="scintro">
-			<h1 class="ingredient-title">Beef</h1>
+			<h1 class="ingredient-title">Beef {{tab}}</h1>
 			<p><span>Calories：</span>125c（100g）</p>
 			<p><span>Category：</span><a target="_blank" href="/shicai/65">Meet</a>, <a target="_blank" href="/shicai/65/18">beef</a></p>
             <p><span>Suitable group：</span>
@@ -17,7 +17,7 @@
 			<div class="ui_title">
 				<div class="ui_title_wrap clear ">
 					<data ng-init="currentTab = 'method'" />
-					<a ng-click="currentTab = 'method'" ng-class="(currentTab == 'method') ? 'on' : ''">Method</a>
+					<a ng-click="currentTab = 'method'" ng-class="(currentTab == 'method') ? 'on' : ''">Method {{ currentTab }}</a>
 					<a ng-click="currentTab = 'avoid'" ng-class="(currentTab == 'avoid') ? 'on' : ''">Combing & Transformation</a>
 					<a ng-click="currentTab = 'nutrition'" ng-class="(currentTab == 'nutrition') ? 'on' : ''">Nutrition</a>
 				</div>

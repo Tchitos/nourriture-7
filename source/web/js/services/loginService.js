@@ -18,7 +18,7 @@ nourritureApp.factory('loginService', ['$http', 'httpService', '$cookies', funct
 
 		$http.post(url, data).then(function(response) {
 
-			console.log(response);
+			console.log(user)
 		}, httpService.httpError);
 	};
 

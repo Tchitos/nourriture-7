@@ -6,47 +6,92 @@ nourritureApp.config(function ($routeProvider) {
 		.when('/',
 		{
 			controller: 'WelcomeController',
-			templateUrl: '/views/welcome.html'
+			templateUrl: '/views/template/default.html',
+			resolve: {
+				viewName: function() {
+					return '/views/welcome.html'	
+				}
+			}
 		})
 		.when('/login',
 		{
 			controller: 'LoginController',
-			templateUrl: '/views/login.html'
+			templateUrl: '/views/template/default.html',
+			resolve: {
+				viewName: function() {
+					return '/views/login.html'	
+				}
+			}
 		})
 		.when('/register',
 		{
 			controller: 'RegistrationController',
-			templateUrl: '/views/register.html'
+			templateUrl: '/views/template/default.html',
+			resolve: {
+				viewName: function() {
+					return '/views/register.html'	
+				}
+			}
 		})
 		.when('/recipes',
 		{
 			controller: 'RecipesController',
-			templateUrl: '/views/recipes.html'
+			templateUrl: '/views/template/default.html',
+			resolve: {
+				viewName: function() {
+					return '/views/recipes.html'	
+				}
+			}
 		})
 		.when('/ingredients',
 		{
 			controller: 'IngredientsController',
-			templateUrl: '/views/ingredients.html'
+			templateUrl: '/views/template/default.html',
+			resolve: {
+				viewName: function() {
+					return '/views/ingredients.html'	
+				}
+			}
 		})
 		.when('/recipes_detail',
 		{
 			controller: 'RecipeDetailController',
-			templateUrl: '/views/recipe_detail.html'
+			templateUrl: '/views/template/default.html',
+			resolve: {
+				viewName: function() {
+					return '/views/recipe_detail.html'	
+				}
+			}
 		})
 		.when('/ingredient_detail',
 		{
 			controller: 'IngredientDetailController',
-			templateUrl: '/views/ingredient_detail.html'
+			templateUrl: '/views/template/default.html',
+			resolve: {
+				viewName: function() {
+					return '/views/ingredient_detail.html'	
+				}
+			}
 		})
 		.when('/nutritions',
 		{
 			controller: 'NutritionsController',
-			templateUrl: '/views/nutritions.html'
+			templateUrl: '/views/template/default.html',
+			resolve: {
+				viewName: function() {
+					return '/views/nutritions.html'	
+				}
+			}
 		})
 		.when('/nutrition_detail',
 		{
 			controller: 'NutritionDetailController',
-			templateUrl: '/views/nutrition_detail.html'
+			templateUrl: '/views/template/default.html',
+			resolve: {
+				viewName: function() {
+					return '/views/nutrition_detail.html'	
+				}
+			}
 		})
 		.otherwise({redirectTo: '/'});
 });

@@ -1,5 +1,6 @@
-nourritureApp.controller('WelcomeController', function($scope) {
+nourritureApp.controller('WelcomeController', ['$scope', 'viewName', function ($scope, viewName) {
 
-	
+	$scope.view = viewName;
+	$scope.tab = 'home';
 
-});
+}]);

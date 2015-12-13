@@ -1,5 +1,9 @@
-nourritureApp.controller('LoginController', ['$scope', '$cookies', 'loginService', function($scope, $cookies, loginService) {
-	
+nourritureApp.controller('LoginController', ['$scope', 'viewName', '$cookies', 'loginService', function($scope, viewName, $cookies, loginService) {
+
+	$scope.view = viewName;	
+	$scope.tab = 'ingredients';
+
+
 	$scope.makeLogin = function() {
 
 		username = $scope.username;
