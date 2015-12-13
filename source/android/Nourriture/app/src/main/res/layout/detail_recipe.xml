@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:paddingBottom="10dp">
+
+    <LinearLayout android:id="@+id/detail_recipe_back"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+        <ImageView
+            android:id="@+id/back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/search_back"
+            android:layout_gravity="left"/>
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/recipe">
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_img"
+                android:background="@mipmap/home_recipe"/>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recipe_name"
+                    android:textColor="#000000"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:text="zhenzhu"
+                    android:layout_margin="10dp"
+                    android:layout_alignParentLeft="true"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="right"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="100px"
+                        android:layout_height="100px"
+                        android:id="@+id/recipe_author_img"
+                        android:background="@mipmap/anthor_img"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="#000000"
+                        android:padding="5dp"
+                        android:textSize="20dp"
+                        android:id="@+id/author_name"
+                        android:text="aaaaaaaa"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Intro"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:layout_margin="10dp"/>
+            <TextView
+                    android:layout_margin="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recipe_intro"
+                    android:textSize="25sp"
+                    android:textStyle="italic"
+                    android:textColor="#000000"
+                    android:text="Pomelo spicy chicken wings can pour wine as a kind of snacks, can also be a kind of office work leisure snacks.Which is characterized by special pomelo spiced salt, grapefruit aromas and spicy chicken wings pepper aroma.This kind of hot even children can accept."/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Materials"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_margin="10dp"/>
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_materials">
+
+            </TableLayout>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Steps"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_margin="10dp"/>
+            <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_steps"></ListView>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Tips"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_margin="10dp"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recipe_tips"
+                android:textSize="25sp"
+                android:text="Pomelo spiced salt in my recipes have
+                separate method.
+                This is the main condiment is Thai sweet chili sauce
+                and pomelo spiced salt, the other can be adjusted according
+                 to personal taste."
+                android:textColor="#000000"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

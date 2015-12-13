@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    <com.android.nurriture.fragment.MyViewPager
+        android:id="@+id/id_view_page"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+    </com.android.nurriture.fragment.MyViewPager>
+
+    <include layout="@layout/activity_main_bottom_tab" />
+</LinearLayout>

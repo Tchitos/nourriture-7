@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f5f5f5"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Avoid"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:background="@drawable/edit_back"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pock"
+        android:textSize="20dp"
+        android:textColor="#d44436"
+        android:layout_marginLeft="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:textSize="20dp"
+        android:textColor="#333333"
+        android:layout_marginLeft="2dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Licorice"
+        android:textSize="20dp"
+        android:textColor="#333333"
+        android:layout_marginLeft="2dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=":"
+        android:textSize="20dp"
+        android:textColor="#333333"
+        android:layout_marginLeft="2dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Injured kidney"
+        android:textSize="20dp"
+        android:textColor="#333333"
+        android:layout_marginLeft="5dp"/>
+
+</LinearLayout>
