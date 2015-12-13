@@ -1,0 +1,53 @@
+<div class="c_bar" style="_text-align: center;">
+	<div class="w1000m">
+		<p class="c_bar_1">Join us! Enjor yourself!</p>
+		<div class="c_bar_r0">
+			<a href="#/register">Sign up</a>
+			<span>|</span>
+			<a href="#/login">Sign in</a>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="header">
+	
+		<div class="header-top">
+			<div class="logo">
+				<a href="#/"><img src="public/images/logo.png" alt="" /></a>
+			</div>
+			<div class="search">
+				<form>
+					<input type="text" value=" Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}" >
+					<input type="submit"  value="">
+				</form>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="top-nav">
+			<span class="menu"><img src="public/images/menu.png" alt="">  </span>
+			<ul class="top-menu">
+				<li ng-class="(tab == 'home') ? 'active' : ''"><a href="#/" > Home </a></li>
+				<li ng-class="(tab == 'recipes') ? 'active' : ''"><a href="#/recipes" > Recipes </a></li>
+				<li ng-class="(tab == 'ingredients') ? 'active' : ''"><a href="#/ingredients" > Ingredients</a></li>
+				<li ng-class="(tab == 'nutrition') ? 'active' : ''"><a href="#/nutritions" >Nutrition</a></li>						
+				<li ng-class="(tab == 'contact') ? 'active' : ''"><a href="contact.html" >Contact</a></li>
+			<div class="clearfix"></div>
+			</ul>
+		</div>			
+		
+	</div>
+
+	<div ng-include="view"></div>
+
+</div>
+
+<footer>
+	<div class="footer_midle">
+		<div class="footer_bottom">
+			<div class="copy">
+				<p>Copyright © 2015.Company name All rights reserved.</p>
+			</div>
+		</div>
+	</div>
+</footer>
