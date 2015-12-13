@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="#f5f5f5"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <ImageView
+        android:id="@+id/ingredient_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/ingredient_img_sample"
+        android:layout_weight="4"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="15dp"
+        android:paddingLeft="10dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/ingredient_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pork"
+            android:textColor="#f69898"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/ingredient_intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Added protein and fatty acids,Provide human"
+            android:textColor="#828282"
+            android:textSize="17dp"
+            android:singleLine="true"
+            android:paddingTop="10dp"/>
+
+    </LinearLayout>
+</LinearLayout>
