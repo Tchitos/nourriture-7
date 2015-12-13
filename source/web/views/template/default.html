@@ -1,10 +1,15 @@
 <div class="c_bar" style="_text-align: center;">
 	<div class="w1000m">
 		<p class="c_bar_1">Join us! Enjor yourself!</p>
-		<div class="c_bar_r0">
+		<div class="c_bar_r0" ng-if="!user">
 			<a href="#/register">Sign up</a>
 			<span>|</span>
 			<a href="#/login">Sign in</a>
+		</div>
+		<div class="c_bar_r0" ng-if="user">
+			<a href="#/account">My account</a>
+			<span>|</span>
+			<a ng-click="logout()">Logout</a>
 		</div>
 	</div>
 </div>
@@ -46,7 +51,7 @@
 	<div class="footer_midle">
 		<div class="footer_bottom">
 			<div class="copy">
-				<p>Copyright © 2015.Company name All rights reserved.</p>
+				<p>Copyright © 2015.Nourriture All rights reserved.</p>
 			</div>
 		</div>
 	</div>

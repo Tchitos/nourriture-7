@@ -2,14 +2,20 @@ nourritureApp.controller('LoginController', ['$scope', 'viewName', '$cookies', '
 
 	$scope.view = viewName;	
 	$scope.tab = 'ingredients';
-
+	$scope.viewScope = {};
+	$scope.user = loginService.getUser();
 
 	$scope.makeLogin = function() {
 
-		username = $scope.username;
-		password = $scope.password;
+		username = $scope.viewScope.username;
+		password = $scope.viewScope.password;
 
 		loginService.login(username, password);
+	}
+
+	$scope.logout = function() {
+
+		loginService.logout();
 	}
 
 }]);

@@ -1,14 +1,14 @@
-nourritureApp.factory('loginService', ['$http', 'httpService', '$cookies', function($http, httpService, $cookies) {
+nourritureApp.factory('loginService', ['$rootScope', '$http', 'httpService', '$location', function($rootScope, $http, httpService, $location) {
 
 	var loginServiceInstance = {
 
 		'login': loginFunction,
-		'logout': logoutFunction
+		'logout': logoutFunction,
+		'getUser': getUserFunction,
+		'stillLogged': stillLoggedFunction
 	};
 
 	function loginFunction(username, password) {
-
-		$cookies.put('lol', 'lol');
 
 		var data = {
 			'username': username,
@@ -18,17 +18,40 @@ nourritureApp.factory('loginService', ['$http', 'httpService', '$cookies', funct
 
 		$http.post(url, data).then(function(response) {
 
-			console.log(user)
+			$rootScope.user = response.data;
+			$location.path('/');
 		}, httpService.httpError);
 	};
 
 	function logoutFunction() {
 
-		var url = httpService.makeUrl('/api/logout');
+		var url = httpService.makeUrl('/logout');
+
+		console.log('logout');
 
 		$http.get(url).then(function(response) {
 
-			console.log(response);
+			console.log('logout done');
+			delete $rootScope.user;
+			$location.path('/');
+		}, httpService.httpError);
+	}
+
+	function getUserFunction() {
+
+		return $rootScope.user;
+	}
+
+	function stillLoggedFunction() {
+
+		var url = httpService.makeUrl('/stilllogged');
+
+		$http.get(url).then(function(response) {
+
+			if (response.data != 'no')
+				$rootScope.user = response.data;
+			else
+				$rootScope.user = null;
 		}, httpService.httpError);
 	}
 

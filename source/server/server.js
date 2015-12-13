@@ -129,14 +129,9 @@ server.get('/index', function (req, res) {
 //login
 server.post('/login', function(req, res, next) {
 
-    var backUrl = req.query.backUrl ? req.query.backUrl : '/';
-    delete(req.query.backUrl);
-    backUrl += backUrl.indexOf('?') > -1 ? '&' : '?';
-    backUrl += query.stringify(req.query);
-
     // Already logged in
     if (req.session.authorized)
-    	res.redirect(backUrl);
+    	return res.status(200).send('Already logged');
 
     if (!req.body.username || !req.body.password)
         return res.send('Missing parameters');
@@ -153,16 +148,32 @@ server.post('/login', function(req, res, next) {
             else if (!valid)
                 return res.status(401).send('Login failure.');
 
-            model.token.generateToken(user, function(err, token) {
-                
-                if (err)
-                    return res.status(500).send('An error occured.');
-                req.session.user = user;
-                req.session.authorized = true;
-                res.send(JSON.stringify(user));
-            });
+            if (err)
+                return res.status(500).send('An error occured.');
+            delete user.password;
+            req.session.user = user;
+            req.session.authorized = true;
+            res.send(JSON.stringify(user));
         });
     });
+});
+
+//stilllogged
+server.get('/stilllogged', function(req, res, next) {
+
+    console.log(req.session);
+    if (req.session.authorized)
+        res.send(JSON.stringify(req.session.user));
+    else
+        res.send('no');
+});
+
+server.get('/logout', function(req, res, next) {
+
+    req.session.authorized = null;
+    req.session.user = null;
+    console.log(req.session);
+    res.send('OK');
 });
 
 // Some secure method

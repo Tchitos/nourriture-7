@@ -1,5 +1,10 @@
 var nourritureApp = angular.module('nourritureApp', ['ngRoute', 'ngCookies']);
 
+nourritureApp.run(['$rootScope', 'loginService', function($rootScope, loginService) {
+
+	$rootScope.user = loginService.stillLogged();
+}]);
+
 nourritureApp.config(function ($routeProvider) {
 
 	$routeProvider
