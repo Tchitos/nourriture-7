@@ -1,9 +1,11 @@
 package com.android.nurriture.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,10 +38,10 @@ public class HomeFragment extends Fragment{
     private ImgPagerAdapter imgPagerAdapter;
     private int currentitem = 0;
 
-    private GridView gridView;
+    private MyGridView gridView;
     private List<String> recipeList;
 
-    private ListView listView;
+    private MyListView listView;
     private List<RecipeInfo> recipeInfoList;
 
     private ScheduledExecutorService scheduledExecutorService;
@@ -57,7 +59,7 @@ public class HomeFragment extends Fragment{
 
     private void initRecipeListView(View view,LayoutInflater inflater)
     {
-        listView = (ListView)view.findViewById(R.id.recipe_home_listView);
+        listView = (MyListView)view.findViewById(R.id.recipe_home_listView);
         recipeInfoList = new ArrayList<RecipeInfo>();
         RecipeInfo recipe = new RecipeInfo();
         recipe.setName("Cheese");
@@ -73,7 +75,7 @@ public class HomeFragment extends Fragment{
 
     private void initRecipeGridView(View view,LayoutInflater inflater)
     {
-        gridView = (GridView)view.findViewById(R.id.gv_recipe);
+        gridView = (MyGridView)view.findViewById(R.id.gv_recipe);
         recipeList = new ArrayList<String>();
         recipeList.add("Health");
         recipeList.add("Diet");
@@ -92,6 +94,9 @@ public class HomeFragment extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), SearchResultActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("SEARCHCONTEXT", "search");
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -209,4 +214,5 @@ public class HomeFragment extends Fragment{
         }
 
     }*/
+
 }

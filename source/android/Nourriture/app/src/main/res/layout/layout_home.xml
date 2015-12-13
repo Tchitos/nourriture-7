@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="#efefef"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -41,7 +44,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <GridView
+    <com.android.nurriture.fragment.MyGridView
         android:id="@+id/gv_recipe"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -50,7 +53,7 @@
         android:verticalSpacing="1dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp">
-    </GridView>
+    </com.android.nurriture.fragment.MyGridView>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -106,9 +109,10 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ListView
+    <com.android.nurriture.fragment.MyListView
         android:id="@+id/recipe_home_listView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
-    </ListView>
+    </com.android.nurriture.fragment.MyListView>
 </LinearLayout>
+</ScrollView>
