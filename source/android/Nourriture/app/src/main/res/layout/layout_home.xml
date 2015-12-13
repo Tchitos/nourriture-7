@@ -112,7 +112,10 @@
     <com.android.nurriture.fragment.MyListView
         android:id="@+id/recipe_home_listView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
     </com.android.nurriture.fragment.MyListView>
 </LinearLayout>
 </ScrollView>
