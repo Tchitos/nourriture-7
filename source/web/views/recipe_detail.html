@@ -2,7 +2,7 @@
 	<div class="releft col-md-7">
 		<div class="recipe-title">
 			<h1 class="recipe_De_title">
-				<a href="#">Pumpkin cheese bread</a>
+				{{viewScope.recipe.name}}
 			</h1>
 			<a href="#">
 				<span class="username">Author</span>
@@ -15,7 +15,7 @@
 					<img src="../public/images/baicai.jpg" alt="Pumpkin cheese bread">
 				</div>
 				<div class="lead recipe_describe">
-					<p><em>Pomelo spicy chicken wings can pour wine as a kind of snacks, can also be a kind of office work leisure snacks.Which is characterized by special pomelo spiced salt, grapefruit aromas and spicy chicken wings pepper aroma.This kind of hot even children can accept.</em></p>
+					<p><em>{{viewScope.recipe.description}}</em></p>
 				</div>
 				<div class="recipeCategory">
 					<div class="row recipeCategory_sub">
@@ -77,65 +77,19 @@
 				</div>
 				<div class="recipeStep">
 					<div class="recipeStep_title"><strong>Steps of Pumpkin cheese bread:</strong></div>
-					<div class="row recipeStep_sub">
+					<div ng-repeat="step in viewScope.recipe.steps" class="row recipeStep_sub">
 						<div class="col-md-4 recipeStep_imgBox">
-							<img src="../public/images/step1.jpg">
+							<img src="../public/images/{{step.image}}">
 						</div>
 						<p class="col-md-8 col-md-offest-4">
-							<span><strong>1.</strong></span>
-							To prepare sauce.
+							<span><strong>{{step.level}}.</strong></span>
+							{{step.text}}
 						</p>
 					</div>
-					<div class="row recipeStep_sub">
-						<div class="col-md-4 recipeStep_imgBox">
-							<img src="../public/images/step2.jpg">
-						</div>
-						<p class="col-md-8 col-md-offest-4">
-							<span><strong>2.</strong></span>
-							Wash chicken wings and ice water for 30 minutes, draw two blade so that a good flavor, add soya milk, chicken, sweet chili sauce, shaddock spiced salt, chili powder, sugar, oyster sauce mix together, pickled flavor.About 1 hour.
-						</p>
-					</div>
-					<div class="row recipeStep_sub">
-						<div class="col-md-4 recipeStep_imgBox">
-							<img src="../public/images/step3.jpg">
-						</div>
-						<p class="col-md-8 col-md-offest-4">
-							<span><strong>3.</strong></span>
-							Good pickled chicken wings on the grill and sprinkle with sesame seeds ground into a powder.In a little bit of pomelo spiced salt.
-						</p>
-					</div>
-					<div class="row recipeStep_sub">
-						<div class="col-md-4 recipeStep_imgBox">
-							<img src="../public/images/step4.jpg">
-						</div>
-						<p class="col-md-8 col-md-offest-4">
-							<span><strong>4.</strong></span>
-							Slag baking oven bottom put, rack up and down into the middle roast fire 180 degrees bake for 15 minutes.
-						</p>
-					</div>
-					<div class="row recipeStep_sub">
-						<div class="col-md-4 recipeStep_imgBox">
-							<img src="../public/images/step5.jpg">
-						</div>
-						<p class="col-md-8 col-md-offest-4">
-							<span><strong>5.</strong></span>
-							Remove the chicken wings over here, also sprinkle some sesame powder and pomelo spiced salt, into the oven to bake for 10 minutes.Circumstances can flip again into the upper bake for 5 minutes, will be more burn.
-						</p>
-					</div>
-					<div class="row recipeStep_sub">
-						<div class="col-md-4 recipeStep_imgBox">
-							<img src="../public/images/step6.jpg">
-						</div>
-						<p class="col-md-8 col-md-offest-4">
-							<span><strong>6.</strong></span>
-							Meimei's wings to ok pomelo.
-						</p>
-					</div>
-
 				</div>
 				<div class="recipeTips">
 					<div class="tips"><strong>Tips</strong></div>
-					<p>Pomelo spiced salt in my recipes have separate method.This is the main condiment is Thai sweet chili sauce and pomelo spiced salt, the other can be adjusted according to personal taste.</p>
+					<p>{{viewScope.recipe.tips}}</p>
 				</div>
 			</div>
 		</div>

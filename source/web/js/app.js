@@ -58,7 +58,7 @@ nourritureApp.config(function ($routeProvider) {
 				}
 			}
 		})
-		.when('/recipes_detail',
+		.when('/recipes_detail/:recipeName',
 		{
 			controller: 'RecipeDetailController',
 			templateUrl: '/views/template/default.html',

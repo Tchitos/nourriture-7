@@ -50,114 +50,19 @@
 	<div class="recipe-main col-md-10">
 		
 		<div class="recipes-info">
-				<div class="col-xs-4 col-md-3 recipe-block">
-					<div class="image">
-						<a href="#/recipes_detail">
-							<img src="../public/images/s1.jpg" alt class="img-responsive">
-						</a>
-					</div>
-					<a href="#/recipes_detail"><h4>BARBECUE WITH VEGETABLES</h4>
+			<li ng-repeat="animal in viewScope.dataSauterelles">
+				<span style="color:{{animal.color}}">{{animal.name}}</span>
+			</li>
+
+			<div ng-repeat="recipe in viewScope.recipes" class="col-xs-4 col-md-3 recipe-block">
+				<div class="image">
+					<a href="#/recipes_detail/{{recipe.name}}">
+						<img src="../public/images/{{recipe.image}}" alt class="img-responsive">
 					</a>
 				</div>
-				<div class="col-xs-4 col-md-3 recipe-block">
-					<div class="image">
-						<a href="#">
-							<img src="../public/images/s2.jpg" alt class="img-responsive">
-						</a>
-					</div>
-					<a href="#"><h4>BARBECUE WITH VEGETABLES</h4>
-					</a>
-				</div>
-				<div class="col-xs-4 col-md-3 recipe-block">
-					<div class="image">
-						<a href="#">
-							<img src="../public/images/s3.jpg" alt class="img-responsive">
-						</a>
-					</div>
-					<a href="#"><h4>BARBECUE WITH VEGETABLES</h4>
-					</a>
-				</div>
-				<div class="col-xs-4 col-md-3 recipe-block">
-					<div class="image">
-						<a href="#">
-							<img src="../public/images/s4.jpg" alt class="img-responsive">
-						</a>
-					</div>
-					<a href="#"><h4>BARBECUE WITH VEGETABLES</h4>
-					</a>
-				</div>
-				<div class="col-xs-4 col-md-3 recipe-block">
-					<div class="image">
-						<a href="#">
-							<img src="../public/images/s5.jpg" alt class="img-responsive">
-						</a>
-					</div>
-					<a href="#"><h4>BARBECUE WITH VEGETABLES</h4>
-					</a>
-				</div>
-				<div class="col-xs-4 col-md-3 recipe-block">
-					<div class="image">
-						<a href="#">
-							<img src="../public/images/s6.jpg" alt class="img-responsive">
-						</a>
-					</div>
-					<a href="#"><h4>BARBECUE WITH VEGETABLES</h4>
-					</a>
-				</div>
-				<div class="col-xs-4 col-md-3 recipe-block">
-					<div class="image">
-						<a href="#">
-							<img src="../public/images/s7.jpg" alt class="img-responsive">
-						</a>
-					</div>
-					<a href="#"><h4>BARBECUE WITH VEGETABLES</h4>
-					</a>
-				</div>
-				<div class="col-xs-4 col-md-3 recipe-block">
-					<div class="image">
-						<a href="#">
-							<img src="../public/images/s8.jpg" alt class="img-responsive">
-						</a>
-					</div>
-					<a href="#"><h4>BARBECUE WITH VEGETABLES</h4>
-					</a>
-				</div>
-				<div class="col-xs-4 col-md-3 recipe-block">
-					<div class="image">
-						<a href="#">
-							<img src="../public/images/s9.jpg" alt class="img-responsive">
-						</a>
-					</div>
-					<a href="#"><h4>BARBECUE WITH VEGETABLES</h4>
-					</a>
-				</div>
-				<div class="col-xs-4 col-md-3 recipe-block">
-					<div class="image">
-						<a href="#">
-							<img src="../public/images/s10.jpg" alt class="img-responsive">
-						</a>
-					</div>
-					<a href="#"><h4>BARBECUE WITH VEGETABLES</h4>
-					</a>
-				</div>
-				<div class="col-xs-4 col-md-3 recipe-block">
-					<div class="image">
-						<a href="#">
-							<img src="../public/images/s11.jpg" alt class="img-responsive">
-						</a>
-					</div>
-					<a href="#"><h4>BARBECUE WITH VEGETABLES</h4>
-					</a>
-				</div>
-				<div class="col-xs-4 col-md-3 recipe-block">
-					<div class="image">
-						<a href="#">
-							<img src="../public/images/s12.jpg" alt class="img-responsive">
-						</a>
-					</div>
-					<a href="#"><h4>BARBECUE WITH VEGETABLES</h4>
-					</a>
-				</div>
+				<a href="#/recipes_detail/{{recipe.name}}"><h4>{{recipe.name}}</h4>
+				</a>
+			</div>
 		</div>
 		<div class="paginations">
 			<a href="#">« PREV PAGE</a>

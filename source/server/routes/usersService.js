@@ -59,7 +59,7 @@ var populateDB = function() {
     //User collection (right 1: consumers 2: gastronomist 3: supplier)
     var users = [
         {
-            _id: "4e54ed9f48dc5922c0094a30",
+            _id: new.mongo.ObjectID("4e54ed9f48dc5922c0094a30"),
             username: "Foo",
             password: "bar",
             right: 1,
@@ -68,7 +68,7 @@ var populateDB = function() {
             ]
         },
         {
-            _id: "4e54ed9f48dc5922c0094a31",
+            _id: new.mongo.ObjectID("4e54ed9f48dc5922c0094a31"),
             username: "Titi",
             password: "titipwd",
             right: 2,
@@ -76,7 +76,7 @@ var populateDB = function() {
             ]
         },
         {
-            _id: "4e54ed9f48dc5922c0094a32",
+            _id: new.mongo.ObjectID("4e54ed9f48dc5922c0094a32"),
             username: "toto",
             password: "totopwd",
             right: 3,
