@@ -161,7 +161,6 @@ server.post('/login', function(req, res, next) {
 //stilllogged
 server.get('/stilllogged', function(req, res, next) {
 
-	console.log(req.session);
 	if (req.session.authorized)
 		res.send(JSON.stringify(req.session.user));
 	else
@@ -172,7 +171,6 @@ server.get('/logout', function(req, res, next) {
 
 	req.session.authorized = null;
 	req.session.user = null;
-	console.log(req.session);
 	res.send('OK');
 });
 

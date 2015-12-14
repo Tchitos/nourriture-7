@@ -1,6 +1,7 @@
 <div class="c_bar" style="_text-align: center;">
 	<div class="w1000m">
-		<p class="c_bar_1">Join us! Enjor yourself!</p>
+		<p class="c_bar_1" ng-if="!user">Join us! Enjor yourself!</p>
+		<p class="c_bar_1" ng-if="user">Welcome {{user.username}}</p>
 		<div class="c_bar_r0" ng-if="!user">
 			<a href="#/register">Sign up</a>
 			<span>|</span>

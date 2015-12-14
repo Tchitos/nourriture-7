@@ -125,7 +125,7 @@ var populateDB = function() {
 
 		var defaultRecipe = 
 		{
-			"_id": new.mongo.ObjectID("566d6ea4e1b9caac0dac79ee"),
+			"_id": new mongo.ObjectID("566d6ea4e1b9caac0dac79ee"),
 			"name": "Pumpkin cheese bread",
 			"description": "Pomelo spicy chicken wings can pour wine as a kind of snacks, can also be a kind of office work leisure snacks.Which is characterized by special pomelo spiced salt, grapefruit aromas and spicy chicken wings pepper aroma.This kind of hot even children can accept.",
 			"image": "baicai.jpg",

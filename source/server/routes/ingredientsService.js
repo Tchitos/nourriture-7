@@ -96,15 +96,15 @@ var populateDB = function() {
 
 	var ingredients = [
 		{
-			"_id": new.mongo.ObjectID("566d6f26e1b9caac0dac79f1"),
+			"_id": new mongo.ObjectID("566d6f26e1b9caac0dac79f1"),
 			"name": "Dry pepper"
 		},
 		{
-			"_id": new.mongo.ObjectID("566d6f51e1b9caac0dac79f2"),
+			"_id": new mongo.ObjectID("566d6f51e1b9caac0dac79f2"),
 			"name": "Cabbage"
 		},
 		{
-			"_id": new.mongo.ObjectID("566d6f60e1b9caac0dac79f3"),
+			"_id": new mongo.ObjectID("566d6f60e1b9caac0dac79f3"),
 			"name": "Black fungus"
 		}
 	];
