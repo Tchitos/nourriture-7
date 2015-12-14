@@ -69,7 +69,7 @@ public class SearchResultActivity extends FragmentActivity {
         mTabLineIv = (ImageView) this.findViewById(R.id.id_tab_line_iv);
 
         viewPager = (MyViewPager)findViewById(R.id.st_view_pager);
-        viewPager.setCanScroll(false);
+        viewPager.setCanScroll(true);
 
         ingredientListFragment = new IngredientListFragment();
         recipeListFragment = new RecipeListFragment();
