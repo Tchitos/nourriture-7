@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -33,12 +34,26 @@ public class RecipeDetailActivity extends Activity{
     private String desc="Meimei's wings to ok pomelo.";
     private String img;
 
+    private ImageView back_img;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_recipe);
+        init();
         initTable();
         initList();
+    }
+
+    private void init()
+    {
+        back_img = (ImageView)findViewById(R.id.back_img);
+        back_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initTable(){

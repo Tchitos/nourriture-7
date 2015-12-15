@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -46,6 +47,8 @@ public class HomeFragment extends Fragment{
 
     private ScheduledExecutorService scheduledExecutorService;
 
+    private LinearLayout search_linear;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -70,7 +73,19 @@ public class HomeFragment extends Fragment{
         RecipeInfo recipe3 = new RecipeInfo();
         recipe3.setName("Flaky pastry");
         recipeInfoList.add(recipe3);
-        listView.setAdapter(new HomeRecipeAdapter(recipeInfoList,inflater));
+        listView.setAdapter(new HomeRecipeAdapter(recipeInfoList, inflater));
+
+        search_linear = (LinearLayout)view.findViewById(R.id.search_linear);
+        search_linear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchResultActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("SEARCHCONTEXT", "search");
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initRecipeGridView(View view,LayoutInflater inflater)

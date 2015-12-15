@@ -21,13 +21,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="5dip" >
+            android:padding="5dip"
+            android:clickable="true"
+            android:descendantFocusability="blocksDescendants">
 
             <ImageView
                 android:id="@+id/homeViewButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
+                android:clickable="false"
                 android:scaleType="matrix"
                 android:src="@mipmap/sehome" />
 
@@ -48,13 +50,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="5dip">
+            android:padding="5dip"
+            android:clickable="true"
+            android:descendantFocusability="blocksDescendants">
 
             <ImageView
                 android:id="@+id/ingredientViewButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
+                android:clickable="false"
                 android:scaleType="matrix"
                 android:src="@mipmap/uningredient" />
 
@@ -75,13 +79,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="5dip" >
+            android:padding="5dip"
+            android:clickable="true"
+            android:descendantFocusability="blocksDescendants">
 
             <ImageView
                 android:id="@+id/nutritionViewButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
+                android:clickable="false"
                 android:scaleType="matrix"
                 android:src="@mipmap/unnutrition" />
 
@@ -102,13 +108,15 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="5dip" >
+            android:padding="5dip"
+            android:clickable="true"
+            android:descendantFocusability="blocksDescendants">
 
             <ImageView
                 android:id="@+id/personViewButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
+                android:clickable="false"
                 android:scaleType="matrix"
                 android:src="@mipmap/unperson" />
 

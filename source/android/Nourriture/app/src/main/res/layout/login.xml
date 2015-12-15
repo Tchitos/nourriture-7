@@ -16,9 +16,11 @@
         android:paddingLeft="10dp">
 
         <ImageView
+            android:id="@+id/back_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/search_back"/>
+            android:src="@mipmap/back_img"
+            android:layout_marginTop="2dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="20dp"
+        android:paddingLeft="10dp"
         android:paddingRight="40dp"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal">
@@ -43,7 +45,7 @@
             android:layout_height="match_parent"
             android:text="User Name:"
             android:textColor="#333333"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:layout_weight="2"
             android:gravity="center"/>
 
@@ -56,7 +58,13 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="#333333"
+            android:textSize="15dp"
+            android:singleLine="true"
+            android:cursorVisible="true"
+            android:textCursorDrawable="@null"
+            android:background="@null"/>
             
             <View
                 android:layout_width="match_parent"
@@ -71,7 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="20dp"
+        android:paddingLeft="10dp"
         android:paddingRight="40dp"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal">
@@ -81,7 +89,7 @@
             android:layout_height="match_parent"
             android:text="Password:"
             android:textColor="#333333"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:layout_weight="2"
             android:gravity="center"/>
 
@@ -94,7 +102,12 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:textColor="#333333"
+                android:textSize="15dp"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:background="@null"/>
 
             <View
                 android:layout_width="match_parent"
@@ -112,7 +125,7 @@
         android:layout_marginTop="10dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign In"
             android:textSize="20dp"
@@ -122,6 +135,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp" />
+            android:paddingBottom="5dp"
+            android:gravity="center"
+            android:layout_marginLeft="50dp"/>
     </RelativeLayout>
 </LinearLayout>

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ public class MainActivity extends FragmentActivity {
 
     private ImageView homeTab,ingredientTab,nutritionTab,personalTab;
     private TextView homeText,ingredientText,nutritionText,personalText;
+    private LinearLayout id_tab_home,id_tab_ingredients,id_tab_nutrition,id_tab_personal;
 
     private HomeFragment homeFragment;
     private IngredientFragment ingredientFragment;
@@ -57,6 +59,10 @@ public class MainActivity extends FragmentActivity {
         ingredientTab = (ImageView)findViewById(R.id.ingredientViewButton);
         nutritionTab = (ImageView)findViewById(R.id.nutritionViewButton);
         personalTab = (ImageView)findViewById(R.id.personViewButton);
+        id_tab_home = (LinearLayout)findViewById(R.id.id_tab_home);
+        id_tab_ingredients = (LinearLayout)findViewById(R.id.id_tab_ingredients);
+        id_tab_nutrition = (LinearLayout)findViewById(R.id.id_tab_nutrition);
+        id_tab_personal = (LinearLayout)findViewById(R.id.id_tab_personal);
 
         homeText = (TextView)findViewById(R.id.id_home_tv);
         ingredientText = (TextView)findViewById(R.id.id_ingredient_tv);
@@ -64,12 +70,12 @@ public class MainActivity extends FragmentActivity {
         personalText = (TextView)findViewById(R.id.id_personal_tv);
 
         viewPager = (MyViewPager)findViewById(R.id.id_view_page);
-        viewPager.setCanScroll(false);
+        viewPager.setCanScroll(true);
 
-        homeTab.setOnClickListener(new MyOnClickListener(0));
-        ingredientTab.setOnClickListener(new MyOnClickListener(1));
-        nutritionTab.setOnClickListener(new MyOnClickListener(2));
-        personalTab.setOnClickListener(new MyOnClickListener(3));
+        id_tab_home.setOnClickListener(new MyOnClickListener(0));
+        id_tab_ingredients.setOnClickListener(new MyOnClickListener(1));
+        id_tab_nutrition.setOnClickListener(new MyOnClickListener(2));
+        id_tab_personal.setOnClickListener(new MyOnClickListener(3));
     }
 
     private  void init()

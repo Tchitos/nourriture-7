@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,15 +47,29 @@ public class SearchResultActivity extends FragmentActivity {
 
     private String searchcontext="";
 
+    private ImageView back_img;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result);
+        init();
         initViewPager();
         initTabLineWidth();
         getBundle();
         EditText editText = (EditText)findViewById(R.id.serachContext);
         editText.setText(searchcontext);
+    }
+
+    private void init()
+    {
+        back_img = (ImageView)findViewById(R.id.back_img);
+        back_img.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initViewPager()
@@ -84,7 +99,7 @@ public class SearchResultActivity extends FragmentActivity {
         viewPager.setOnPageChangeListener(new MyOnPageChangeListener());
     }
 
-    private class myTabClickListener implements View.OnClickListener{
+    private class myTabClickListener implements OnClickListener{
 
         private int index = 0;
 
