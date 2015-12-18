@@ -105,6 +105,8 @@
             <TableLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="#cfcfcf"
                 android:id="@+id/recipe_materials">
 
             </TableLayout>
@@ -133,6 +135,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/recipe_tips"
                 android:textSize="25sp"
+                android:layout_marginLeft="10dp"
                 android:text="Pomelo spiced salt in my recipes have
                 separate method.
                 This is the main condiment is Thai sweet chili sauce

@@ -21,6 +21,9 @@
             android:id="@+id/ingredientTypetitle"
             android:layout_weight="2.0"
             android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="#ffcf6474"
+            android:textStyle="bold"
             />
         <ImageView
             android:layout_width="0dp"

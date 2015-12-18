@@ -43,7 +43,7 @@ public class ListViewFragment extends Fragment {
         LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.ingredientTypeView);
         tv_title.setText(str);
         for (int i = 0; i < types.length; i++){
-            Log.v("for:%d",i+"1");
+            Log.v("for:%d", i + "1");
             View deView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.listview_fragement_layout,null);
             Log.v("for:%d", i + "2");
             TextView title= (TextView)deView.findViewById(R.id.ingredientTypetitle);
@@ -51,24 +51,30 @@ public class ListViewFragment extends Fragment {
             title.setText(types[i]);
             Log.v("for:%d", types[i]);
             TableLayout tableLayout = (TableLayout)deView.findViewById(R.id.ingredientTypeTable);
-
+            TableLayout.LayoutParams tablelayout = new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+            tablelayout.setMargins(10,10,10,10);
             TableRow.LayoutParams tablerowlayout =
-                    new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,70);
+                    new TableRow.LayoutParams(200,TableRow.LayoutParams.WRAP_CONTENT);
             TableRow tablerow = new TableRow(this.getActivity().getApplicationContext());
-            tablerow.setLayoutParams(tablerowlayout);
+            tablerowlayout.setMargins(10, 10, 10, 10);
+            tablerow.setLayoutParams(tablelayout);
             tablerow.setGravity(Gravity.CENTER);
             tableLayout.addView(tablerow);
 
             for(int j = 0; j < partOfPork.length; j++){
                 final TextView tv = new TextView(this.getActivity().getApplicationContext());
                 tv.setGravity(Gravity.CENTER);
-                tv.setBackgroundResource(R.drawable.table_back_img_2);
-                tv.setPadding(1, 1, 1, 1);
+                tv.setBackgroundResource(R.drawable.rounded_outer3);
+                tv.setPadding(15, 15, 10, 10);
+                tv.setTextColor(android.graphics.Color.parseColor("#666666"));
                 tv.setText(partOfPork[j]);
                 tv.setLayoutParams(tablerowlayout);
+                Log.v("wight:", tv.getWidth() + "");
+                Log.v("hight:",tv.getHeight()+"");
                 tv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
 
                         Intent intent = new Intent(getActivity(), SearchResultActivity.class);
                         Bundle bundle = new Bundle();
@@ -82,7 +88,7 @@ public class ListViewFragment extends Fragment {
                 if(((j+1) % 3 == 0)&&(j != partOfPork.length-1)){
                     tablerow = new TableRow(this.getActivity());
                     tableLayout.addView(tablerow);
-                    tablerow.setLayoutParams(tablerowlayout);
+                    tablerow.setLayoutParams(tablelayout);
                     tablerow.setGravity(Gravity.CENTER);
                 }
             }

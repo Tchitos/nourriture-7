@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:orientation="vertical" >
-
-    <TextView
+    android:background="#ffffff">
+    <LinearLayout android:id="@+id/top"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:text="Ingredient"
-        android:layout_marginTop="20px"
-        android:textSize="20dp"
-        android:gravity="center"
-        android:textStyle="bold"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/recipe_back_img"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/search_back"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:text="Recipe"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_weight="9"/>
+
+    </LinearLayout>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
@@ -62,7 +82,7 @@
         android:background="#fbfbfb"
         android:orientation="horizontal">
         <ListView
-            android:id="@+id/ingredientListview"
+            android:id="@+id/recipeListview"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:scrollbars="none"
@@ -71,7 +91,7 @@
 
 
         <FrameLayout
-            android:id="@+id/listViewFragment"
+            android:id="@+id/recipelistViewFragment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3.0" />

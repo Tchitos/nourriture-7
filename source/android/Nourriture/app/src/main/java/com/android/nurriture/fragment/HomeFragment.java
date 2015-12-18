@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.nourriture.nourriture.R;
+import com.android.nourriture.nourriture.RecipeActivity;
 import com.android.nourriture.nourriture.SearchResultActivity;
 import com.android.nurriture.entity.RecipeInfo;
 import com.android.nuttriture.adapter.HomeRecipeAdapter;
@@ -108,10 +110,19 @@ public class HomeFragment extends Fragment{
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), SearchResultActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("SEARCHCONTEXT", "search");
-                intent.putExtras(bundle);
+                Intent intent;
+                Log.v("HomePage id:",""+id);
+                Log.v("HomePage size:", recipeList.size()+"");
+                if (id == recipeList.size()-1) {
+
+                    intent = new Intent(getActivity(), RecipeActivity.class);
+                } else {
+                    intent = new Intent(getActivity(), SearchResultActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("SEARCHCONTEXT", "search");
+                    intent.putExtras(bundle);
+                }
+
                 startActivity(intent);
             }
         });

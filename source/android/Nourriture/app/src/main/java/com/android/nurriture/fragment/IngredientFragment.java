@@ -3,6 +3,7 @@ package com.android.nurriture.fragment;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.nourriture.nourriture.R;
 import com.android.nuttriture.adapter.ListViewAdapter;
@@ -39,7 +41,7 @@ public class IngredientFragment extends Fragment {
      */
     private void initView(View view){
         listView = (ListView)view.findViewById(R.id.ingredientListview);
-        ingredientAdapter = new ListViewAdapter(this.context,ingredient);
+        ingredientAdapter = new ListViewAdapter(this.context,ingredient,"ingredient");
         listView.setAdapter(ingredientAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

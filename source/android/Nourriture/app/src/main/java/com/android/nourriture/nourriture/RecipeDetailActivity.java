@@ -3,6 +3,7 @@ package com.android.nourriture.nourriture;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -35,11 +36,22 @@ public class RecipeDetailActivity extends Activity{
     private String img;
 
     private ImageView back_img;
+    private int screenWidth;
+    private int screenHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_recipe);
+        DisplayMetrics  dm = new DisplayMetrics();
+        //取得窗口属性
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        //窗口的宽度
+        screenWidth = dm.widthPixels;
+
+        //窗口高度
+        screenHeight = dm.heightPixels;
         init();
         initTable();
         initList();
@@ -57,26 +69,32 @@ public class RecipeDetailActivity extends Activity{
     }
 
     private void initTable(){
+
         TableLayout tableLayout = (TableLayout)findViewById(R.id.recipe_materials);
+        TableLayout.LayoutParams tablelayout = new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
         TableRow.LayoutParams tablerowlayout =
-                new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,70);
+                new TableRow.LayoutParams((screenWidth-40)/2, TableRow.LayoutParams.WRAP_CONTENT);
+        tablerowlayout.setMargins(0,0,0,2);
+
         for(int j = 0; j < materials.length; j++){
             TableRow tablerow = new TableRow(this);
-            tablerow.setLayoutParams(tablerowlayout);
-            tablerow.setGravity(Gravity.CENTER);
+            tablerow.setLayoutParams(tablelayout);
+            tablerow.setGravity(Gravity.LEFT);
             tableLayout.addView(tablerow);
             TextView material = new TextView(this);
             material.setGravity(Gravity.LEFT);
-            material.setPadding(1, 1, 1, 1);
+            material.setPadding(10, 10, 10, 10);
             material.setText(materials[j]);
             material.setTextColor(Color.BLACK);
+            material.setBackgroundColor(Color.WHITE);
             material.setLayoutParams(tablerowlayout);
             TextView  weight = new TextView(this);
             weight.setGravity(Gravity.LEFT);
-            weight.setPadding(1, 1, 1, 1);
+            weight.setPadding(10, 10, 10, 10);
             weight.setText(much[j]);
             weight.setLayoutParams(tablerowlayout);
             weight.setTextColor(Color.BLACK);
+            weight.setBackgroundColor(Color.WHITE);
             tablerow.addView(material);
             tablerow.addView(weight);
         }

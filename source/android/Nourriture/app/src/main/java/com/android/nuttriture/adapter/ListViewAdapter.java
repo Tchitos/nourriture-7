@@ -3,6 +3,7 @@ package com.android.nuttriture.adapter;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.android.nourriture.nourriture.R;
+import com.android.nourriture.nourriture.RecipeActivity;
 import com.android.nurriture.fragment.IngredientFragment;
 
 /**
@@ -19,11 +21,13 @@ public class ListViewAdapter extends BaseAdapter {
 
     private Context context;
     private String[] strings;
+    private String parentActivity;
     public static int mPosition;
 
-    public ListViewAdapter(Context context, String[] strings){
+    public ListViewAdapter(Context context, String[] strings, String parentActivity){
         this.context = context;
         this.strings = strings;
+        this.parentActivity = parentActivity;
     }
 
     @Override
@@ -47,8 +51,15 @@ public class ListViewAdapter extends BaseAdapter {
         TextView tv = (TextView) convertView.findViewById(R.id.list_item);
         mPosition = position;
         tv.setText(strings[position]);
-        if (position == IngredientFragment.mPosition) {
+        int temp = 0;
+        if(parentActivity.equals("ingredient") || parentActivity == "ingredient"){
+            temp = IngredientFragment.mPosition;
+        }else if(parentActivity.equals("recipeActivity") || parentActivity == "recipeActivity"){
+            temp = RecipeActivity.mPosition;
+        }
+        if (position == temp) {
             convertView.setBackgroundResource(R.drawable.tongcheng_all_bg01);
+            tv.setSelected(true);
         } else {
             convertView.setBackgroundColor(Color.parseColor("#f4f4f4"));
         }

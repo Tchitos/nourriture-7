@@ -28,6 +28,9 @@
         <activity
             android:name=".RegistActivity">
         </activity>
+        <activity
+            android:name=".RecipeActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -2,6 +2,8 @@ package com.android.nurriture.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -46,25 +48,29 @@ public class NutritionFragment extends Fragment{
             title.setText(nutrition[i]);
             Log.v("for:%d", nutrition[i]);
             TableLayout tableLayout = (TableLayout)deView.findViewById(R.id.ingredientTypeTable);
+            TableLayout.LayoutParams tablelayout = new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+            tablelayout.setMargins(10,10,10,10);
             TableRow.LayoutParams tablerowlayout =
-                    new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,70);
+                    new TableRow.LayoutParams(300,TableRow.LayoutParams.WRAP_CONTENT);
+            tablerowlayout.setMargins(10, 10, 10, 10);
             TableRow tablerow = new TableRow(this.getActivity().getApplicationContext());
-            tablerow.setLayoutParams(tablerowlayout);
+            tablerow.setLayoutParams(tablelayout);
             tablerow.setGravity(Gravity.CENTER);
             tableLayout.addView(tablerow);
 
             for(int j = 0; j < Nutrient.length; j++){
                 final TextView tv = new TextView(this.getActivity().getApplicationContext());
                 tv.setGravity(Gravity.CENTER);
-                tv.setBackgroundResource(R.drawable.table_back_img_2);
-                tv.setPadding(1, 1, 1, 1);
+                tv.setBackgroundResource(R.drawable.rounded_outer3);
+                tv.setPadding(15, 15, 10, 10);
                 tv.setText(Nutrient[j]);
+                tv.setTextColor(android.graphics.Color.parseColor("#666666"));
                 tv.setLayoutParams(tablerowlayout);
                 tablerow.addView(tv);
                 if(((j+1) % 3 == 0)&&(j != Nutrient.length-1)){
                     tablerow = new TableRow(this.getActivity());
                     tableLayout.addView(tablerow);
-                    tablerow.setLayoutParams(tablerowlayout);
+                    tablerow.setLayoutParams(tablelayout);
                     tablerow.setGravity(Gravity.CENTER);
                 }
             }

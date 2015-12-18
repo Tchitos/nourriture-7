@@ -8,25 +8,49 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#55acee"
+        android:textColor="#000000"
         android:text="Nutrition"
         android:layout_marginTop="20px"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        />
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#cdcdcd" />
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:id="@+id/search_linear"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#cdcdcd">
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:background="#cfcfcf">
 
-        <SearchView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/nutritionsearchView"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_outer6"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/search_img"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recipe/Ingredient/Nutrition"
+                android:textColor="#999999"
+                android:textSize="12dp"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
     </LinearLayout>
 
     <ScrollView
