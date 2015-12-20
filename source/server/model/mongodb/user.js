@@ -3,6 +3,25 @@ var commonService = require('../../routes/commonService');
 var tokenModel = require('./token');
 var db = commonService.db;
 
+module.exports.add = function(username, email, password, cb) {
+
+	db.collection('users', function(err, collection) {
+
+		user = {
+			'username': username,
+			'email': email,
+			'password': password,
+		};
+
+		collection.insert(user, {safe:true}, function(err, result) {
+            if (err)
+				return cb(); 
+			console.log(result.ops);
+			return cb(null, result.ops[0]);
+        });
+	});
+}
+
 module.exports.fetchById = function(id, cb) {
 
 	db.collection('users', function(err, collection) {
@@ -23,7 +42,20 @@ module.exports.fetchByUsername = function(username, cb) {
 		collection.findOne({'username':username}, function(err, user) {
 
 			if (err)
-					return cb();
+				return cb();
+			return cb(null, user);
+		});
+	});
+};
+
+module.exports.fetchByEmail = function(email, cb) {
+
+	db.collection('users', function(err, collection) {
+
+		collection.findOne({'email':email}, function(err, user) {
+
+			if (err)
+				return cb();
 			return cb(null, user);
 		});
 	});

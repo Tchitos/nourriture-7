@@ -1,0 +1,37 @@
+<!-- registration-form -->
+<div class="registration-form">
+	<div class="row">
+		<div class="col-xs-6">
+					<h3>Registration</h3>
+	<div class="strip"></div>
+	<div class="registration-grids">
+		<div class="reg-form">
+			<div class="reg">
+				<form ng-submit="makeRegistration()">
+					<ul>
+						<li class="text-info">User Name : </li>
+						<li><input type="text" value="" ng-model="viewScope.username"></li>
+					</ul>
+					<ul>
+						<li class="text-info">Email: </li>
+						<li><input type="text" value="" ng-model="viewScope.email"></li>
+					</ul>
+					<ul>
+						<li class="text-info">Password: </li>
+						<li><input type="password" value="" ng-model="viewScope.password"></li>
+						<li style="color: red" ng-if="viewScope.password_confirm && viewScope.password != viewScope.password_confirm">Passwords don't match</li>
+					</ul>
+					<ul>
+						<li class="text-info">Re-enter Password:</li>
+						<li><input type="password" value="" ng-model="viewScope.password_confirm"></li>
+					</ul>						
+					<input type="submit" value="REGISTER NOW">
+				 </form>
+			 </div>
+		</div>
+	</div>
+		</div>
+	</div>
+
+</div>
+<!-- registration-form -->

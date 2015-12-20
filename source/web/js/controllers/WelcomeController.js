@@ -2,7 +2,7 @@ nourritureApp.controller('WelcomeController', ['$scope', 'viewName', 'loginServi
 
 	$scope.view = viewName;
 	$scope.tab = 'home';
-	$scope.user = loginService.getUser();
+	loginService.init($scope);
 	$scope.viewScope = {};
 
 	$scope.viewScope.dataSauterelles = [
@@ -15,11 +15,5 @@ nourritureApp.controller('WelcomeController', ['$scope', 'viewName', 'loginServi
 			'color': 'bleue'
 		},
 	];
-
-	$scope.logout = function() {
-
-		loginService.logout();
-		$scope.user = null;
-	}
 
 }]);
