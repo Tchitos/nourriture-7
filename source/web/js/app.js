@@ -24,7 +24,7 @@ nourritureApp.config(function ($routeProvider) {
 			templateUrl: '/views/template/default.html',
 			resolve: {
 				viewName: function() {
-					return '/views/login.html'	
+					return '/views/user/login.html'	
 				}
 			}
 		})
@@ -34,7 +34,17 @@ nourritureApp.config(function ($routeProvider) {
 			templateUrl: '/views/template/default.html',
 			resolve: {
 				viewName: function() {
-					return '/views/register.html'	
+					return '/views/user/register.html'	
+				}
+			}
+		})
+		.when('/account',
+		{
+			controller: 'AccountController',
+			templateUrl: '/views/template/default.html',
+			resolve: {
+				viewName: function() {
+					return '/views/user/account.html';
 				}
 			}
 		})
@@ -44,7 +54,7 @@ nourritureApp.config(function ($routeProvider) {
 			templateUrl: '/views/template/default.html',
 			resolve: {
 				viewName: function() {
-					return '/views/recipes.html'	
+					return '/views/recipes/recipes.html'	
 				}
 			}
 		})
@@ -54,7 +64,7 @@ nourritureApp.config(function ($routeProvider) {
 			templateUrl: '/views/template/default.html',
 			resolve: {
 				viewName: function() {
-					return '/views/ingredients.html'	
+					return '/views/ingredients/ingredients.html'	
 				}
 			}
 		})
@@ -64,7 +74,7 @@ nourritureApp.config(function ($routeProvider) {
 			templateUrl: '/views/template/default.html',
 			resolve: {
 				viewName: function() {
-					return '/views/recipe_detail.html'	
+					return '/views/recipes/recipe_detail.html'	
 				}
 			}
 		})
@@ -74,7 +84,7 @@ nourritureApp.config(function ($routeProvider) {
 			templateUrl: '/views/template/default.html',
 			resolve: {
 				viewName: function() {
-					return '/views/ingredient_detail.html'	
+					return '/views/ingredients/ingredient_detail.html'	
 				}
 			}
 		})
@@ -84,7 +94,7 @@ nourritureApp.config(function ($routeProvider) {
 			templateUrl: '/views/template/default.html',
 			resolve: {
 				viewName: function() {
-					return '/views/nutritions.html'	
+					return '/views/nutrition/nutritions.html'	
 				}
 			}
 		})
@@ -94,7 +104,7 @@ nourritureApp.config(function ($routeProvider) {
 			templateUrl: '/views/template/default.html',
 			resolve: {
 				viewName: function() {
-					return '/views/nutrition_detail.html'	
+					return '/views/nutrition/nutrition_detail.html'	
 				}
 			}
 		})

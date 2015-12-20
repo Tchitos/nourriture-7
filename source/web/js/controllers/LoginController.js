@@ -1,7 +1,7 @@
 nourritureApp.controller('LoginController', ['$scope', 'viewName', 'loginService', function($scope, viewName, loginService) {
 
 	$scope.view = viewName;	
-	$scope.tab = 'ingredients';
+	$scope.tab = 'login';
 	loginService.init($scope);
 	$scope.viewScope = {};
 
