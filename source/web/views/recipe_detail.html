@@ -79,7 +79,7 @@
 					<div class="recipeStep_title"><strong>Steps of Pumpkin cheese bread:</strong></div>
 					<div ng-repeat="step in viewScope.recipe.steps" class="row recipeStep_sub">
 						<div class="col-md-4 recipeStep_imgBox">
-							<img src="../public/images/{{step.image}}">
+							<img ng-src="../public/images/{{step.image}}">
 						</div>
 						<p class="col-md-8 col-md-offest-4">
 							<span><strong>{{step.level}}.</strong></span>

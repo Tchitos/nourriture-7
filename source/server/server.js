@@ -158,6 +158,43 @@ server.post('/login', function(req, res, next) {
 	});
 });
 
+//register
+server.post('/register', function(req, res, next) {
+
+	if (!req.body.username || !req.body.email || !req.body.password)
+		return res.send('Missing parameters');
+
+	var username = req.body.username;
+	var email = req.body.email;
+	var password = req.body.password;
+
+	model.user.fetchByUsername(username, function(err, user) {
+
+		if (err || user)
+			return res.status(401).send('User already exists');
+
+		model.user.fetchByEmail(email, function(err, user) {
+
+			if (err || user)
+				return res.status(401).send('Email already exists');
+
+			model.user.add(username, email, password, function(err, user) {
+
+				if (err)
+					return res.status(500).send('An error occured.');
+
+				console.log(user);
+				delete user.password;
+				req.session.user = user;
+				req.session.authorized = true;
+				res.send(JSON.stringify(user));
+			});
+			
+		});
+
+	});
+});
+
 //stilllogged
 server.get('/stilllogged', function(req, res, next) {
 

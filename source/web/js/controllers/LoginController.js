@@ -1,21 +1,16 @@
-nourritureApp.controller('LoginController', ['$scope', 'viewName', '$cookies', 'loginService', function($scope, viewName, $cookies, loginService) {
+nourritureApp.controller('LoginController', ['$scope', 'viewName', 'loginService', function($scope, viewName, loginService) {
 
 	$scope.view = viewName;	
 	$scope.tab = 'ingredients';
+	loginService.init($scope);
 	$scope.viewScope = {};
-	$scope.user = loginService.getUser();
 
 	$scope.makeLogin = function() {
 
-		username = $scope.viewScope.username;
-		password = $scope.viewScope.password;
+		var username = $scope.viewScope.username;
+		var password = $scope.viewScope.password;
 
 		loginService.login(username, password);
-	}
-
-	$scope.logout = function() {
-
-		loginService.logout();
 	}
 
 }]);
