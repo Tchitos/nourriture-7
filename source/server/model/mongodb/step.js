@@ -19,12 +19,6 @@ module.exports.fetchAll = function(cb) {
 
 module.exports.fetchByIds = function(ids, cb) {
 
-	for (index in ids) {
-		ids[index] = new mongo.ObjectId(ids[index]);
-	}
-
-	console.log(ids);
-
 	db.collection('steps', function(err, collection) {
 
 		collection.find({"_id": {$in: ids}}).toArray(function(err, steps) {
