@@ -24,7 +24,6 @@ exports.findRecipeByName = function(req, res) {
 					res.status(201).send('No steps found.');
 				else {
 					recipe.steps = steps;
-					console.log(steps);
 					res.send(recipe);
 				}
 			});
