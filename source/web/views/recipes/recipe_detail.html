@@ -22,17 +22,9 @@
 						<div class="recipeCategory_sub_L">Main Ingredients</div>
 						<div class="recipeCategory_sub_R">
 							<ul class="list-unstyled">
-								<li>
-									<span class="category_s1">Cabbage</span>
-									<span class="category_s2"><small>(250g)</small></span>
-								</li>
-								<li>
-									<span class="category_s1">Black fungus</span>
-									<span class="category_s2"><small>(10g)</small></span>
-								</li>
-								<li>
-									<span class="category_s1">Dry pepper</span>
-									<span class="category_s2"><small>(2)</small></span>
+								<li ng-repeat="recipeIngredient in viewScope.recipe.recipeIngredients" ng-if="recipeIngredient.mandatory == true">
+									<span class="category_s1">{{recipeIngredient.ingredient.name}}</span>
+									<span class="category_s2">({{recipeIngredient.quantity}})</span>
 								</li>
 							</ul>
 						</div>
@@ -41,29 +33,9 @@
 						<div class="recipeCategory_sub_L">Accessories</div>
 						<div class="recipeCategory_sub_R">
 							<ul class="list-unstyled">
-								<li>
-									<span class="category_s1">Salt</span>
-									<span class="category_s2">(4g)</span>
-								</li>
-								<li>
-									<span class="category_s1">Chicken powder</span>
-									<span class="category_s2">(2g)</span>
-								</li>
-								<li>
-									<span class="category_s1">Vinegar</span>
-									<span class="category_s2">(1spoon)</span>
-								</li>
-								<li>
-									<span class="category_s1">Ginger</span>
-									<span class="category_s2">(3Slice)</span>
-								</li>
-								<li>
-									<span class="category_s1">Garlic</span>
-									<span class="category_s2">(3)</span>
-								</li>
-								<li>
-									<span class="category_s1">Peanut oil</span>
-									<span class="category_s2">(5g)</span>
+								<li ng-repeat="recipeIngredient in viewScope.recipe.recipeIngredients" ng-if="recipeIngredient.mandatory == false">
+									<span class="category_s1">{{recipeIngredient.ingredient.name}}</span>
+									<span class="category_s2">({{recipeIngredient.quantity}})</span>
 								</li>
 							</ul>
 						</div>
@@ -71,7 +43,11 @@
 					<div class="row recipeCategory_sub">
 						<div class="recipeCategory_sub_L">Kitchenware</div>
 						<div class="recipeCategory_sub_R">
-							<div>Wok</div>
+							<ul class="list-unstyled">
+								<li ng-repeat="equipment in viewScope.recipe.equipments">
+									<span class="category_s1">{{equipment.name}}</span>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>

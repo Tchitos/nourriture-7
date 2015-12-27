@@ -6,28 +6,73 @@ var ObjectId = require('mongodb').ObjectID;
 var TYPE = 'mongodb';
 var model = require('../model/' + TYPE);
 
+function loadRecipeDetailsLoop(res, recipe, tablesToLoad, index) {
+
+	if (tablesToLoad[index] === undefined) {
+
+		console.log(recipe);
+
+		res.send(recipe);
+		return recipe;
+	}
+
+	if (recipe != null && recipe[tablesToLoad[index]+'s'] != null) {
+		console.log("Loading "+tablesToLoad[index]);
+		model[tablesToLoad[index]].fetchByIds(recipe[tablesToLoad[index]+'s'], function(err, result) {
+			if (err != null)
+				res.status(401).send('An error occured during the search.');
+			else if (result == null)
+				res.status(201).send('No '+tablesToLoad[index]+' found.');
+			else {
+				recipe[tablesToLoad[index]+'s'] = result;
+
+				recipe = loadRecipeDetailsLoop(res, recipe, tablesToLoad, index + 1);
+
+				return recipe;
+			}
+		});
+	}
+	else
+		console.log('Recipe is null');
+}
+
+function loadRecipeDetails(res, recipe) {
+	model.recipeIngredient.fetchByIds(recipe.recipeIngredients, function(err, recipeIngredients) {
+
+		if (err != null)
+			res.status(401).send('An error occured during the search.');
+		else if (recipeIngredients == null)
+			res.status(201).send('No ingredient found.');
+		else
+			recipe.recipeIngredients = recipeIngredients;
+		model.ingredient.fetchByRecipeIngredients(recipe.recipeIngredients, function(err, recipeIngredients2) {
+
+			if (err != null)
+				res.status(401).send('An error occured during the search.');
+			else if (recipeIngredients2 == null)
+				res.status(201).send('No ingredient found.');
+			else
+				recipe.recipeIngredients = recipeIngredients2;
+
+			tablesToLoad = ['step', 'equipment'];
+
+			recipe = loadRecipeDetailsLoop(res, recipe, tablesToLoad, 0);
+		});
+	});
+}
+
 exports.findRecipeByName = function(req, res) {
 	var name = req.body.name;
 
 	console.log('Get a recipe: ' + name);
 
-	model.recipe.fetchByName(name, function(err, recipe) {
+	model.recipe.fetchByName(name, function(err, recipeRes) {
+		var recipe = null;
+
 		if (err != null)
 			res.status(401).send('An error occured during the search.');
-		else if (recipe == null)
+		else if (recipeRes == null)
 			res.status(201).send('No recipe found.');
-		else if (recipe.steps != null) {
-			model.step.fetchByIds(recipe.steps, function(err, steps) {
-				if (err != null)
-					res.status(401).send('An error occured during the search.');
-				else if (steps == null)
-					res.status(201).send('No steps found.');
-				else {
-					recipe.steps = steps;
-					res.send(recipe);
-				}
-			});
-		}
 	});
 };
 
@@ -130,21 +175,30 @@ var populateDB = function() {
 			"image": "baicai.jpg",
 			"tips": "Pomelo spiced salt in my recipes have separate method.This is the main condiment is Thai sweet chili sauce and pomelo spiced salt, the other can be adjusted according to personal taste.",
 			"steps": [
-				"566d6fe9e1b9caac0dac79f4",
-				"566d7022e1b9caac0dac79f5",
-				"566d7048e1b9caac0dac79f6",
-				"566d7091e1b9caac0dac79f7",
-				"566d70b9e1b9caac0dac79f8",
-				"566d70f9e1b9caac0dac79f9"
+				new mongo.ObjectID("566d6fe9e1b9caac0dac79f4"),
+				new mongo.ObjectID("566d7022e1b9caac0dac79f5"),
+				new mongo.ObjectID("566d7048e1b9caac0dac79f6"),
+				new mongo.ObjectID("566d7091e1b9caac0dac79f7"),
+				new mongo.ObjectID("566d70b9e1b9caac0dac79f8"),
+				new mongo.ObjectID("566d70f9e1b9caac0dac79f9")
 			],
 			"users": [
-				"4e54ed9f48dc5922c0094a32"
+				new mongo.ObjectID("4e54ed9f48dc5922c0094a32")
 			],
 			"recipeIngredients": [
-				"566d7541e1b9caac0dac79fa",
-				"566d7541e1b9caac0dac79fb",
-				"566d7541e1b9caac0dac79fc"
-			]
+				new mongo.ObjectID("566d7541e1b9caac0dac79fa"),
+				new mongo.ObjectID("566d7568e1b9caac0dac79fb"),
+				new mongo.ObjectID("566d75a3e1b9caac0dac79fc"),
+				new mongo.ObjectID("56768efc4058c19e7a7d170c"),
+				new mongo.ObjectID("56768f594058c19e7a7d170d"),
+				new mongo.ObjectID("56768fe44058c19e7a7d170f"),
+				new mongo.ObjectID("5676903d4058c19e7a7d1710"),
+				new mongo.ObjectID("5676904c4058c19e7a7d1711"),
+				new mongo.ObjectID("5676943c4058c19e7a7d1712") 
+			],
+		    "equipments": [
+		        new mongo.ObjectID("5676583a92a6087f7461b010")
+		    ]
 		};
 
 

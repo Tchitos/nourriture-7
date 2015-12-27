@@ -3,5 +3,8 @@ module.exports = {
     user:	require('./user.js'),
     token:	require('./token.js'),
     recipe:	require('./recipe.js'),
-    step:	require('./step.js')
+    step:	require('./step.js'),
+    ingredient:	require('./ingredient.js'),
+    recipeIngredient:	require('./recipeIngredient.js'),
+    equipment:	require('./equipment.js')
 };
