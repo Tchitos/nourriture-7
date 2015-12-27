@@ -1,0 +1,11 @@
+<div class="ingredients">
+	<div class="col-md-6 log">
+		<span>{{viewScope.message}}</span>
+		<form ng-submit="addIngredient()">
+			<h5>Ingredient Name:</h5>	
+			<input type="text" value="" ng-model="viewScope.ingredientName">
+			<input type="submit" value="ADD">
+		</form>
+		<a href="#/account">Back</a>
+	</div>
+</div>
