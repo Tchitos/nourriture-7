@@ -22,6 +22,22 @@ module.exports.add = function(username, email, password, cb) {
 	});
 }
 
+module.exports.fetchByIds = function(ids, cb) {
+
+	console.log(ids);
+
+	db.collection('users', function(err, collection) {
+
+		collection.find({"_id": {$in: ids}}).toArray(function(err, users) {
+
+			if (err)
+				return cb();
+
+			return cb(null, users);
+		});
+	});
+};
+
 module.exports.fetchById = function(id, cb) {
 
 	db.collection('users', function(err, collection) {

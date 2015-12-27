@@ -4,46 +4,9 @@
 			<s class="sidebar-head">Recipe Category</s>
 		</h2>
 		<div class="category-list">
-			<dl>
-				<dt>Health</dt>
-				<dd>Clearning Heat</dd>
-				<dd>Eliminating phlegm</dd>
-				<dd>Tonifying kidney</dd>
-				<dd>Tonifying Yang</dd>
-				<dd>Invigorating the stomach</dd>
-				<dd>Promoting appetite</dd>
-				<dd>Moistening lung</dd>
-				<dd>Antitussive</dd>
-				<dd>Improving eyesight</dd>
-			</dl>
-			<dl>
-				<dt>Sickness</dt>
-				<dd>Diabetes</dd>
-				<dd>Hypertension</dd>
-				<dd>Gout</dd>
-				<dd>Gastritis</dd>
-				<dd>Hemorrhoids</dd>
-				<dd>Climacteric</dd>
-				<dd>Thyroid enlargement</dd>
-			</dl>
-			<dl>
-				<dt>Religion</dt>
-				<dd>Buddhism</dd>
-				<dd>Islam</dd>
-				<dd>Christianity</dd>
-			</dl>
-			<dl>
-				<dt>Diet</dt>
-				<dd>Slimming</dd>
-				<dd>Slimming face</dd>
-				<dd>Slimming leg</dd>
-			</dl>
-			<dl>
-				<dt>Crowd</dt>
-				<dd>Baby</dd>
-				<dd>Pregnant woman</dd>
-				<dd>Lying-in woman</dd>
-				<dd>old people</dd>
+			<dl ng-repeat="type in viewScope.types">
+				<dt>{{type.name}}</dt>
+				<dd ng-repeat="subtype in type.subtypes">{{subtype.name}}</dd>
 			</dl>
 		</div>
 	</div>

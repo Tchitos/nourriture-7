@@ -5,9 +5,9 @@
 				{{viewScope.recipe.name}}
 			</h1>
 			<a href="#">
-				<span class="username">Author</span>
+				<span class="username">{{viewScope.recipe.users[0].username}}</span>
 			</a>
-			<span class="rtime">Posted in</span>
+			<span class="rtime">Posted in {{viewScope.recipe.created | date:"MM/dd/yyyy"}}</span>
 		</div>
 		<div class="recipe-space">
 			<div class="recipeDetail">

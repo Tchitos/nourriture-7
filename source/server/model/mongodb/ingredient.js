@@ -39,8 +39,6 @@ module.exports.fetchByRecipeIngredients = function(recipeIngredients, cb) {
 		ids.push(recipeIngredients[index].ingredient);
 	}
 
-	console.log(ids);
-
 	db.collection('ingredients', function(err, collection) {
 
 		collection.find({"_id": {$in: ids}}).toArray(function(err, ingredients) {

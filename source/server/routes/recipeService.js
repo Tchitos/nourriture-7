@@ -10,14 +10,11 @@ function loadRecipeDetailsLoop(res, recipe, tablesToLoad, index) {
 
 	if (tablesToLoad[index] === undefined) {
 
-		console.log(recipe);
-
 		res.send(recipe);
 		return recipe;
 	}
 
 	if (recipe != null && recipe[tablesToLoad[index]+'s'] != null) {
-		console.log("Loading "+tablesToLoad[index]);
 		model[tablesToLoad[index]].fetchByIds(recipe[tablesToLoad[index]+'s'], function(err, result) {
 			if (err != null)
 				res.status(401).send('An error occured during the search.');
@@ -54,7 +51,7 @@ function loadRecipeDetails(res, recipe) {
 			else
 				recipe.recipeIngredients = recipeIngredients2;
 
-			tablesToLoad = ['step', 'equipment'];
+			tablesToLoad = ['step', 'equipment', 'user'];
 
 			recipe = loadRecipeDetailsLoop(res, recipe, tablesToLoad, 0);
 		});
@@ -76,24 +73,7 @@ exports.findRecipeByName = function(req, res) {
 		else
 			recipe = recipeRes;
 
-		tablesToLoad = ['recipeIngredient', 'step', 'equipment'];
-
 		recipe = loadRecipeDetails(res, recipe);
-		// recipe = loadRecipeDetails(res, recipe, tablesToLoad, 0);
-
-		// if (recipe != null && recipe.steps != null) {
-		// 	console.log("Loading steps");
-		// 	model.step.fetchByIds(recipe.steps, function(err, steps) {
-		// 		if (err != null)
-		// 			res.status(401).send('An error occured during the search.');
-		// 		else if (steps == null)
-		// 			res.status(201).send('No steps found.');
-		// 		else {
-		// 			recipe.steps = steps;
-
-		// 		}
-		// 	});
-		// }
 	});
 };
 

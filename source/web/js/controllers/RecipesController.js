@@ -1,4 +1,4 @@
-nourritureApp.controller('RecipesController', ['$scope', 'viewName', 'loginService', 'recipeService', function ($scope, viewName, loginService, recipeService) {
+nourritureApp.controller('RecipesController', ['$scope', 'viewName', 'loginService', 'recipeService', 'typeService', function ($scope, viewName, loginService, recipeService, typeService) {
 
 	loginService.init($scope);
 	$scope.view = viewName;
@@ -7,5 +7,9 @@ nourritureApp.controller('RecipesController', ['$scope', 'viewName', 'loginServi
 
 	recipeService.getRecipes(function(recipes) {
 		$scope.viewScope.recipes = recipes;
+	});
+
+	typeService.getTypes(function(types) {
+		$scope.viewScope.types = types;
 	});
 }]);

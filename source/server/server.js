@@ -1,13 +1,15 @@
 var TYPE = 'mongodb';
 
 var
-	express             = require('express'),
-	query               = require('querystring'),
-	usersService        = require('./routes/usersService'),
-	ingredientsService  = require('./routes/ingredientsService'),
-	recipeService       = require('./routes/recipeService'),
-	oauth20             = require('./oauth20.js')(TYPE),
-	model               = require('./model/' + TYPE),
+	express				= require('express'),
+	query				= require('querystring'),
+	usersService		= require('./routes/usersService'),
+	ingredientsService	= require('./routes/ingredientsService'),
+	recipeService		= require('./routes/recipeService'),
+	typeService			= require('./routes/typeService'),
+	subtypeService		= require('./routes/subtypeService'),
+	oauth20				= require('./oauth20.js')(TYPE),
+	model				= require('./model/' + TYPE),
 	config				= require('./config'),
 	session				= require('express-session'),
 	bodyParser			= require('body-parser'),
@@ -210,6 +212,8 @@ server.get('/logout', function(req, res, next) {
 	req.session.user = null;
 	res.send('OK');
 });
+
+server.get('/getTypesDetails', typeService.findAllTypesDetails);
 
 server.get('/getRecipes', recipeService.findAllRecipes);
 server.post('/getRecipeByName', recipeService.findRecipeByName);
