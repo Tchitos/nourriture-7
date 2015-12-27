@@ -1,9 +1,29 @@
 var mongo = require('mongodb');
 var commonService = require('./commonService');
 var BSON = mongo.BSONPure;
-var ObjectId = require('mongodb').ObjectID;
-
 var db = commonService.db;
+var ObjectId = require('mongodb').ObjectID;
+var TYPE = 'mongodb';
+var model = require('../model/' + TYPE);
+
+exports.addIngredient = function(req, res, next) {
+
+	if (!req.session || !req.session.authorized)
+        return res.status(403);
+
+    if (!req.body.ingredientName)
+        return res.send('Missing parameters');
+
+    var ingredientName = req.body.ingredientName;
+
+    model.ingredient.add(ingredientName, function(err, user) {
+
+        if (err)
+            return res.status(500).send('An error occured.');
+
+        res.send('ok');
+    });
+};
 
 exports.findIngredientById = function(req, res) {
 	var id = req.params.id;
@@ -28,7 +48,6 @@ var findMatch = function(recipes, id) {
 	var i = 0;
 	var j = 0;
 	var h = 0;
-
 
 	while (recipes[i]) {
 		while (recipes[i].ingredients[j]) {
