@@ -53,6 +53,15 @@ public class MainActivity extends FragmentActivity {
         init();
     }
 
+    @Override
+    protected void onResume() {
+        int id = getIntent().getIntExtra("currentIndex", 0);
+
+        viewPager.setCurrentItem(id, false);
+
+        super.onResume();
+    }
+
     private void initView()
     {
         homeTab = (ImageView)findViewById(R.id.homeViewButton);
@@ -106,7 +115,6 @@ public class MainActivity extends FragmentActivity {
         public void onClick(View arg0) {
             viewPager.setCurrentItem(index,false);
         }
-
     }
 
     public class MyOnPageChangeListener implements OnPageChangeListener {
