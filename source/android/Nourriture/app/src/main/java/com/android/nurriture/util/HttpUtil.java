@@ -28,6 +28,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -92,7 +93,14 @@ public abstract class HttpUtil extends AsyncTask<Void, Void, String> {
 
             String value = EntityUtils.toString(response.getEntity(),
                     Config.CHARSET);
-            return value;
+            JSONObject json = new JSONObject();
+            try{
+                json.put("statusCode", response.getStatusLine().getStatusCode());
+                json.put("value", value);
+            }catch(Exception e){
+
+            }
+            return json.toString();
 
         } catch (ClientProtocolException e) {
             e.printStackTrace();
