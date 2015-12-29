@@ -79,6 +79,7 @@ exports.findRecipeByName = function(req, res) {
 
 exports.findAllRecipes = function(req, res) {
 	
+	console.log('GetRecipes');
 	model.recipe.fetchAll(function(err, recipes) {
 		if (err != null)
 			res.status(401).send('An error occured during the search.');

@@ -8,6 +8,7 @@ var model = require('../model/' + TYPE);
 
 exports.login = function(req, res, next) {
 
+    console.log('tryLogin');
     // Already logged in
     if (req.session.authorized)
         return res.status(200).send('Already logged');
