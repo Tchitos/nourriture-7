@@ -64,15 +64,69 @@ public abstract class HttpUtil extends AsyncTask<Void, Void, String> {
         String result = null;
         switch (method) {
             case POST:
-                result = connectPathVariable_Post();
+                result = connectPost();
                 break;
             case GET:
-                result = connectPathVariable_Get();
+                result = connectGet();
                 break;
             default:
                 break;
         }
         return result;
+    }
+
+    protected String connectPost()
+    {
+        String url = Config.SERVER_URL + controller;
+        HttpPost post = new HttpPost(url);
+
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+        for (String key : parm.keySet()) {
+            params.add(new BasicNameValuePair(key, parm.get(key)));
+        }
+
+        try {
+            post.setEntity(new UrlEncodedFormEntity(params, Config.CHARSET));
+            HttpResponse response = client.execute(post);
+
+            String value = EntityUtils.toString(response.getEntity(),
+                    Config.CHARSET);
+            return value;
+
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    protected String connectGet()
+    {
+        String url = Config.SERVER_URL + controller;
+        StringBuffer paramsStr = new StringBuffer();
+        for (String key : parm.keySet()) {
+            paramsStr.append(key).append("=").append(parm.get(key)).append("&");
+        }
+        url = url + "?" + paramsStr.toString();
+        System.out.println("url:" + url);
+        HttpPost post = new HttpPost(url);
+
+        try {
+            HttpResponse response = client.execute(post);
+
+            String value = EntityUtils.toString(response.getEntity(),
+                    Config.CHARSET);
+
+            return value;
+
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 /*    protected String Upload_Picture() {
