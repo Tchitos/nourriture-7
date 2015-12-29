@@ -13,24 +13,23 @@
 	<div class="recipe-main col-md-10">
 		
 		<div class="recipes-info">
-			<li ng-repeat="animal in viewScope.dataSauterelles">
-				<span style="color:{{animal.color}}">{{animal.name}}</span>
-			</li>
-
-			<div ng-repeat="recipe in viewScope.recipes" class="col-xs-4 col-md-3 recipe-block">
-				<div class="image">
-					<a href="#/recipes_detail/{{recipe.name}}">
-						<img ng-src="../public/images/{{recipe.image}}" alt class="img-responsive">
+			<div ng-repeat="(key, recipe) in viewScope.recipes" class="col-xs-4 col-md-3 recipe-block">
+				<div ng-if="key >= viewScope.offset * viewScope.perPage && key < (viewScope.offset + 1) * viewScope.perPage">
+					<div class="image">
+						<a href="#/recipes_detail/{{recipe.name}}">
+							<img ng-src="../public/images/{{recipe.image}}" alt class="img-responsive">
+						</a>
+					</div>
+				
+					<a href="#/recipes_detail/{{recipe.name}}"><h4>{{recipe.name}}</h4>
 					</a>
 				</div>
-				<a href="#/recipes_detail/{{recipe.name}}"><h4>{{recipe.name}}</h4>
-				</a>
 			</div>
 		</div>
 		<div class="paginations">
-			<a href="#">« PREV PAGE</a>
-			<span>
-				<a href="#">NEXT PAGE »</a>
+			<a ng-click="viewScope.offset = viewScope.offset - 1" ng-if="viewScope.offset > 0">« PREV PAGE</a>
+			<span ng-if="(viewScope.offset + 1) * viewScope.perPage < viewScope.recipes.length">
+				<a ng-click="viewScope.offset = viewScope.offset + 1">NEXT PAGE »</a>
 			</span>
 		</div>
 		<div class="pages">

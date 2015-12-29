@@ -13,8 +13,11 @@ nourritureApp.factory('httpService', ['httpConfig', function(httpConfig) {
 
 	function httpErrorFunction(response) {
 
-		console.log("ERROR");
-		console.log(response);
+		if (httpConfig.debug) {
+			
+			console.log("ERROR");
+			console.log(response);
+		}
 	};
 
 	return httpServiceInstance;

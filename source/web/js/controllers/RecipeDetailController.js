@@ -7,7 +7,6 @@ nourritureApp.controller('RecipeDetailController', ['$scope', '$routeParams', 'v
 	var recipeName = $routeParams.recipeName;
 
 	recipeService.getRecipeByName(recipeName, function(recipe) {
-		console.log(recipe);
 		$scope.viewScope.recipe = recipe;
 	});
 
