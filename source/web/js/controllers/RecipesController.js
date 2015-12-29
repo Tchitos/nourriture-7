@@ -11,18 +11,6 @@ nourritureApp.controller('RecipesController', ['$scope', 'viewName', 'loginServi
 	};
 
 	recipeService.getRecipes(function(recipes) {
-		console.log(recipes);
-		recipes = [
-			{image: 'baicai.jpg', name: 'carottes'},
-			{image: 'baicai.jpg', name: 'carottes'},
-			{image: 'baicai.jpg', name: 'carottes'},
-			{image: 'baicai.jpg', name: 'carottes'},
-			{image: 'baicai.jpg', name: 'carottes'},
-			{image: 'baicai.jpg', name: 'carottes'},
-			{image: 'baicai.jpg', name: 'carottes'},
-			{image: 'baicai.jpg', name: 'carottes'},
-			{image: 'baicai.jpg', name: 'carottes'},
-		];
 		$scope.viewScope.recipes = recipes;
 	});
 
