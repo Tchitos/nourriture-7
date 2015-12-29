@@ -3,9 +3,26 @@ nourritureApp.controller('RecipesController', ['$scope', 'viewName', 'loginServi
 	loginService.init($scope);
 	$scope.view = viewName;
 	$scope.tab = 'recipes';
-	$scope.viewScope = {};
+	$scope.viewScope = {
+		recipes: [],
+		types: [],
+		perPage: 8,
+		offset: 0
+	};
 
 	recipeService.getRecipes(function(recipes) {
+		console.log(recipes);
+		recipes = [
+			{image: 'baicai.jpg', name: 'carottes'},
+			{image: 'baicai.jpg', name: 'carottes'},
+			{image: 'baicai.jpg', name: 'carottes'},
+			{image: 'baicai.jpg', name: 'carottes'},
+			{image: 'baicai.jpg', name: 'carottes'},
+			{image: 'baicai.jpg', name: 'carottes'},
+			{image: 'baicai.jpg', name: 'carottes'},
+			{image: 'baicai.jpg', name: 'carottes'},
+			{image: 'baicai.jpg', name: 'carottes'},
+		];
 		$scope.viewScope.recipes = recipes;
 	});
 

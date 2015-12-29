@@ -74,23 +74,6 @@ exports.getIngredientRecipe = function(req, res) {
 	});
 }
 
-
-
-exports.addIngredient = function(req, res) {
-	var ingredient = req.body;
-	console.log('Add ingredient: ' + JSON.stringify(ingredient));
-	db.collection('ingredients', function(err, collection) {
-		collection.insert(ingredient, {safe:true}, function(err, result) {
-			if (err) {
-				res.send({'error':'An error has occurred'});
-			} else {
-				console.log('Success: ' + JSON.stringify(result[0]));
-				res.send(result[0]);
-			}
-		});
-	});
-}
-
 exports.deleteIngredient = function(req, res) {
 	var id = req.params.id;
 	console.log('Deleting ingredient: ' + id);
