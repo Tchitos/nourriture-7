@@ -17,16 +17,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.nourriture.nourriture.R;
 import com.android.nourriture.nourriture.RecipeActivity;
+import com.android.nourriture.nourriture.RecipeDetailActivity;
 import com.android.nourriture.nourriture.SearchResultActivity;
 import com.android.nurriture.entity.RecipeInfo;
+import com.android.nurriture.util.HttpMethod;
+import com.android.nurriture.util.HttpUtil;
 import com.android.nuttriture.adapter.HomeRecipeAdapter;
 import com.android.nuttriture.adapter.ImgPagerAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
@@ -48,6 +58,7 @@ public class HomeFragment extends Fragment{
     private List<RecipeInfo> recipeInfoList;
 
     private ScheduledExecutorService scheduledExecutorService;
+    HomeRecipeAdapter homeRecipeAdapter;
 
     private LinearLayout search_linear;
 
@@ -58,7 +69,7 @@ public class HomeFragment extends Fragment{
         initView(homeView);
         initPager();
         initRecipeGridView(homeView,inflater);
-        initRecipeListView(homeView,inflater);
+        initRecipeListView(homeView, inflater);
         return homeView;
     }
 
@@ -66,16 +77,61 @@ public class HomeFragment extends Fragment{
     {
         listView = (MyListView)view.findViewById(R.id.recipe_home_listView);
         recipeInfoList = new ArrayList<RecipeInfo>();
-        RecipeInfo recipe = new RecipeInfo();
-        recipe.setName("Cheese");
-        recipeInfoList.add(recipe);
-        RecipeInfo recipe2 = new RecipeInfo();
-        recipe2.setName("Hanamaki");
-        recipeInfoList.add(recipe2);
-        RecipeInfo recipe3 = new RecipeInfo();
-        recipe3.setName("Flaky pastry");
-        recipeInfoList.add(recipe3);
-        listView.setAdapter(new HomeRecipeAdapter(recipeInfoList, inflater));
+        homeRecipeAdapter = new HomeRecipeAdapter(getActivity().getApplicationContext(),recipeInfoList, inflater,listView);
+        HttpUtil connectNet = new HttpUtil(
+                "/getRecipes",
+                HttpMethod.GET){
+            @Override
+            protected void getResult(String result) {
+                //Toast.makeText(getActivity().getApplicationContext(), "Connect Server API success!=" + result,
+                //        Toast.LENGTH_SHORT).show();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    String statusCode = jsonObject.getString("statusCode");
+                    String value = jsonObject.getString("value");
+                    Log.v("get value",value);
+
+                    try {
+                        JSONArray jsonArray = new JSONArray(value);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            jsonObject = jsonArray.getJSONObject(i);
+                            String name = jsonObject.getString("name");
+                            String image = jsonObject.getString("image");
+                            RecipeInfo recipe = new RecipeInfo();
+                            Log.v("name:", name);
+                            recipe.setName(name);
+                            recipe.setImgpath(image);
+                            Log.v("image:", image);
+                            recipeInfoList.add(recipe);
+                            homeRecipeAdapter.notifyDataSetChanged();
+                        }
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        connectNet.execute();
+        Log.v("connect:", "connectNet.execute");
+        //homeRecipeAdapter = new HomeRecipeAdapter(getActivity().getApplicationContext(),recipeInfoList, inflater,listView);
+
+        listView.setAdapter(homeRecipeAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), RecipeDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("recipename", recipeInfoList.get(position).getName());
+                intent.putExtras(bundle);
+                startActivity(intent);
+
+            }
+        });
 
         search_linear = (LinearLayout)view.findViewById(R.id.search_linear);
         search_linear.setOnClickListener(new View.OnClickListener() {

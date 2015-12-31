@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -84,8 +85,8 @@ public class LoginActivity extends Activity {
         } else {*/
             //urlConn();
         Map<String, String> map = new HashMap<String, String>();
-        map.put("username", "hlh");
-        map.put("password", "hlh");
+        map.put("username", usernameString);
+        map.put("password", passwordString);
         HttpUtil connectNet = new HttpUtil(
                 "/login",
                 HttpMethod.POST, map) {
@@ -94,11 +95,13 @@ public class LoginActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "Connect Server API success!="+result,
                         Toast.LENGTH_SHORT).show();
                 try {
-                JSONObject jsonObject = new JSONObject(result);
-                    String username = jsonObject.getString("username");
-                    String password = jsonObject.getString("password");
-                    Toast.makeText(getApplicationContext(), "username="+username+" password:"+password,
+                    JSONObject jsonObject = new JSONObject(result);
+                    String statusCode = jsonObject.getString("statusCode");
+                    String value = jsonObject.getString("value");
+                    Toast.makeText(getApplicationContext(), "statusCode="+statusCode+" value:"+value,
                             Toast.LENGTH_SHORT).show();
+                    // 登录成功，开始计时
+                    //startTimer();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

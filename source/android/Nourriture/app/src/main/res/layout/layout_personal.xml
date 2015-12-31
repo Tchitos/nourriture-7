@@ -20,12 +20,21 @@
             android:textSize="20dp"
             android:layout_centerInParent="true"/>
 
-        <ImageView
+        <!--<ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/setting_img"
             android:layout_alignParentRight="true"
-            android:paddingRight="20dp"/>
+            android:paddingRight="20dp"/>-->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="logout"
+            android:layout_alignParentRight="true"
+            android:textSize="20dp"
+            android:textColor="#f5b230"
+            android:id="@+id/logout"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <LinearLayout

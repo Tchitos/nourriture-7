@@ -14,13 +14,23 @@ import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.android.nurriture.entity.RecipeInfo;
 import com.android.nurriture.entity.StepInfo;
+import com.android.nurriture.util.HttpMethod;
+import com.android.nurriture.util.HttpUtil;
 import com.android.nuttriture.adapter.StepAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2015/12/13.
@@ -32,12 +42,14 @@ public class RecipeDetailActivity extends Activity{
     private String[] much = {"250g","10g","2","4g",
             "2g","1spoon","3slice","3","5g"};
     private String number[]={"1","2","3","4","5","6"};
-    private String desc="Meimei's wings to ok pomelo.";
+    private String desc="Pomelo spicy chicken wings can pour wine as a kind of snack";
     private String img;
 
     private ImageView back_img;
+    private TextView nameOfrecipe,author_name,recipe_intro,recipe_tips;
     private int screenWidth;
-    private int screenHeight;
+    private String recipename,username,image,tips;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +61,70 @@ public class RecipeDetailActivity extends Activity{
 
         //窗口的宽度
         screenWidth = dm.widthPixels;
-
-        //窗口高度
-        screenHeight = dm.heightPixels;
+        getBundle();
+        getData();
         init();
         initTable();
         initList();
+    }
+    private void getData(){
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("name", recipename);
+        HttpUtil connectNet = new HttpUtil(
+                "/getRecipeByName",
+                HttpMethod.POST, map) {
+            @Override
+            protected void getResult(String result) {
+                Toast.makeText(getApplicationContext(), "Connect Server API success!=" + result,
+                        Toast.LENGTH_SHORT).show();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    String statusCode = jsonObject.getString("statusCode");
+                    String value = jsonObject.getString("value");
+                    Log.v("value:", value);
+//                    Toast.makeText(getApplicationContext(), "statusCode="+statusCode+" value:"+value,
+//                            Toast.LENGTH_SHORT).show();
+                    if(value!="" && value!=null && !value.isEmpty()){
+                        try {
+                            JSONObject recipe = new JSONObject(value);
+                            String name = recipe.getString("name");
+                            image = recipe.getString("image");
+                            Log.v("image:", image);
+                            desc = recipe.getString("description");
+                            Log.v("desc:", desc);
+                            tips = recipe.getString("tips");
+                            Log.v("tips:", tips);
+                            JSONArray users = new JSONArray(recipe.getString("users"));
+                            JSONObject user = users.getJSONObject(0);
+                            username = user.getString("username");
+                            Log.v("username:", username);
+                            nameOfrecipe = (TextView)findViewById(R.id.recipe_name);
+                            nameOfrecipe.setText(recipename);
+                            author_name = (TextView)findViewById(R.id.author_name);
+                            author_name.setText(username);
+                            recipe_intro = (TextView)findViewById(R.id.recipe_intro);
+                            recipe_intro.setText(desc);
+                            recipe_tips = (TextView)findViewById(R.id.recipe_tips);
+                            recipe_tips.setText(tips);
+
+                            //Log.v("user!:",user);
+//                            RecipeInfo recipe = new RecipeInfo();
+//                            Log.v("name:", name);
+//                            recipe.setName(name);
+//                            recipe.setImgpath(image);
+//                            Log.v("image:", image);
+
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        connectNet.execute();
     }
 
     private void init()
@@ -74,7 +144,7 @@ public class RecipeDetailActivity extends Activity{
         TableLayout.LayoutParams tablelayout = new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
         TableRow.LayoutParams tablerowlayout =
                 new TableRow.LayoutParams((screenWidth-40)/2, TableRow.LayoutParams.WRAP_CONTENT);
-        tablerowlayout.setMargins(0,0,0,2);
+        tablerowlayout.setMargins(0, 0, 0, 2);
 
         for(int j = 0; j < materials.length; j++){
             TableRow tablerow = new TableRow(this);
@@ -118,7 +188,7 @@ public class RecipeDetailActivity extends Activity{
         StepAdapter stepAdapter = new StepAdapter(stepList,this.getLayoutInflater());
         listView.setAdapter(stepAdapter);
 
-        fixListViewHeight(listView,stepAdapter);
+        fixListViewHeight(listView, stepAdapter);
     }
 
     public void fixListViewHeight(ListView listView,StepAdapter stepAdapter) {
@@ -138,6 +208,11 @@ public class RecipeDetailActivity extends Activity{
         // params.height设置ListView完全显示需要的高度
         params.height = totalHeight+ (listView.getDividerHeight() * (stepAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+    }
+
+    private void getBundle() {
+        Bundle bundle = this.getIntent().getExtras();
+        recipename = bundle.getString("recipename");
     }
 }
 
