@@ -14,3 +14,4 @@ source/android/Nourriture/.idea/gradle.xml
 source/android/Nourriture/.idea/compiler.xml
 source/android/Nourriture/.idea/vcs.xml
 source/android/Nourriture/app/app.iml
+source/android/Nourriture/app/src/main/java/com/android/nurriture/util/HttpUtil.java
