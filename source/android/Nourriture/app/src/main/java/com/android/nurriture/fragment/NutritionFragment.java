@@ -59,9 +59,12 @@ public class NutritionFragment extends Fragment{
 
        /* DisplayMetrics dm = new DisplayMetrics();
         //取得窗口属性
+=======
+        DisplayMetrics dm = new DisplayMetrics();
+
+>>>>>>> origin/master
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-        //窗口的宽度
         screenWidth = dm.widthPixels;
 
         ScrollView scrollView = (ScrollView)nutritionView.findViewById(R.id.ingredientScroll);

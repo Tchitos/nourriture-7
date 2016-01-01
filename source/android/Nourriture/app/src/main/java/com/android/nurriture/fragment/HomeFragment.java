@@ -3,36 +3,51 @@ package com.android.nurriture.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.nourriture.nourriture.R;
 import com.android.nourriture.nourriture.RecipeActivity;
+import com.android.nourriture.nourriture.RecipeDetailActivity;
 import com.android.nourriture.nourriture.SearchResultActivity;
 import com.android.nurriture.entity.RecipeInfo;
+import com.android.nurriture.util.HttpMethod;
+import com.android.nurriture.util.HttpUtil;
 import com.android.nuttriture.adapter.HomeRecipeAdapter;
 import com.android.nuttriture.adapter.ImgPagerAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Created by Administrator on 2015/12/9.
  */
-public class HomeFragment extends Fragment{
+public class HomeFragment extends Fragment {
 
     private ViewPager viewPager;
     private List<ImageView> imageList = new ArrayList<ImageView>();
@@ -48,48 +63,221 @@ public class HomeFragment extends Fragment{
     private List<RecipeInfo> recipeInfoList;
 
     private ScheduledExecutorService scheduledExecutorService;
+    HomeRecipeAdapter homeRecipeAdapter;
 
     private LinearLayout search_linear;
+
+    private TextView loadmore,nomore;
+    // ListViewView
+    private View moreView;
+    private Handler handler;
+
+    private int MaxDateNum;
+
+    private int lastVisibleIndex;
+
+    private ScrollView scrollView;
+    private View contentView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View homeView = (View)inflater.inflate(R.layout.layout_home, container,false);
+        scrollView = (ScrollView)homeView.findViewById(R.id.scrollView);
+        contentView = scrollView.getChildAt(0);
+        loadmore = (TextView) homeView.findViewById(R.id.loadmore);
+        nomore = (TextView) homeView.findViewById(R.id.nomore);
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                if (contentView != null
+                        && contentView.getMeasuredHeight() <= scrollView.getScrollY()
+                        + scrollView.getHeight()) {
+                    if(event.getAction() == MotionEvent.ACTION_MOVE){
+                        if(homeRecipeAdapter.getCount() == MaxDateNum ){
+                            loadmore.setVisibility(View.GONE);
+                            nomore.setVisibility(View.VISIBLE);
+                        }else{
+                            loadmore.setVisibility(View.VISIBLE);
+                            nomore.setVisibility(View.GONE);
+                        }
+
+                    }else{
+                        if (event.getAction() == MotionEvent.ACTION_UP) {
+                            Log.v("getMeasuredHeight:",contentView.getMeasuredHeight()+"");
+                            Log.v("start load more:", "homeRecipeAdapter.getCount()" + homeRecipeAdapter.getCount());
+                            Log.v("start load more:", "scrollView.getScrollY()" + scrollView.getScrollY());
+                            if (contentView != null
+                                    && contentView.getMeasuredHeight() <= scrollView.getScrollY()
+                                    + scrollView.getHeight()) {
+
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Log.v("start load more1:", "zidongjiazai");
+                                        loadMoreDate();
+                                        loadmore.setVisibility(View.GONE);
+                                        //nomore.setVisibility(View.GONE);
+                                        homeRecipeAdapter.notifyDataSetChanged();
+                                    }
+
+                                }, 2000);
+                            }
+                        }
+                    }
+
+                }
+
+                    return false;
+            }
+        }
+        );
         initView(homeView);
         initPager();
-        initRecipeGridView(homeView,inflater);
-        initRecipeListView(homeView,inflater);
+        initRecipeGridView(homeView, inflater);
+        initRecipeListView(homeView, inflater);
         return homeView;
     }
 
     private void initRecipeListView(View view,LayoutInflater inflater)
     {
+        MaxDateNum = 22;
+
+       // moreView = getActivity().getLayoutInflater().inflate(R.layout.moredata, null);
+
+//        loadmore = (TextView) moreView.findViewById(R.id.loadmore);
+//        nomore = (TextView) moreView.findViewById(R.id.nomore);
+        handler = new Handler();
         listView = (MyListView)view.findViewById(R.id.recipe_home_listView);
         recipeInfoList = new ArrayList<RecipeInfo>();
-        RecipeInfo recipe = new RecipeInfo();
-        recipe.setName("Cheese");
-        recipeInfoList.add(recipe);
-        RecipeInfo recipe2 = new RecipeInfo();
-        recipe2.setName("Hanamaki");
-        recipeInfoList.add(recipe2);
-        RecipeInfo recipe3 = new RecipeInfo();
-        recipe3.setName("Flaky pastry");
-        recipeInfoList.add(recipe3);
-        listView.setAdapter(new HomeRecipeAdapter(recipeInfoList, inflater));
+        homeRecipeAdapter = new HomeRecipeAdapter(getActivity().getApplicationContext(),recipeInfoList, inflater,listView);
+        loadMoreDate();
+        homeRecipeAdapter.notifyDataSetChanged();
+//        HttpUtil connectNet = new HttpUtil(
+//                "/getRecipes",
+//                HttpMethod.GET){
+//            @Override
+//            protected void getResult(String result) {
+//                //Toast.makeText(getActivity().getApplicationContext(), "Connect Server API success!=" + result,
+//                //        Toast.LENGTH_SHORT).show();
+//                try {
+//                    JSONObject jsonObject = new JSONObject(result);
+//                    String statusCode = jsonObject.getString("statusCode");
+//                    String value = jsonObject.getString("value");
+//                    Log.v("get value",value);
+//
+//                    try {
+//                        JSONArray jsonArray = new JSONArray(value);
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                            jsonObject = jsonArray.getJSONObject(i);
+//                            String name = jsonObject.getString("name");
+//                            String image = jsonObject.getString("image");
+//                            RecipeInfo recipe = new RecipeInfo();
+//                            Log.v("name:", name);
+//                            recipe.setName(name);
+//                            recipe.setImgpath(image);
+//                            Log.v("image:", image);
+//                            recipeInfoList.add(recipe);
+//                            homeRecipeAdapter.notifyDataSetChanged();
+//                        }
+//                    } catch (JSONException e) {
+//                        // TODO Auto-generated catch block
+//                        e.printStackTrace();
+//                    }
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
 
-        search_linear = (LinearLayout)view.findViewById(R.id.search_linear);
-        search_linear.setOnClickListener(new View.OnClickListener() {
+        //connectNet.execute();
+        Log.v("connect:", "connectNet.execute");
+        //homeRecipeAdapter = new HomeRecipeAdapter(getActivity().getApplicationContext(),recipeInfoList, inflater,listView);
+
+        listView.setAdapter(homeRecipeAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SearchResultActivity.class);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), RecipeDetailActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("SEARCHCONTEXT", "search");
+                bundle.putString("recipename", recipeInfoList.get(position).getName());
                 intent.putExtras(bundle);
                 startActivity(intent);
+
             }
         });
+
+//        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+//                Log.v("scrollState:","scrollState"+scrollState);
+//                Log.v("start load more:","homeRecipeAdapter.getCount()"+homeRecipeAdapter.getCount());
+//                Log.v("start load more:","lastVisibleIndex"+lastVisibleIndex);
+//                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
+//                        && lastVisibleIndex == homeRecipeAdapter.getCount()) {
+//                    Log.v("start load more:","zidongjiazai");
+
+//                    loadmore.setVisibility(View.VISIBLE);
+//                    nomore.setVisibility(View.GONE);
+//                    handler.postDelayed(new Runnable() {
+//
+//                        @Override
+//                        public void run() {
+//                            Log.v("start load more1:","zidongjiazai");
+//                            loadMoreDate();
+//                            loadmore.setVisibility(View.GONE);
+//                            nomore.setVisibility(View.GONE);
+//                            homeRecipeAdapter.notifyDataSetChanged();
+//                        }
+//
+//                    }, 2000);
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//
+
+//                lastVisibleIndex = firstVisibleItem + visibleItemCount - 1;
+//
+//                Log.v("lastVisibleIndex",lastVisibleIndex+"");
+
+//                if (totalItemCount == MaxDateNum + 1) {
+//                    Log.v("totalItemCount",totalItemCount+"");
+//                    // listView.removeFooterView(moreView);
+//                    nomore.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        });
+
+
     }
 
+    private void loadMoreDate() {
+        int count = homeRecipeAdapter.getCount();
+        if (count + 5 < MaxDateNum) {
+
+            for (int i = count; i < count + 5; i++) {
+                RecipeInfo recipe = new RecipeInfo();
+                recipe.setName(i + "");
+                recipe.setImgpath("baicai.jpg");
+                recipeInfoList.add(recipe);
+            }
+        } else {
+
+            for (int i = count; i < MaxDateNum; i++) {
+                RecipeInfo recipe = new RecipeInfo();
+                recipe.setName(i+"");
+                recipe.setImgpath("baicai.jpg");
+                recipeInfoList.add(recipe);
+            }
+        }
+
+    }
     private void initRecipeGridView(View view,LayoutInflater inflater)
     {
         gridView = (MyGridView)view.findViewById(R.id.gv_recipe);
@@ -176,6 +364,18 @@ public class HomeFragment extends Fragment{
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageList.add(imageView);
         }
+
+        search_linear = (LinearLayout)view.findViewById(R.id.search_linear);
+        search_linear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchResultActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("SEARCHCONTEXT", "search");
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initPager()
@@ -224,7 +424,7 @@ public class HomeFragment extends Fragment{
     @Override
     public void onStart() {
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        // 当Activity显示出来后，每两秒钟切换一次图片显示
+
         scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 1, 2, TimeUnit.SECONDS);
         super.onStart();
     }

@@ -1,10 +1,12 @@
-package com.ewample.nourriture;
+package com.android.nurriture.util;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.EditText;
+
+import com.android.nourriture.nourriture.MainActivity;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -27,41 +29,37 @@ import java.util.List;
  * Created by Thibault on 10/12/15.
  */
 
-public class ApiOperation extends AsyncTask<String, Void, Void> {
+public class PostRequestAPI extends AsyncTask<String, Void, Void> {
 
-    final HttpClient httpClient = new DefaultHttpClient();
-    String content;
-    String error;
-    String data;
-    ProgressDialog progressDialog = new ProgressDialog(MainActivity.activity);
+    String username;
+    String password;
+    String url = "http://104.236.38.237";
+    Boolean success = false;
+    String error = null;
 
-    EditText username = (EditText) ((Activity)MainActivity.activity).findViewById(R.id.TFUsername);
-    EditText password = (EditText) ((Activity)MainActivity.activity).findViewById(R.id.TFPassword);
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
 
-        progressDialog.setTitle("Please wait...");
-        progressDialog.show();
+     //   progressDialog.setTitle("Please wait...");
+   //     progressDialog.show();
     }
 
     @Override
     protected Void doInBackground(String... params) {
 
-        Log.v("TOTO", "Username = " + username.getText());
-        Log.v("TOTO", "Password = " + password.getText());
+        Log.v("TOTO", "Username = " + username);
+        Log.v("TOTO", "Password = " + password);
 
-        String url = "http://104.236.38.237/login";
-        BufferedReader inStream = null;
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(url);
 
         try {
             // Add your data
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-            nameValuePairs.add(new BasicNameValuePair("username", username.getText().toString()));
-            nameValuePairs.add(new BasicNameValuePair("password", password.getText().toString()));
+            nameValuePairs.add(new BasicNameValuePair("username", username));
+            nameValuePairs.add(new BasicNameValuePair("password", password));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
             // Execute HTTP Post Request
@@ -71,6 +69,11 @@ public class ApiOperation extends AsyncTask<String, Void, Void> {
 
             Log.v("TOTO", "Status code : " + response.getStatusLine().getStatusCode());
             Log.v("TOTO", "Response : " + responseBody);
+            if (response.getStatusLine().getStatusCode() == 200){
+                this.success = true;
+            } else {
+                this.error = responseBody;
+            }
         } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -84,7 +87,27 @@ public class ApiOperation extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
 
-        progressDialog.hide();
+       // progressDialog.hide();
 
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRequest(String req) {
+        url += req;
+    }
+
+    public boolean getSuccess() {
+        return (this.success);
+    }
+
+    public String getError() {
+        return (this.error);
     }
 }

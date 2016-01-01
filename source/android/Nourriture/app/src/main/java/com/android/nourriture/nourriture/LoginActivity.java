@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.android.nurriture.util.HttpMethod;
 import com.android.nurriture.util.HttpUtil;
+import com.android.nurriture.util.PostRequestAPI;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -82,8 +84,9 @@ public class LoginActivity extends Activity {
                     "Please enter the password!", Toast.LENGTH_SHORT);
             toast.show();
         } else {
+/*wzz*/
             //urlConn();
-        Map<String, String> map = new HashMap<String, String>();
+        /*Map<String, String> map = new HashMap<String, String>();
         map.put("username", usernameString);
         map.put("password", passwordString);
         HttpUtil connectNet = new HttpUtil("/login", HttpMethod.POST, map) {
@@ -107,8 +110,37 @@ public class LoginActivity extends Activity {
             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
             intent.putExtra("currentIndex",3);
             startActivity(intent);
-            finish();
+            finish();*/
         }
+/*wzz*/
+
+            /*PostRequestAPI api = new PostRequestAPI();
+            api.setUsername(usernameString);
+            api.setPassword(passwordString);
+            api.setRequest("/login");
+            api.execute();
+
+            if (api.getSuccess() == false) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        api.getError(), Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                sp = getSharedPreferences("userinfo", Context.MODE_PRIVATE);
+                sp.edit().putString("username", usernameString).commit();
+                sp.edit().putString("password", passwordString).commit();
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                intent.putExtra("currentIndex",3);
+                startActivity(intent);
+                finish();
+            }
+        }*/
+/*
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("username", usernameString);
+        map.put("password", passwordString);
+*/
+
+/*>>>>>>> origin/master*/
         return true;
     }
 
