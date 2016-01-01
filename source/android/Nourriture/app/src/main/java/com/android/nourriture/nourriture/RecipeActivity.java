@@ -47,9 +47,7 @@ public class RecipeActivity extends FragmentActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //拿到当前位置
                 mPosition = position;
-                //及时刷新adapter
                 recipeAdapter.notifyDataSetChanged();
                 for (int i = 0; i < recipe.length; i++){
                     listViewFragment = new ListViewFragment();
@@ -66,12 +64,12 @@ public class RecipeActivity extends FragmentActivity {
         }
         );
 
-        //创建ListViewFragment对象
+        //ListViewFragment
         listViewFragment = new ListViewFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.recipelistViewFragment, listViewFragment);
 
-        //通过bundle传值给listViewFragment
+        //通bundlelistViewFragment
         Bundle bundle = new Bundle();
         bundle.putString(ListViewFragment.TAG, recipe[mPosition]);
         listViewFragment.setArguments(bundle);

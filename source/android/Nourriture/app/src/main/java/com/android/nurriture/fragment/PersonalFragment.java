@@ -80,7 +80,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
         });
     }
 
-    // ÍË³öµÇÂ¼
+
     protected  void logout() {
         HttpUtil connectNet = new HttpUtil(
                 "/logout",
@@ -112,7 +112,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
 //                        for(Fragment fragment: fragments ){
 //                            if(fragment instanceof PersonalFragment){
 //                                PersonalFragment dfragment = (PersonalFragment)fragment;
-//                                //Ë¢ÐÂ
+//                                //Ë¢ï¿½ï¿½
 //                                Log.v("fragment", "fragment1");
 //                                dfragment.onDestroy();
 //                                Log.v("fragment", "fragment2");

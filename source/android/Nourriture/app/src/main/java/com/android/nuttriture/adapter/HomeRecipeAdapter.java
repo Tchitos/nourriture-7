@@ -16,7 +16,7 @@ import com.android.nourriture.nourriture.R;
 import com.android.nurriture.entity.RecipeInfo;
 import com.android.nurriture.fragment.MyListView;
 import com.android.nurriture.util.Config;
-import com.android.nurriture.util.ImageLoader;
+//import com.android.nurriture.util.ImageLoader;
 import com.android.nurriture.util.SyncImageLoader;
 
 import java.util.List;
@@ -27,7 +27,7 @@ import java.util.List;
 public class HomeRecipeAdapter extends BaseAdapter {
     List<RecipeInfo> recipeInfoList;
     LayoutInflater inflater;
-    ImageLoader imageLoader;
+    //ImageLoader imageLoader;
     //ImageView imageView;
     MyListView listView;
     SyncImageLoader syncImageLoader;

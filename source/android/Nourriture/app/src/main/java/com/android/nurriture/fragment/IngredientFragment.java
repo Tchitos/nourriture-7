@@ -37,7 +37,7 @@ public class IngredientFragment extends Fragment {
     }
 
     /*
-     *初始化fragment
+     *fragment
      */
     private void initView(View view){
         listView = (ListView)view.findViewById(R.id.ingredientListview);
@@ -46,9 +46,8 @@ public class IngredientFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //拿到当前位置
                 mPosition = position;
-                //及时刷新adapter
+
                 ingredientAdapter.notifyDataSetChanged();
                 for (int i = 0; i < ingredient.length; i++){
                     listViewFragment = new ListViewFragment();
@@ -64,12 +63,12 @@ public class IngredientFragment extends Fragment {
         }
        );
 
-        //创建ListViewFragment对象
+        //ListViewFragment
         listViewFragment = new ListViewFragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.listViewFragment, listViewFragment);
 
-        //通过bundle传值给listViewFragment
+        //bundlelistViewFragment
         Bundle bundle = new Bundle();
         bundle.putString(ListViewFragment.TAG,ingredient[mPosition]);
         listViewFragment.setArguments(bundle);

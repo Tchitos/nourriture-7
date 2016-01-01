@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.android.nurriture.util.HttpMethod;
 import com.android.nurriture.util.HttpUtil;
+import com.android.nurriture.util.PostRequestAPI;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -74,7 +76,7 @@ public class LoginActivity extends Activity {
     {
         usernameString = username.getText().toString();
         passwordString = password.getText().toString();
-        /*if (usernameString == null || usernameString.equals("")) {
+        if (usernameString == null || usernameString.equals("")) {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Please enter the username!", Toast.LENGTH_SHORT);
             toast.show();
@@ -82,40 +84,35 @@ public class LoginActivity extends Activity {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Please enter the password!", Toast.LENGTH_SHORT);
             toast.show();
-        } else {*/
-            //urlConn();
+        } else {
+
+            PostRequestAPI api = new PostRequestAPI();
+            api.setUsername(usernameString);
+            api.setPassword(passwordString);
+            api.setRequest("/login");
+            api.execute();
+
+            Log.v("api.getSuccess()", "" + api.getSuccess());
+            if (api.getSuccess() == false) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        api.getError(), Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                sp = getSharedPreferences("userinfo", Context.MODE_PRIVATE);
+                sp.edit().putString("username", usernameString).commit();
+                sp.edit().putString("password", passwordString).commit();
+                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                intent.putExtra("currentIndex",3);
+                startActivity(intent);
+                finish();
+            }
+        }
+/*
         Map<String, String> map = new HashMap<String, String>();
         map.put("username", usernameString);
         map.put("password", passwordString);
-        HttpUtil connectNet = new HttpUtil(
-                "/login",
-                HttpMethod.POST, map) {
-            @Override
-            protected void getResult(String result) {
-                Toast.makeText(getApplicationContext(), "Connect Server API success!="+result,
-                        Toast.LENGTH_SHORT).show();
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    String statusCode = jsonObject.getString("statusCode");
-                    String value = jsonObject.getString("value");
-                    Toast.makeText(getApplicationContext(), "statusCode="+statusCode+" value:"+value,
-                            Toast.LENGTH_SHORT).show();
-                    // 登录成功，开始计时
-                    //startTimer();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        connectNet.execute();
-            sp = getSharedPreferences("userinfo", Context.MODE_PRIVATE);
-            sp.edit().putString("username", usernameString).commit();
-            sp.edit().putString("password", passwordString).commit();
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-            intent.putExtra("currentIndex",3);
-            startActivity(intent);
-            finish();
-        /*}*/
+*/
+
         return true;
     }
 
