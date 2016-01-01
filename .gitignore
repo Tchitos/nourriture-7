@@ -15,3 +15,8 @@ source/android/Nourriture/.idea/compiler.xml
 source/android/Nourriture/.idea/vcs.xml
 source/android/Nourriture/app/app.iml
 source/android/Nourriture/app/src/main/java/com/android/nurriture/util/HttpUtil.java
+.idea/workspace.xml
+.idea/vcs.xml
+source/android/Nourriture/.idea/modules.xml
+source/android/Nourriture/app/src/main/java/com/android/nourriture/nourriture/MyFragmentActivity.java
+*.java
