@@ -93,6 +93,7 @@ public class LoginActivity extends Activity {
             api.execute();
 
             Log.v("api.getSuccess()", "" + api.getSuccess());
+
             if (api.getSuccess() == false) {
                 Toast toast = Toast.makeText(getApplicationContext(),
                         api.getError(), Toast.LENGTH_SHORT);
