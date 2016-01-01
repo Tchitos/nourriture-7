@@ -68,12 +68,12 @@ public class HomeFragment extends Fragment {
     private LinearLayout search_linear;
 
     private TextView loadmore,nomore;
-    // ListView底部View
+    // ListViewView
     private View moreView;
     private Handler handler;
-    // 设置一个最大的数据条数，超过即不再加载
+
     private int MaxDateNum;
-    // 最后可见条目的索引
+
     private int lastVisibleIndex;
 
     private ScrollView scrollView;
@@ -141,8 +141,8 @@ public class HomeFragment extends Fragment {
 
     private void initRecipeListView(View view,LayoutInflater inflater)
     {
-        MaxDateNum = 22; // 设置最大数据条数
-        // 实例化底部布局
+        MaxDateNum = 22;
+
        // moreView = getActivity().getLayoutInflater().inflate(R.layout.moredata, null);
 
 //        loadmore = (TextView) moreView.findViewById(R.id.loadmore);
@@ -207,18 +207,18 @@ public class HomeFragment extends Fragment {
 
             }
         });
-//        // 绑定监听器
+
 //        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 //            @Override
 //            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//                // 滑到底部后自动加载，判断listview已经停止滚动并且最后可视的条目等于adapter的条目
+
 //                Log.v("scrollState:","scrollState"+scrollState);
 //                Log.v("start load more:","homeRecipeAdapter.getCount()"+homeRecipeAdapter.getCount());
 //                Log.v("start load more:","lastVisibleIndex"+lastVisibleIndex);
 //                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
 //                        && lastVisibleIndex == homeRecipeAdapter.getCount()) {
 //                    Log.v("start load more:","zidongjiazai");
-//                    // 当滑到底部时自动加载
+
 //                    loadmore.setVisibility(View.VISIBLE);
 //                    nomore.setVisibility(View.GONE);
 //                    handler.postDelayed(new Runnable() {
@@ -241,16 +241,15 @@ public class HomeFragment extends Fragment {
 //            @Override
 //            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 //
-//                // 计算最后可见条目的索引
+
 //                lastVisibleIndex = firstVisibleItem + visibleItemCount - 1;
 //
 //                Log.v("lastVisibleIndex",lastVisibleIndex+"");
-//                // 所有的条目已经和最大条数相等，则移除底部的View
+
 //                if (totalItemCount == MaxDateNum + 1) {
 //                    Log.v("totalItemCount",totalItemCount+"");
 //                    // listView.removeFooterView(moreView);
 //                    nomore.setVisibility(View.VISIBLE);
-//                    //Toast.makeText(getActivity(), "数据全部加载完成，没有更多数据！", Toast.LENGTH_LONG).show();
 //                }
 //            }
 //        });
@@ -261,7 +260,7 @@ public class HomeFragment extends Fragment {
     private void loadMoreDate() {
         int count = homeRecipeAdapter.getCount();
         if (count + 5 < MaxDateNum) {
-            // 每次加载5条
+
             for (int i = count; i < count + 5; i++) {
                 RecipeInfo recipe = new RecipeInfo();
                 recipe.setName(i + "");
@@ -269,7 +268,7 @@ public class HomeFragment extends Fragment {
                 recipeInfoList.add(recipe);
             }
         } else {
-            // 数据已经不足5条
+
             for (int i = count; i < MaxDateNum; i++) {
                 RecipeInfo recipe = new RecipeInfo();
                 recipe.setName(i+"");
@@ -425,7 +424,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        // 当Activity显示出来后，每两秒钟切换一次图片显示
+
         scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 1, 2, TimeUnit.SECONDS);
         super.onStart();
     }

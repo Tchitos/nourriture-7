@@ -42,10 +42,9 @@ public class NutritionFragment extends Fragment{
         this.context = container.getContext();
         View nutritionView = (View)inflater.inflate(R.layout.layout_nutrition, container, false);
         DisplayMetrics dm = new DisplayMetrics();
-        //取得窗口属性
+
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-        //窗口的宽度
         screenWidth = dm.widthPixels;
 
         ScrollView scrollView = (ScrollView)nutritionView.findViewById(R.id.ingredientScroll);

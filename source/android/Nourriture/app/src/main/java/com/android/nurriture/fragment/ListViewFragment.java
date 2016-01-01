@@ -37,7 +37,7 @@ public class ListViewFragment extends Fragment {
 
         TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
         ScrollView scrollView = (ScrollView)view.findViewById(R.id.ingredientScroll);
-        //得到数据
+
         str = getArguments().getString(TAG);
         Log.v("this is the str:%s",str);
         LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.ingredientTypeView);

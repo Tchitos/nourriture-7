@@ -56,10 +56,10 @@ public class RecipeDetailActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_recipe);
         DisplayMetrics  dm = new DisplayMetrics();
-        //取得窗口属性
+
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-        //窗口的宽度
+
         screenWidth = dm.widthPixels;
         getBundle();
         getData();
@@ -192,20 +192,20 @@ public class RecipeDetailActivity extends Activity{
     }
 
     public void fixListViewHeight(ListView listView,StepAdapter stepAdapter) {
-        // 如果没有设置数据适配器，则ListView没有子项，返回。
+        // ListView没
 
         int totalHeight = 0;
         for (int index = 0, len = stepAdapter.getCount(); index < len; index++) {
             View listViewItem = stepAdapter.getView(index , null, listView);
-            // 计算子项View 的宽高
+
             listViewItem.measure(0, 0);
-            // 计算所有子项的高度和
+
             totalHeight += listViewItem.getMeasuredHeight();
         }
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        // listView.getDividerHeight()获取子项间分隔符的高度
-        // params.height设置ListView完全显示需要的高度
+        // listView.getDividerHeight()
+        // params.height ListView
         params.height = totalHeight+ (listView.getDividerHeight() * (stepAdapter.getCount() - 1));
         listView.setLayoutParams(params);
     }
