@@ -2,8 +2,19 @@ nourritureApp.factory('ingredientService', ['$http', 'httpService', function($ht
 
 	var ingredientServiceInstance = {
 
+		'getIngredients': getIngredientsFunction,
 		'addIngredient': addIngredientFunction
 	};
+
+	function getIngredientsFunction(cb) {
+
+		var url = httpService.makeUrl('/ingredients');
+
+		$http.get(url).then(function(response) {
+
+			cb(response.data);
+		}, httpService.httpError);
+	}
 
 	function addIngredientFunction(ingredientName, cb) {
 

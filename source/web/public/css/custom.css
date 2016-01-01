@@ -1,0 +1,46 @@
+/*
+** Custom css
+*/
+
+#account .account-action {
+
+	text-align: center;
+}
+
+.add-form form {
+    margin-top: 32px;
+}
+.add-form h5 {
+    color: #204056;
+    font-size: 16px;
+    text-transform: uppercase;
+    margin: 0 0 10px 0;
+    font-weight: bold;
+}
+
+.add-form form input[type="text"],
+.add-form form input[type="password"],
+.add-form form select {
+    width: 70%;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    border: 1px solid #e6e6e6;
+    outline: none;
+    color: #000;
+    margin-bottom: 32px;
+}
+
+.add-form form input[type=submit] {
+    border: none;
+    color: #ffffff;
+    padding: 9px 35px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    margin: 0 0 32px 0;
+    background: #204056;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}

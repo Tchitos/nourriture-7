@@ -1,0 +1,19 @@
+<div class="recipies">
+	<div class="col-md-6 add-form">
+		<span>{{viewScope.message}}</span>
+		<form ng-submit="addIngredient()">
+			<div>
+				<h5>Recipie Name:</h5>	
+				<input type="text" value="" ng-model="viewScope.ingredientName">
+			</div>
+			<div>
+				<h5>Recipie Main Ingredients:</h5>	
+				<select value="" ng-model="viewScope.ingredientName">
+					<option ng-repeat="ingredient in viewScope.ingredients">{{ingredient.name}}</option>
+				</select>
+			</div>
+			<input type="submit" value="ADD">
+		</form>
+		<a href="#/account">Back</a>
+	</div>
+</div>

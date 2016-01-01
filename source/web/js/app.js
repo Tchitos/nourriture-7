@@ -58,6 +58,16 @@ nourritureApp.config(function ($routeProvider) {
 				}
 			}
 		})
+		.when('/recipes/add',
+		{
+			controller: 'AddRecipeController',
+			templateUrl: '/views/template/default.html',
+			resolve: {
+				viewName: function() {
+					return '/views/recipes/add.html'	
+				}
+			}
+		})
 		.when('/ingredients',
 		{
 			controller: 'IngredientsController',

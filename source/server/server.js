@@ -133,6 +133,7 @@ server.post('/register', usersService.register);
 server.get('/stilllogged', usersService.stilllogged);
 server.get('/logout', usersService.logout);
 
+server.get('/ingredients', ingredientsService.findAllIngredients)
 server.post('/ingredient/add', ingredientsService.addIngredient)
 
 server.get('/getTypesDetails', typeService.findAllTypesDetails);
