@@ -28,6 +28,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -64,15 +65,88 @@ public abstract class HttpUtil extends AsyncTask<Void, Void, String> {
         String result = null;
         switch (method) {
             case POST:
-                result = connectPathVariable_Post();
+                result = connectPost();
                 break;
             case GET:
-                result = connectPathVariable_Get();
+                result = connectGet();
                 break;
             default:
                 break;
         }
         return result;
+    }
+
+    protected String connectPost()
+    {
+        String url = Config.SERVER_URL + controller;
+        HttpPost post = new HttpPost(url);
+
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+        for (String key : parm.keySet()) {
+            params.add(new BasicNameValuePair(key, parm.get(key)));
+        }
+
+        try {
+            post.setEntity(new UrlEncodedFormEntity(params, Config.CHARSET));
+            HttpResponse response = client.execute(post);
+
+            String value = EntityUtils.toString(response.getEntity(),
+                    Config.CHARSET);
+            JSONObject json = new JSONObject();
+            try{
+                json.put("statusCode", response.getStatusLine().getStatusCode());
+                json.put("value", value);
+            }catch(Exception e){
+
+            }
+            return json.toString();
+
+
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    protected String connectGet()
+    {
+        String url = Config.SERVER_URL + controller;
+        if(parm != null && !parm.isEmpty()){
+            StringBuffer paramsStr = new StringBuffer();
+            for (String key : parm.keySet()) {
+                paramsStr.append(key).append("=").append(parm.get(key)).append("&");
+            }
+            url = url + "?" + paramsStr.toString();
+        }
+        System.out.println("url:" + url);
+        HttpPost post = new HttpPost(url);
+        HttpGet get = new HttpGet(url);
+
+        try {
+            HttpResponse response = client.execute(get);
+
+            String value = EntityUtils.toString(response.getEntity(),
+                    Config.CHARSET);
+
+           // return value;
+            JSONObject json = new JSONObject();
+            try{
+                json.put("statusCode", response.getStatusLine().getStatusCode());
+                json.put("value", value);
+            }catch(Exception e){
+
+            }
+            return json.toString();
+
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 /*    protected String Upload_Picture() {
@@ -93,26 +167,26 @@ public abstract class HttpUtil extends AsyncTask<Void, Void, String> {
     protected String upload(File file, String RequestURL) {
         int res=0;
         String result = null;
-        String BOUNDARY = UUID.randomUUID().toString(); // 边界标识 随机生成
+        String BOUNDARY = UUID.randomUUID().toString();
         String PREFIX = "--", LINE_END = "\r\n";
-        String CONTENT_TYPE = "multipart/form-data"; // 内容类型
+        String CONTENT_TYPE = "multipart/form-data";
 
         try {
             URL url = new URL(RequestURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(TIME_OUT);
             conn.setConnectTimeout(TIME_OUT);
-            conn.setDoInput(true); // 允许输入流
-            conn.setDoOutput(true); // 允许输出流
-            conn.setUseCaches(false); // 不允许使用缓存
-            conn.setRequestMethod("POST"); // 请求方式
-            conn.setRequestProperty("Charset", Config.CHARSET); // 设置编码
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setUseCaches(false);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Charset", Config.CHARSET);
             conn.setRequestProperty("connection", "keep-alive");
             conn.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary="+ BOUNDARY);
 
             if (file != null) {
                 /**
-                 * 当文件不为空时执行上传
+                 *
                  */
                 DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
                 StringBuffer sb = new StringBuffer();
@@ -120,8 +194,7 @@ public abstract class HttpUtil extends AsyncTask<Void, Void, String> {
                 sb.append(BOUNDARY);
                 sb.append(LINE_END);
                 /**
-                 * 这里重点注意： name里面的值为服务器端需要key 只有这个key 才可以得到对应的文件
-                 * filename是文件的名字，包含后缀名
+                 *
                  */
 
                 sb.append("Content-Disposition: form-data; name=\"file\"; filename=\""
@@ -143,7 +216,6 @@ public abstract class HttpUtil extends AsyncTask<Void, Void, String> {
                 dos.write(end_data);
                 dos.flush();
                 /**
-                 * 获取响应码 200=成功 当响应成功，获取响应的流
                  */
                 res = conn.getResponseCode();
                 if (res == 200) {

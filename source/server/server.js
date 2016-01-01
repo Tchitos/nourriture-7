@@ -127,7 +127,7 @@ routerAPI.post('/gettoken', function(req, res, next) {
 server.get('/index', function (req, res) {
    res.render('login');
 });
-
+server.get('/logintest', usersService.logintest);
 server.post('/login', usersService.login);
 server.post('/register', usersService.register);
 server.get('/stilllogged', usersService.stilllogged);
