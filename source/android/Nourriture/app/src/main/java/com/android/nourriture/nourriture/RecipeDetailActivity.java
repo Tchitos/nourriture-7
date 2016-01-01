@@ -80,45 +80,45 @@ public class RecipeDetailActivity extends Activity{
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String statusCode = jsonObject.getString("statusCode");
-                    String value = jsonObject.getString("value");
-                    Log.v("value:", value);
+                    if(statusCode == "401"){
+
+                    }else if(statusCode == "201"){
+
+                    }else{
+                        String value = jsonObject.getString("value");
+                        Log.v("value:", value);
 //                    Toast.makeText(getApplicationContext(), "statusCode="+statusCode+" value:"+value,
 //                            Toast.LENGTH_SHORT).show();
-                    if(value!="" && value!=null && !value.isEmpty()){
-                        try {
-                            JSONObject recipe = new JSONObject(value);
-                            String name = recipe.getString("name");
-                            image = recipe.getString("image");
-                            Log.v("image:", image);
-                            desc = recipe.getString("description");
-                            Log.v("desc:", desc);
-                            tips = recipe.getString("tips");
-                            Log.v("tips:", tips);
-                            JSONArray users = new JSONArray(recipe.getString("users"));
-                            JSONObject user = users.getJSONObject(0);
-                            username = user.getString("username");
-                            Log.v("username:", username);
-                            nameOfrecipe = (TextView)findViewById(R.id.recipe_name);
-                            nameOfrecipe.setText(recipename);
-                            author_name = (TextView)findViewById(R.id.author_name);
-                            author_name.setText(username);
-                            recipe_intro = (TextView)findViewById(R.id.recipe_intro);
-                            recipe_intro.setText(desc);
-                            recipe_tips = (TextView)findViewById(R.id.recipe_tips);
-                            recipe_tips.setText(tips);
+                        if(value!="" && value!=null && !value.isEmpty()){
+                            try {
+                                JSONObject recipe = new JSONObject(value);
+                                String name = recipe.getString("name");
+                                image = recipe.getString("image");
+                                Log.v("image:", image);
+                                desc = recipe.getString("description");
+                                Log.v("desc:", desc);
+                                tips = recipe.getString("tips");
+                                Log.v("tips:", tips);
+                                JSONArray users = new JSONArray(recipe.getString("users"));
+                                JSONObject user = users.getJSONObject(0);
+                                username = user.getString("username");
+                                Log.v("username:", username);
+                                nameOfrecipe = (TextView)findViewById(R.id.recipe_name);
+                                nameOfrecipe.setText(recipename);
+                                author_name = (TextView)findViewById(R.id.author_name);
+                                author_name.setText(username);
+                                recipe_intro = (TextView)findViewById(R.id.recipe_intro);
+                                recipe_intro.setText(desc);
+                                recipe_tips = (TextView)findViewById(R.id.recipe_tips);
+                                recipe_tips.setText(tips);
 
-                            //Log.v("user!:",user);
-//                            RecipeInfo recipe = new RecipeInfo();
-//                            Log.v("name:", name);
-//                            recipe.setName(name);
-//                            recipe.setImgpath(image);
-//                            Log.v("image:", image);
-
-                        } catch (JSONException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
+                            } catch (JSONException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
                         }
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -3,19 +3,24 @@ package com.android.nurriture.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +47,7 @@ import java.util.concurrent.ScheduledExecutorService;
 /**
  * Created by Administrator on 2015/12/9.
  */
-public class HomeFragment extends Fragment{
+public class HomeFragment extends Fragment {
 
     private ViewPager viewPager;
     private List<ImageView> imageList = new ArrayList<ImageView>();
@@ -62,61 +67,131 @@ public class HomeFragment extends Fragment{
 
     private LinearLayout search_linear;
 
+    private TextView loadmore,nomore;
+    // ListView底部View
+    private View moreView;
+    private Handler handler;
+    // 设置一个最大的数据条数，超过即不再加载
+    private int MaxDateNum;
+    // 最后可见条目的索引
+    private int lastVisibleIndex;
+
+    private ScrollView scrollView;
+    private View contentView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View homeView = (View)inflater.inflate(R.layout.layout_home, container,false);
+        scrollView = (ScrollView)homeView.findViewById(R.id.scrollView);
+        contentView = scrollView.getChildAt(0);
+        loadmore = (TextView) homeView.findViewById(R.id.loadmore);
+        nomore = (TextView) homeView.findViewById(R.id.nomore);
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                if (contentView != null
+                        && contentView.getMeasuredHeight() <= scrollView.getScrollY()
+                        + scrollView.getHeight()) {
+                    if(event.getAction() == MotionEvent.ACTION_MOVE){
+                        if(homeRecipeAdapter.getCount() == MaxDateNum ){
+                            loadmore.setVisibility(View.GONE);
+                            nomore.setVisibility(View.VISIBLE);
+                        }else{
+                            loadmore.setVisibility(View.VISIBLE);
+                            nomore.setVisibility(View.GONE);
+                        }
+
+                    }else{
+                        if (event.getAction() == MotionEvent.ACTION_UP) {
+                            Log.v("getMeasuredHeight:",contentView.getMeasuredHeight()+"");
+                            Log.v("start load more:", "homeRecipeAdapter.getCount()" + homeRecipeAdapter.getCount());
+                            Log.v("start load more:", "scrollView.getScrollY()" + scrollView.getScrollY());
+                            if (contentView != null
+                                    && contentView.getMeasuredHeight() <= scrollView.getScrollY()
+                                    + scrollView.getHeight()) {
+
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Log.v("start load more1:", "zidongjiazai");
+                                        loadMoreDate();
+                                        loadmore.setVisibility(View.GONE);
+                                        //nomore.setVisibility(View.GONE);
+                                        homeRecipeAdapter.notifyDataSetChanged();
+                                    }
+
+                                }, 2000);
+                            }
+                        }
+                    }
+
+                }
+
+                    return false;
+            }
+        }
+        );
         initView(homeView);
         initPager();
-        initRecipeGridView(homeView,inflater);
+        initRecipeGridView(homeView, inflater);
         initRecipeListView(homeView, inflater);
         return homeView;
     }
 
     private void initRecipeListView(View view,LayoutInflater inflater)
     {
+        MaxDateNum = 22; // 设置最大数据条数
+        // 实例化底部布局
+       // moreView = getActivity().getLayoutInflater().inflate(R.layout.moredata, null);
+
+//        loadmore = (TextView) moreView.findViewById(R.id.loadmore);
+//        nomore = (TextView) moreView.findViewById(R.id.nomore);
+        handler = new Handler();
         listView = (MyListView)view.findViewById(R.id.recipe_home_listView);
         recipeInfoList = new ArrayList<RecipeInfo>();
         homeRecipeAdapter = new HomeRecipeAdapter(getActivity().getApplicationContext(),recipeInfoList, inflater,listView);
-        HttpUtil connectNet = new HttpUtil(
-                "/getRecipes",
-                HttpMethod.GET){
-            @Override
-            protected void getResult(String result) {
-                //Toast.makeText(getActivity().getApplicationContext(), "Connect Server API success!=" + result,
-                //        Toast.LENGTH_SHORT).show();
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    String statusCode = jsonObject.getString("statusCode");
-                    String value = jsonObject.getString("value");
-                    Log.v("get value",value);
+        loadMoreDate();
+        homeRecipeAdapter.notifyDataSetChanged();
+//        HttpUtil connectNet = new HttpUtil(
+//                "/getRecipes",
+//                HttpMethod.GET){
+//            @Override
+//            protected void getResult(String result) {
+//                //Toast.makeText(getActivity().getApplicationContext(), "Connect Server API success!=" + result,
+//                //        Toast.LENGTH_SHORT).show();
+//                try {
+//                    JSONObject jsonObject = new JSONObject(result);
+//                    String statusCode = jsonObject.getString("statusCode");
+//                    String value = jsonObject.getString("value");
+//                    Log.v("get value",value);
+//
+//                    try {
+//                        JSONArray jsonArray = new JSONArray(value);
+//                        for (int i = 0; i < jsonArray.length(); i++) {
+//                            jsonObject = jsonArray.getJSONObject(i);
+//                            String name = jsonObject.getString("name");
+//                            String image = jsonObject.getString("image");
+//                            RecipeInfo recipe = new RecipeInfo();
+//                            Log.v("name:", name);
+//                            recipe.setName(name);
+//                            recipe.setImgpath(image);
+//                            Log.v("image:", image);
+//                            recipeInfoList.add(recipe);
+//                            homeRecipeAdapter.notifyDataSetChanged();
+//                        }
+//                    } catch (JSONException e) {
+//                        // TODO Auto-generated catch block
+//                        e.printStackTrace();
+//                    }
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
 
-                    try {
-                        JSONArray jsonArray = new JSONArray(value);
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            jsonObject = jsonArray.getJSONObject(i);
-                            String name = jsonObject.getString("name");
-                            String image = jsonObject.getString("image");
-                            RecipeInfo recipe = new RecipeInfo();
-                            Log.v("name:", name);
-                            recipe.setName(name);
-                            recipe.setImgpath(image);
-                            Log.v("image:", image);
-                            recipeInfoList.add(recipe);
-                            homeRecipeAdapter.notifyDataSetChanged();
-                        }
-                    } catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        connectNet.execute();
+        //connectNet.execute();
         Log.v("connect:", "connectNet.execute");
         //homeRecipeAdapter = new HomeRecipeAdapter(getActivity().getApplicationContext(),recipeInfoList, inflater,listView);
 
@@ -132,20 +207,78 @@ public class HomeFragment extends Fragment{
 
             }
         });
+//        // 绑定监听器
+//        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//                // 滑到底部后自动加载，判断listview已经停止滚动并且最后可视的条目等于adapter的条目
+//                Log.v("scrollState:","scrollState"+scrollState);
+//                Log.v("start load more:","homeRecipeAdapter.getCount()"+homeRecipeAdapter.getCount());
+//                Log.v("start load more:","lastVisibleIndex"+lastVisibleIndex);
+//                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
+//                        && lastVisibleIndex == homeRecipeAdapter.getCount()) {
+//                    Log.v("start load more:","zidongjiazai");
+//                    // 当滑到底部时自动加载
+//                    loadmore.setVisibility(View.VISIBLE);
+//                    nomore.setVisibility(View.GONE);
+//                    handler.postDelayed(new Runnable() {
+//
+//                        @Override
+//                        public void run() {
+//                            Log.v("start load more1:","zidongjiazai");
+//                            loadMoreDate();
+//                            loadmore.setVisibility(View.GONE);
+//                            nomore.setVisibility(View.GONE);
+//                            homeRecipeAdapter.notifyDataSetChanged();
+//                        }
+//
+//                    }, 2000);
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//
+//                // 计算最后可见条目的索引
+//                lastVisibleIndex = firstVisibleItem + visibleItemCount - 1;
+//
+//                Log.v("lastVisibleIndex",lastVisibleIndex+"");
+//                // 所有的条目已经和最大条数相等，则移除底部的View
+//                if (totalItemCount == MaxDateNum + 1) {
+//                    Log.v("totalItemCount",totalItemCount+"");
+//                    // listView.removeFooterView(moreView);
+//                    nomore.setVisibility(View.VISIBLE);
+//                    //Toast.makeText(getActivity(), "数据全部加载完成，没有更多数据！", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        });
 
-        search_linear = (LinearLayout)view.findViewById(R.id.search_linear);
-        search_linear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SearchResultActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("SEARCHCONTEXT", "search");
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
+
     }
 
+    private void loadMoreDate() {
+        int count = homeRecipeAdapter.getCount();
+        if (count + 5 < MaxDateNum) {
+            // 每次加载5条
+            for (int i = count; i < count + 5; i++) {
+                RecipeInfo recipe = new RecipeInfo();
+                recipe.setName(i + "");
+                recipe.setImgpath("baicai.jpg");
+                recipeInfoList.add(recipe);
+            }
+        } else {
+            // 数据已经不足5条
+            for (int i = count; i < MaxDateNum; i++) {
+                RecipeInfo recipe = new RecipeInfo();
+                recipe.setName(i+"");
+                recipe.setImgpath("baicai.jpg");
+                recipeInfoList.add(recipe);
+            }
+        }
+
+    }
     private void initRecipeGridView(View view,LayoutInflater inflater)
     {
         gridView = (MyGridView)view.findViewById(R.id.gv_recipe);
@@ -232,6 +365,18 @@ public class HomeFragment extends Fragment{
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageList.add(imageView);
         }
+
+        search_linear = (LinearLayout)view.findViewById(R.id.search_linear);
+        search_linear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchResultActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("SEARCHCONTEXT", "search");
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initPager()

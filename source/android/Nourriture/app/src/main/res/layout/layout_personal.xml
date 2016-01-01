@@ -32,9 +32,12 @@
             android:text="logout"
             android:layout_alignParentRight="true"
             android:textSize="20dp"
-            android:textColor="#f5b230"
+            android:textColor="#ffffff"
             android:id="@+id/logout"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:background="@drawable/rounded_outer2"
+            android:layout_marginRight="20dp"
+            android:shadowColor="#f5b230"/>
     </RelativeLayout>
 
     <LinearLayout
