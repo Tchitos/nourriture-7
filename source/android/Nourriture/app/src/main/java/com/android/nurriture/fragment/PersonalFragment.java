@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.nourriture.nourriture.LoginActivity;
 import com.android.nourriture.nourriture.R;
+import com.android.nourriture.nourriture.RecipePublicActivity;
 import com.android.nourriture.nourriture.RegistActivity;
 
 /**
@@ -26,6 +28,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
     private ImageView touxiang;
     private LinearLayout mylinear;
     private SharedPreferences sp;
+    private RelativeLayout public_button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +49,8 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
         touxiang = (ImageView)view.findViewById(R.id.touxiang);
         mylinear = (LinearLayout)view.findViewById(R.id.personalLinear);
 
+        public_button = (RelativeLayout)view.findViewById(R.id.public_button);
+
         sp = getActivity().getSharedPreferences("userinfo",0);
         String usernamestring = sp.getString("username", null);
         if(usernamestring !=null)
@@ -56,6 +61,14 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
             tou_username.setVisibility(View.VISIBLE);
             touxiang.setVisibility(View.VISIBLE);
         }
+
+        public_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RecipePublicActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

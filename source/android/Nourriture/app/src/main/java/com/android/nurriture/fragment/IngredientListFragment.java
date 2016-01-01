@@ -1,12 +1,15 @@
 package com.android.nurriture.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.android.nourriture.nourriture.IngredientDetailActivity;
 import com.android.nourriture.nourriture.R;
 import com.android.nurriture.entity.IngredientInfo;
 import com.android.nurriture.entity.RecipeInfo;
@@ -40,7 +43,14 @@ public class IngredientListFragment extends Fragment {
         ingredientInfo.setIngreName("Beef");
         ingredientInfoList.add(ingredientInfo);
         ingredientInfoList.add(ingredientInfo);
-        listView.setAdapter(new IngredientAdapter(ingredientInfoList,inflater));
+        listView.setAdapter(new IngredientAdapter(ingredientInfoList, inflater));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), IngredientDetailActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

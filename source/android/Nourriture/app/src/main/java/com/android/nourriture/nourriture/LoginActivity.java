@@ -73,7 +73,7 @@ public class LoginActivity extends Activity {
     {
         usernameString = username.getText().toString();
         passwordString = password.getText().toString();
-        /*if (usernameString == null || usernameString.equals("")) {
+        if (usernameString == null || usernameString.equals("")) {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Please enter the username!", Toast.LENGTH_SHORT);
             toast.show();
@@ -81,23 +81,19 @@ public class LoginActivity extends Activity {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Please enter the password!", Toast.LENGTH_SHORT);
             toast.show();
-        } else {*/
+        } else {
             //urlConn();
         Map<String, String> map = new HashMap<String, String>();
-        map.put("username", "hlh");
-        map.put("password", "hlh");
-        HttpUtil connectNet = new HttpUtil(
-                "/login",
-                HttpMethod.POST, map) {
+        map.put("username", usernameString);
+        map.put("password", passwordString);
+        HttpUtil connectNet = new HttpUtil("/login", HttpMethod.POST, map) {
             @Override
             protected void getResult(String result) {
-                Toast.makeText(getApplicationContext(), "Connect Server API success!="+result,
-                        Toast.LENGTH_SHORT).show();
                 try {
-                JSONObject jsonObject = new JSONObject(result);
-                    String username = jsonObject.getString("username");
-                    String password = jsonObject.getString("password");
-                    Toast.makeText(getApplicationContext(), "username="+username+" password:"+password,
+                    JSONObject jsonObject = new JSONObject(result);
+                    String statusCode = jsonObject.getString("statusCode");
+                    String value = jsonObject.getString("value");
+                    Toast.makeText(getApplicationContext(), "statusCode="+statusCode+" value:"+value,
                             Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -112,7 +108,7 @@ public class LoginActivity extends Activity {
             intent.putExtra("currentIndex",3);
             startActivity(intent);
             finish();
-        /*}*/
+        }
         return true;
     }
 
