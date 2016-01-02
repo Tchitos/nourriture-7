@@ -8,13 +8,13 @@ var
 	recipeService		= require('./routes/recipeService'),
 	typeService			= require('./routes/typeService'),
 	subtypeService		= require('./routes/subtypeService'),
+	imageService		= require('./routes/imageService'),
 	oauth20				= require('./oauth20.js')(TYPE),
 	model				= require('./model/' + TYPE),
 	config				= require('./config'),
 	session				= require('express-session'),
 	bodyParser			= require('body-parser'),
 	multer				= require('multer'),
-	fs					= require('fs-extra'),
 	upload				= multer({dest: '/tmp/nourriture'}),
 	server				= express();
 
@@ -29,10 +29,10 @@ server.use(express.static('../web'));
 
 server.use(function (req, res, next) {
 
-	res.setHeader('Access-Control-Allow-Origin', config.server.origin);
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-	res.setHeader('Access-Control-Allow-Credentials', true);
+	// res.setHeader('Access-Control-Allow-Origin', config.server.origin);
+	// res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+	// res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+	// res.setHeader('Access-Control-Allow-Credentials', true);
 	next();
 });
 
@@ -144,6 +144,8 @@ server.get('/getTypesDetails', typeService.findAllTypesDetails);
 server.get('/getRecipes', recipeService.findAllRecipes);
 server.get('/getRecipesByPage/:nbPage?', recipeService.findAllRecipesPaginate);
 server.post('/getRecipeByName', recipeService.findRecipeByName);
+
+server.get('/image/:imageName', imageService.findImageByName);
 
 // /***************************
 // *     END OAUTH SERVICE
