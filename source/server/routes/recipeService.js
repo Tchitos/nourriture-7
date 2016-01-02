@@ -6,6 +6,29 @@ var ObjectId = require('mongodb').ObjectID;
 var TYPE = 'mongodb';
 var model = require('../model/' + TYPE);
 
+exports.addRecipe = function(req, res, next) {
+
+	if (!req.session || !req.session.authorized)
+        return res.status(403).send();
+
+    if (!req.body.recipeName || !req.body.recipeDesc || !req.body.recipeTips ||!req.body.ingredients || !req.body.steps)
+        return res.send('Missing parameters');
+
+    var recipeName = req.body.recipeName;
+    var recipeDesc = req.body.recipeDesc;
+    var recipeTips = req.body.recipeTips;
+    var ingredients = JSON.parse(req.body.ingredients);
+    var steps = JSON.parse(req.body.steps);
+
+    model.recipe.add(recipeName, recipeDesc, recipeTips, ingredients, steps, function(err, recipe) {
+
+        if (err)
+            return res.status(500).send('An error occured.');
+
+        res.send('ok');
+    });
+};
+
 function loadRecipeDetailsLoop(res, recipe, tablesToLoad, index) {
 
 	if (tablesToLoad[index] === undefined) {

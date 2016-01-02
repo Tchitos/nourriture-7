@@ -18,13 +18,9 @@
     font-weight: bold;
 }
 
-.add-form form div.autocomplete {
-
-    margin-bottom: 24px;
-}
-
 .add-form form input[type="text"],
 .add-form form input[type="password"],
+.add-form form textarea,
 .add-form form select {
     width: 70%;
     padding: 8px;
@@ -48,4 +44,10 @@
     border-top: none;
     border-left: none;
     border-right: none;
+}
+
+.add-form form div.btn {
+
+    margin-bottom: 32px;
+    margin-left: 10px;
 }

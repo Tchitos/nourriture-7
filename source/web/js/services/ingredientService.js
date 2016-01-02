@@ -27,7 +27,6 @@ nourritureApp.factory('ingredientService', ['$http', 'httpService', function($ht
 
 			cb(response);
 		}, httpService.httpError);
-
 	}
 
 	return ingredientServiceInstance;

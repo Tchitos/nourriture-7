@@ -138,6 +138,7 @@ server.post('/ingredient/add', ingredientsService.addIngredient)
 
 server.get('/getTypesDetails', typeService.findAllTypesDetails);
 
+server.post('/recipe/add', recipeService.addRecipe);
 server.get('/getRecipes', recipeService.findAllRecipes);
 server.post('/getRecipeByName', recipeService.findRecipeByName);
 
