@@ -94,7 +94,6 @@ public class LoginActivity extends Activity {
             api.setPassword(passwordString);
             api.setRequest("/login");
             api.execute();
-
             try {
                 api.get(10000, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {

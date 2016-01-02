@@ -1,4 +1,4 @@
-var nourritureApp = angular.module('nourritureApp', ['ngRoute', 'ngCookies']);
+var nourritureApp = angular.module('nourritureApp', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngFileUpload']);
 
 nourritureApp.run(['$rootScope', 'loginService', function($rootScope, loginService) {
 
@@ -55,6 +55,16 @@ nourritureApp.config(function ($routeProvider) {
 			resolve: {
 				viewName: function() {
 					return '/views/recipes/recipes.html'	
+				}
+			}
+		})
+		.when('/recipes/add',
+		{
+			controller: 'AddRecipeController',
+			templateUrl: '/views/template/default.html',
+			resolve: {
+				viewName: function() {
+					return '/views/recipes/add.html'	
 				}
 			}
 		})

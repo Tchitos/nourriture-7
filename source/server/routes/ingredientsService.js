@@ -8,21 +8,24 @@ var model = require('../model/' + TYPE);
 
 exports.addIngredient = function(req, res, next) {
 
+	console.log(req.file.path);
+	return res.status(500).send('error');
+
 	if (!req.session || !req.session.authorized)
-        return res.status(403);
+		return res.status(403);
 
-    if (!req.body.ingredientName)
-        return res.send('Missing parameters');
+	if (!req.body.name)
+		return res.send('Missing parameters');
 
-    var ingredientName = req.body.ingredientName;
+	var ingredientName = req.body.name;
 
-    model.ingredient.add(ingredientName, function(err, user) {
+	model.ingredient.add(ingredientName, function(err, user) {
 
-        if (err)
-            return res.status(500).send('An error occured.');
+		if (err)
+			return res.status(500).send('An error occured.');
 
-        res.send('ok');
-    });
+		res.send('ok');
+	});
 };
 
 exports.findIngredientById = function(req, res) {
@@ -36,10 +39,14 @@ exports.findIngredientById = function(req, res) {
 };
 
 exports.findAllIngredients = function(req, res) {
-	db.collection('ingredients', function(err, collection) {
-		collection.find().toArray(function(err, items) {
-			res.send(items);
-		});
+	model.ingredient.fetchAll(function(err, ingredients) {
+		if (err != null)
+			res.status(401).send('An error occured during the search.');
+		else if (ingredients.length == 0)
+			res.status(201).send('No types found.');
+		else {
+			res.send(ingredients);
+		}
 	});
 };
 
@@ -88,8 +95,6 @@ exports.deleteIngredient = function(req, res) {
 	//     });
 	// });
 }
-
-
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.

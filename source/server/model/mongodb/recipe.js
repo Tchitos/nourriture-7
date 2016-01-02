@@ -3,11 +3,11 @@ var commonService = require('../../routes/commonService');
 var tokenModel = require('./token');
 var db = commonService.db;
 
-module.exports.fetchAll = function(cb) {
+module.exports.fetchAll = function(skip, limit, cb) {
 
 	db.collection('recipes', function(err, collection) {
 
-		collection.find().toArray(function(err, recipes) {
+		collection.find().skip(skip).limit(limit).toArray(function(err, recipes) {
 
 			if (err)
 				return cb();   

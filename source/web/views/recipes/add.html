@@ -1,0 +1,38 @@
+<div class="recipies">
+	<div class="col-md-6 add-form">
+		<span>{{viewScope.message}}</span>
+		<form ng-submit="addIngredient()">
+			<div>
+				<h5>Recipie Name:</h5>	
+				<input type="text" value="" ng-model="viewScope.ingredientName">
+			</div>
+			<div>
+				<h5>Recipie Main Ingredients:</h5>	
+				<select value="" ng-model="viewScope.ingredientName">
+					<option ng-repeat="ingredient in viewScope.ingredients">{{ingredient.name}}</option>
+				</select>
+			</div>
+			<div class="autocomplete">
+				<md-autocomplete
+					md-selected-item="selectedItem"
+					md-search-text-change="searchTextChange(viewScope.searchText)"
+					md-search-text="viewScope.searchText"
+					md-selected-item-change="selectedItemChange(item)"
+					md-items="item in querySearch(viewScope.searchText)"
+					md-item-text="item.display"
+					md-min-length="0"
+					placeholder="Ingredient">
+					<md-item-template>
+						<span md-highlight-text="viewScope.searchText" md-highlight-flags="^i">{{item.display}}</span>
+					</md-item-template>
+					<md-not-found>
+						No ingredients matching "{{viewScope.searchText}}" were found.
+						<a ng-click="newIngredient('viewScope.searchText')">Create a new one!</a>
+					</md-not-found>
+				</md-autocomplete>
+			</div>
+			<input type="submit" value="ADD">
+		</form>
+		<a href="#/account">Back</a>
+	</div>
+</div>
