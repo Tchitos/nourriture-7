@@ -97,6 +97,18 @@ exports.findAllRecipes = function(req, res) {
 	});
 };
 
+exports.countAllRecipes = function(req, res) {
+	
+	console.log('Get Recipes Count');
+
+	model.recipe.countAll(function(err, nbRecipes) {
+		if (err != null)
+			res.status(401).send('An error occured during the search.');
+		else
+			res.status(200).send(nbRecipes+'');
+	});
+};
+
 exports.findAllRecipesPaginate = function(req, res) {
 	
 	var limit = 10;

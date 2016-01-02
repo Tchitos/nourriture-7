@@ -142,6 +142,7 @@ server.get('/getIngredients', ingredientsService.findAllIngredients)
 server.get('/getTypesDetails', typeService.findAllTypesDetails);
 
 server.get('/getRecipes', recipeService.findAllRecipes);
+server.get('/getRecipesCount', recipeService.countAllRecipes);
 server.get('/getRecipesByPage/:nbPage?', recipeService.findAllRecipesPaginate);
 server.post('/getRecipeByName', recipeService.findRecipeByName);
 
