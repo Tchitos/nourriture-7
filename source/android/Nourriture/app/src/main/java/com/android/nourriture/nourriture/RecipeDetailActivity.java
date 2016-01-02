@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.android.nurriture.entity.RecipeInfo;
 import com.android.nurriture.entity.StepInfo;
+import com.android.nurriture.fragment.MyListView;
 import com.android.nurriture.util.HttpMethod;
 import com.android.nurriture.util.HttpUtil;
 import com.android.nuttriture.adapter.StepAdapter;
@@ -174,7 +175,7 @@ public class RecipeDetailActivity extends Activity{
 
     private void initList(){
         Log.v("initList:","enter");
-        ListView listView = (ListView)findViewById(R.id.recipe_steps);
+        MyListView listView = (MyListView)findViewById(R.id.recipe_steps);
         List<StepInfo> stepList = new ArrayList<StepInfo>();
         StepInfo stepInfo;
         for(int i = 0; i < number.length; i++){
@@ -188,7 +189,7 @@ public class RecipeDetailActivity extends Activity{
         StepAdapter stepAdapter = new StepAdapter(stepList,this.getLayoutInflater());
         listView.setAdapter(stepAdapter);
 
-        fixListViewHeight(listView, stepAdapter);
+        //fixListViewHeight(listView, stepAdapter);
     }
 
     public void fixListViewHeight(ListView listView,StepAdapter stepAdapter) {
