@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,6 +24,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,12 +89,22 @@ public class LoginActivity extends Activity {
             toast.show();
         } else {
 
-            PostRequestAPI api = new PostRequestAPI();
+            PostRequestAPI api = new PostRequestAPI(this);
             api.setUsername(usernameString);
             api.setPassword(passwordString);
             api.setRequest("/login");
             api.execute();
 
+            try {
+                api.get(10000, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
+                api.setError("TimeOut");
+                e.printStackTrace();
+            }
             if (api.getSuccess() == false) {
                 Toast toast = Toast.makeText(getApplicationContext(),
                         api.getError(), Toast.LENGTH_SHORT);
@@ -103,60 +117,9 @@ public class LoginActivity extends Activity {
                 intent.putExtra("currentIndex",3);
                 startActivity(intent);
                 finish();
+
             }
         }
-/*
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("username", usernameString);
-        map.put("password", passwordString);
-*/
-
         return true;
-    }
-
-    protected void urlConn()
-    {
-        try{
-            String urlString = "http://104.236.38.237:3000/login";
-            URL url = new URL(urlString);
-            HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
-            httpconn.setRequestMethod("POST");
-            httpconn.setDoOutput(true);
-            httpconn.setDoInput(true);
-            httpconn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            httpconn.connect();
-
-            DataOutputStream out = new DataOutputStream(httpconn
-                    .getOutputStream());
-            String content = "username=hlh";
-            content +="&password=hlh";
-            out.writeBytes(content);
-
-            out.flush();
-            out.close();
-            if (httpconn.getResponseCode() == 200) {
-                Toast.makeText(getApplicationContext(), "Connect Server API success!",
-                        Toast.LENGTH_SHORT).show();
-                InputStream is = httpconn.getInputStream();
-                byte[] data = readStream(is);
-                String json = new String(data);
-            }
-            }catch (Exception e){
-            Toast.makeText(getApplicationContext(), "Connect Server Failed!", Toast.LENGTH_SHORT)
-                    .show();
-            e.printStackTrace();
-        }
-    }
-
-    private static byte[] readStream(InputStream inputStream) throws Exception {
-        ByteArrayOutputStream bout = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len = 0;
-        while ((len = inputStream.read(buffer)) != -1) {
-            bout.write(buffer, 0, len);
-        }
-        bout.close();
-        inputStream.close();
-        return bout.toByteArray();
     }
 }
