@@ -1,4 +1,4 @@
-var nourritureApp = angular.module('nourritureApp', ['ngRoute', 'ngMaterial']);
+var nourritureApp = angular.module('nourritureApp', ['ngRoute', 'ngMaterial', 'ngCookies', 'ngFileUpload']);
 
 nourritureApp.run(['$rootScope', 'loginService', function($rootScope, loginService) {
 

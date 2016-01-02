@@ -13,8 +13,11 @@ var
 	config				= require('./config'),
 	session				= require('express-session'),
 	bodyParser			= require('body-parser'),
+	multer				= require('multer'),
+	fs					= require('fs-extra'),
+	upload				= multer({dest: '/tmp/nourriture'}),
 	server				= express();
-	
+
 server.set('oauth2', oauth20);
 
 //Middleware
@@ -133,12 +136,13 @@ server.post('/register', usersService.register);
 server.get('/stilllogged', usersService.stilllogged);
 server.get('/logout', usersService.logout);
 
-server.get('/ingredients', ingredientsService.findAllIngredients)
-server.post('/ingredient/add', ingredientsService.addIngredient)
+server.post('/ingredient/add', upload.single('photo'), ingredientsService.addIngredient)
+server.get('/getIngredients', ingredientsService.findAllIngredients)
 
 server.get('/getTypesDetails', typeService.findAllTypesDetails);
 
 server.get('/getRecipes', recipeService.findAllRecipes);
+server.get('/getRecipesByPage/:nbPage?', recipeService.findAllRecipesPaginate);
 server.post('/getRecipeByName', recipeService.findRecipeByName);
 
 // /***************************
