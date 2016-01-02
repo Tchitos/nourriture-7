@@ -105,7 +105,7 @@ public class RecipeDetailActivity extends Activity{
                                 Log.v("username:", username);
                                 nameOfrecipe = (TextView)findViewById(R.id.recipe_name);
                                 nameOfrecipe.setText(recipename);
-                                author_name = (TextView)findViewById(R.id.author_name);
+                                //author_name = (TextView)findViewById(R.id.author_name);
                                 author_name.setText(username);
                                 recipe_intro = (TextView)findViewById(R.id.recipe_intro);
                                 recipe_intro.setText(desc);

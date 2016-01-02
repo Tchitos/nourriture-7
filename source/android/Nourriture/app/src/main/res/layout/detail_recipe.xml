@@ -36,44 +36,21 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/recipe_img"
                 android:background="@mipmap/home_recipe"/>
+
             <RelativeLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/recipe_name"
+                    android:text="Scrambled egg with tomato"
                     android:textColor="#000000"
-                    android:textSize="30sp"
-                    android:textStyle="bold"
-                    android:text="zhenzhu"
-                    android:layout_margin="10dp"
-                    android:layout_alignParentLeft="true"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="right"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_width="100px"
-                        android:layout_height="100px"
-                        android:id="@+id/recipe_author_img"
-                        android:background="@mipmap/anthor_img"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textColor="#000000"
-                        android:padding="5dp"
-                        android:textSize="20dp"
-                        android:id="@+id/author_name"
-                        android:text="aaaaaaaa"/>
-                </LinearLayout>
+                    android:textSize="25dp"
+                    android:textStyle="bold"/>
 
             </RelativeLayout>
 
@@ -81,7 +58,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="Intro"
-                    android:textSize="30sp"
+                    android:textSize="25sp"
                     android:textStyle="bold"
                     android:textColor="#000000"
                     android:layout_margin="10dp"/>
@@ -90,8 +67,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/recipe_intro"
-                    android:textSize="25sp"
-                    android:textStyle="italic"
+                    android:textSize="20dp"
                     android:textColor="#000000"
                     android:text="Pomelo spicy chicken wings can pour wine as a kind of snacks, can also be a kind of office work leisure snacks.Which is characterized by special pomelo spiced salt, grapefruit aromas and spicy chicken wings pepper aroma.This kind of hot even children can accept."/>
             <TextView
