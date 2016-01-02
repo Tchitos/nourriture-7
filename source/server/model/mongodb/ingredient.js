@@ -3,12 +3,13 @@ var commonService = require('../../routes/commonService');
 var tokenModel = require('./token');
 var db = commonService.db;
 
-module.exports.add = function(ingredientName, cb) {
+module.exports.add = function(ingredientName, imageId, cb) {
 
 	db.collection('ingredients', function(err, collection) {
 
 		ingredient = {
-			'ingredientName': ingredientName
+			'ingredientName': ingredientName,
+			'imageId': imageId
 		};
 
 		collection.insert(ingredient, {safe:true}, function(err, result) {

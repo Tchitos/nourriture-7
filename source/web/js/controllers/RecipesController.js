@@ -15,6 +15,9 @@ nourritureApp.controller('RecipesController', ['$scope', 'viewName', 'loginServi
 	});
 
 	typeService.getTypes(function(types) {
+		
+		if (types == 'No types found.')
+			return;
 		$scope.viewScope.types = types;
 	});
 }]);

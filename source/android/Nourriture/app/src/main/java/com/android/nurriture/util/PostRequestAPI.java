@@ -31,26 +31,30 @@ import java.util.List;
 
 public class PostRequestAPI extends AsyncTask<String, Void, Void> {
 
+    Activity activity;
+    ProgressDialog progressDialog;
     String username;
     String password;
     String url = "http://104.236.38.237";
     Boolean success = false;
     String error = null;
 
+    public PostRequestAPI(Activity activity) {
+        this.activity = activity;
+        this.progressDialog = new ProgressDialog(activity);
+    }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
 
-     //   progressDialog.setTitle("Please wait...");
-   //     progressDialog.show();
+        progressDialog.setTitle("Please wait...");
+        progressDialog.show();
     }
 
     @Override
     protected Void doInBackground(String... params) {
 
-        Log.v("TOTO", "Username = " + username);
-        Log.v("TOTO", "Password = " + password);
 
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(url);
@@ -67,8 +71,6 @@ public class PostRequestAPI extends AsyncTask<String, Void, Void> {
 
             String responseBody = EntityUtils.toString(response.getEntity());
 
-            Log.v("TOTO", "Status code : " + response.getStatusLine().getStatusCode());
-            Log.v("TOTO", "Response : " + responseBody);
             if (response.getStatusLine().getStatusCode() == 200){
                 this.success = true;
             } else {
@@ -87,7 +89,7 @@ public class PostRequestAPI extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
 
-       // progressDialog.hide();
+       progressDialog.hide();
 
     }
 
@@ -109,5 +111,9 @@ public class PostRequestAPI extends AsyncTask<String, Void, Void> {
 
     public String getError() {
         return (this.error);
+    }
+
+    public void setError(String err) {
+        this.error = err;
     }
 }

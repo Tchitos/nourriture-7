@@ -16,13 +16,12 @@ exports.logintest = function(req, res) {
 		};
     res.send(JSON.stringify(myuser));
 };
+
 exports.login = function(req, res, next) {
 
-    console.log('tryLogin');
     // Already logged in
     if (req.session.authorized)
         return res.status(200).send('Already logged');
-	console.log("req.body:"+req.body.username);
     if (!req.body.username || !req.body.password)
         return res.send('Missing parameters');
 

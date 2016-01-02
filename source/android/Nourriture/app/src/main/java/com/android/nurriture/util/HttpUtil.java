@@ -102,7 +102,7 @@ public abstract class HttpUtil extends AsyncTask<Void, Void, String> {
             }
             return json.toString();
 
-            
+
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
