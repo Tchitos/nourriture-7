@@ -18,6 +18,11 @@
     font-weight: bold;
 }
 
+.add-form form div.autocomplete {
+
+    margin-bottom: 24px;
+}
+
 .add-form form input[type="text"],
 .add-form form input[type="password"],
 .add-form form select {

@@ -43,6 +43,7 @@ exports.login = function(req, res, next) {
             delete user.password;
             req.session.user = user;
             req.session.authorized = true;
+            console.log(req.session);
             res.send(JSON.stringify(user));
         });
     });
@@ -85,6 +86,7 @@ exports.register = function(req, res, next) {
 
 exports.stilllogged = function(req, res, next) {
     
+    console.log(req.session);
     if (req.session.authorized)
         res.send(JSON.stringify(req.session.user));
     else
