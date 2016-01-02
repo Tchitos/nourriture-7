@@ -81,10 +81,17 @@ function loadRecipeDetails(res, recipe) {
 	});
 }
 
-exports.findRecipeByName = function(req, res) {
+exports.findRecipeByName = function(req, res, next) {
+
+	if (req.body.name === undefined) {
+		res.status(401).send('No name given.');
+		return;
+	}
+
 	var name = req.body.name;
 
 	console.log('Get a recipe: ' + name);
+
 
 	model.recipe.fetchByName(name, function(err, recipeRes) {
 		var recipe = null;
@@ -103,13 +110,47 @@ exports.findRecipeByName = function(req, res) {
 exports.findAllRecipes = function(req, res) {
 	
 	console.log('GetRecipes');
-	model.recipe.fetchAll(function(err, recipes) {
+	model.recipe.fetchAll(0, 0, function(err, recipes) {
 		if (err != null)
 			res.status(401).send('An error occured during the search.');
 		else if (recipes.length == 0)
 			res.status(201).send('No recipes found.');
 		else
 			res.send(recipes);
+	});
+};
+
+exports.countAllRecipes = function(req, res) {
+	
+	console.log('Get Recipes Count');
+
+	model.recipe.countAll(function(err, nbRecipes) {
+		if (err != null)
+			res.status(401).send('An error occured during the search.');
+		else
+			res.status(200).send(nbRecipes+'');
+	});
+};
+
+exports.findAllRecipesPaginate = function(req, res) {
+	
+	var limit = 10;
+	var nbPage = 1;
+
+	console.log(req.params);
+	if (req.params.nbPage != undefined && req.params.nbPage > 0) {
+		nbPage = req.params.nbPage;
+	}
+
+	model.recipe.fetchAll((nbPage - 1) * limit, limit, function(err, recipes) {
+		if (err != null)
+			res.status(401).send('An error occured during the search.');
+		else if (recipes.length == 0)
+			res.status(201).send('No recipes found.');
+		else {
+			res.send(recipes);
+			console.log(recipes);
+		}
 	});
 };
 

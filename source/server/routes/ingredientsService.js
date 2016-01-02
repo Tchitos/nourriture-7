@@ -1,45 +1,75 @@
-var mongo = require('mongodb');
-var commonService = require('./commonService');
-var BSON = mongo.BSONPure;
-var db = commonService.db;
-var ObjectId = require('mongodb').ObjectID;
-var TYPE = 'mongodb';
-var model = require('../model/' + TYPE);
+var mongo 			= require('mongodb');
+var commonService	= require('./commonService');
+var BSON			= mongo.BSONPure;
+var db 				= commonService.db;
+var ObjectId 		= require('mongodb').ObjectID;
+var TYPE			= 'mongodb';
+var model			= require('../model/' + TYPE);
+var	fs				= require('fs-extra');
+var getPath			= require('path');
 
 exports.addIngredient = function(req, res, next) {
 
 	if (!req.session || !req.session.authorized)
-        return res.status(403);
+		return res.status(403).send();
 
-    if (!req.body.ingredientName)
-        return res.send('Missing parameters');
+	if (!req.body.name)
+		return res.send('Missing parameters');
 
-    var ingredientName = req.body.ingredientName;
 
-    model.ingredient.add(ingredientName, function(err, user) {
+	var ingredientName = req.body.name;
 
-        if (err)
-            return res.status(500).send('An error occured.');
+	var path = './uploads/'+req.file.filename;
+	path = getPath.resolve(process.cwd(), path);
 
-        res.send('ok');
-    });
+	fs.move(req.file.path, path, function (err) {
+
+		if (err)
+			return res.status(500).send("The image could'nt be uploaded.");
+	});
+
+	model.image.add(req.file.originalname,
+					path,
+					req.file.mimetype,
+					req.file.size,
+					function(err, image) {
+
+		if (err)
+			return res.status(500).send("The image could'nt be uploaded.");
+	});
+
+	model.ingredient.add(ingredientName, image._id, function(err, ingredient) {
+
+		if (err)
+			return res.status(500).send('An error occured.');
+
+		res.send('ok');
+	});
 };
 
 exports.findIngredientById = function(req, res) {
 	var id = req.params.id;
 	console.log('Get an ingredient: ' + id);
-	db.collection('ingredients', function(err, collection) {
-		collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
-			res.send(item);
-		});
+	model.ingredient.fetchById(id, function(err, ingredients) {
+		if (err != null)
+			res.status(401).send('An error occured during the search.');
+		else if (ingredients.length == 0)
+			res.status(201).send('No types found.');
+		else {
+			res.send(ingredients);
+		}
 	});
 };
 
 exports.findAllIngredients = function(req, res) {
-	db.collection('ingredients', function(err, collection) {
-		collection.find().toArray(function(err, items) {
-			res.send(items);
-		});
+	model.ingredient.fetchAll(function(err, ingredients) {
+		if (err != null)
+			res.status(401).send('An error occured during the search.');
+		else if (ingredients.length == 0)
+			res.status(201).send('No types found.');
+		else {
+			res.send(ingredients);
+		}
 	});
 };
 
@@ -88,8 +118,6 @@ exports.deleteIngredient = function(req, res) {
 	//     });
 	// });
 }
-
-
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 // Populate database with sample data -- Only used once: the first time the application is started.

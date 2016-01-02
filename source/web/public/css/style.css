@@ -698,7 +698,10 @@ span.ui_title_wrap_right {
     outline: none;
     color: #000;
     margin-bottom: 32px;
-	margin-right: 58px;
+    margin-right: 58px;
+}
+.log form input[type="file"] {
+    margin-bottom: 32px;
 }
 .log form input[type=submit] {
     border: none;

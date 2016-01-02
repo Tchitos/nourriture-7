@@ -1,10 +1,20 @@
 <div class="ingredients">
 	<div class="col-md-6 log">
 		<span>{{viewScope.message}}</span>
-		<form ng-submit="addIngredient()">
-			<h5>Ingredient Name:</h5>	
-			<input type="text" value="" ng-model="viewScope.ingredientName">
-			<input type="submit" value="ADD">
+		<form ng-submit="addIngredient(photo)">
+			<h5>Add Ingredient:</h5>
+			<br />
+			<div>
+				<h5>Name:</h5>
+				<input type="text" value="" ng-model="viewScope.ingredient.Name">
+			</div>
+			<div>
+				<h5>Photo:</h5>
+				<input type="file" value="" ngf-select ng-model="photo" name="file" accept="image/*" ngf-max-size="2MB">
+			</div>
+			<div>
+				<input type="submit" value="ADD">
+			</div>
 		</form>
 		<a href="#/account">Back</a>
 	</div>

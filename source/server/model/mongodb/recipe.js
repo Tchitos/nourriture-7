@@ -25,14 +25,14 @@ module.exports.add = function(recipeName, recipeDesc, recipeTips, ingredients, s
 	});
 }
 
-module.exports.fetchAll = function(cb) {
+module.exports.fetchAll = function(skip, limit, cb) {
 
 	db.collection('recipes', function(err, collection) {
 
-		collection.find().toArray(function(err, recipes) {
+		collection.find().skip(skip).limit(limit).toArray(function(err, recipes) {
 
 			if (err)
-				return cb();   
+				return cb(err);   
 
 			return cb(null, recipes);
 		});
@@ -46,7 +46,7 @@ module.exports.fetchById = function(id, cb) {
 		collection.findOne({'_id': new mongo.ObjectId(id)}, function(err, recipe) {
 
 			if (err)
-				return cb();   
+				return cb(err);   
 
 			return cb(null, recipe);
 		});
@@ -60,9 +60,23 @@ module.exports.fetchByName = function(name, cb) {
 		collection.findOne({'name':name}, function(err, recipe) {
 
 			if (err)
-				return cb();
+				return cb(err);
 
 			return cb(null, recipe);
+		});
+	});
+};
+
+module.exports.countAll = function(cb) {
+
+	db.collection('recipes', function(err, collection) {
+
+		collection.count(function(err, nbRecipes) {
+
+			if (err)
+				return cb(err);   
+
+			return cb(null, nbRecipes);
 		});
 	});
 };

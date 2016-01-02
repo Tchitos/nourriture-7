@@ -1,4 +1,4 @@
-nourritureApp.factory('ingredientService', ['$http', 'httpService', function($http, httpService) {
+nourritureApp.factory('ingredientService', ['$http', 'httpService', 'Upload', function($http, httpService, Upload) {
 
 	var ingredientServiceInstance = {
 
@@ -8,7 +8,7 @@ nourritureApp.factory('ingredientService', ['$http', 'httpService', function($ht
 
 	function getIngredientsFunction(cb) {
 
-		var url = httpService.makeUrl('/ingredients');
+		var url = httpService.makeUrl('/getIngredients');
 
 		$http.get(url).then(function(response) {
 
@@ -16,14 +16,19 @@ nourritureApp.factory('ingredientService', ['$http', 'httpService', function($ht
 		}, httpService.httpError);
 	}
 
-	function addIngredientFunction(ingredientName, cb) {
+	function addIngredientFunction(ingredient, file, cb) {
 
-		var data = {
-			'ingredientName': ingredientName
-		}
 		var url = httpService.makeUrl('/ingredient/add');
 
-		$http.post(url, data).then(function(response) {
+		console.log(file);
+		console.log(ingredient);
+
+		file.upload = Upload.upload({
+		  url: url,
+		  data: {photo: file, name: ingredient['Name']},
+		});
+
+		file.upload.then(function(response) {
 
 			cb(response);
 		}, httpService.httpError);
