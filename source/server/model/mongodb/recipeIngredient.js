@@ -3,6 +3,34 @@ var commonService = require('../../routes/commonService');
 var tokenModel = require('./token');
 var db = commonService.db;
 
+function addRecipeIngredientRec(i, recipeId, ingredients, recipeIngredientsIds, cb) {
+
+	if (i >= ingredients.length)
+		return (cb(recipeIngredientsIds));
+
+	db.collection('recipeIngredients', function(err, collection) {
+
+		var recipeIngredients = {
+			'quantity': ingredients[i].quantity,
+			'mandatory': ingredients[i].mandatory,
+			'ingredient': new mongo.ObjectID(ingredients[i].ingredient),
+			'recipe': new mongo.ObjectID(recipeId),
+		};
+		collection.insert(recipeIngredients, {safe:true}, function(err, result) {
+
+			recipeIngredientsIds.push(result.ops[0]._id);
+			addRecipeIngredientRec(i + 1, recipeId, ingredients, recipeIngredientsIds, cb);
+		});
+	});
+}
+
+module.exports.add = function(recipeId, ingredients, cb) {
+
+	var recipeIngredientsIds = [];
+	var i = 0;
+	addRecipeIngredientRec(i, recipeId, ingredients, recipeIngredientsIds, cb);
+}
+
 module.exports.fetchAll = function(cb) {
 
 	db.collection('recipeIngredients', function(err, collection) {

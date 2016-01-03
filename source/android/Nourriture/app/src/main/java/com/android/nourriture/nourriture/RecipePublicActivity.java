@@ -109,12 +109,12 @@ public class RecipePublicActivity extends Activity {
 
         img_select = menu_cover.getId();
 
-        Map<String,Integer> mainIngred0 = new HashMap<>();
+        Map<String,Integer> mainIngred0 = new HashMap<String,Integer>();
         mainIngred0.put("id", R.id.ingredient_name_1);
         mainIngred0.put("content", R.id.ingredient_cotent_1);
         idMainIngredientList.add(mainIngred0);
 
-        Map<String,Integer> subIngred0 = new HashMap<>();
+        Map<String,Integer> subIngred0 = new HashMap<String,Integer>();
         subIngred0.put("id", R.id.sub_name_1);
         subIngred0.put("content",R.id.sub_cotent_1);
         idSubIngredientList.add(mainIngred0);
@@ -127,7 +127,7 @@ public class RecipePublicActivity extends Activity {
                 int name_id = ++count_ingredient;
                 int content_id = ++count_ingredient;
 
-                Map<String,Integer> mainIngred = new HashMap<>();
+                Map<String,Integer> mainIngred = new HashMap<String,Integer>();
                 mainIngred.put("id", name_id);
                 mainIngred.put("content", content_id);
                 idMainIngredientList.add(mainIngred);

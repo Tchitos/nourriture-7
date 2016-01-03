@@ -7,12 +7,13 @@ nourritureApp.factory('recipeService', ['$http', 'httpService', '$location', fun
 		'getRecipeByName': getRecipeByNameFunction
 	};
 
-	function addRecipeFunction(recipeName, recipeDesc, recipeTips, ingredients, steps, cb) {
+	function addRecipeFunction(recipeName, recipeDesc, recipeTips, equipements, ingredients, steps, cb) {
 
 		var data = {
 			'recipeName': recipeName,
 			'recipeDesc': recipeDesc,
 			'recipeTips': recipeTips,
+			'equipements': equipements,
 			'ingredients': ingredients,
 			'steps': steps,
 		};
