@@ -7,6 +7,7 @@ public class IngredientInfo {
     private String ingreName;
     private String ingreIntro;
     private String img;
+    private String quantity;
 
     public String getIngreName() {
         return ingreName;
@@ -30,5 +31,13 @@ public class IngredientInfo {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
     }
 }

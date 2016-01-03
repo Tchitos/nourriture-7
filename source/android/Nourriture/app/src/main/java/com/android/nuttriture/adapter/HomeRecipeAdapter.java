@@ -27,8 +27,6 @@ import java.util.List;
 public class HomeRecipeAdapter extends BaseAdapter {
     List<RecipeInfo> recipeInfoList;
     LayoutInflater inflater;
-    //ImageLoader imageLoader;
-    //ImageView imageView;
     MyListView listView;
     SyncImageLoader syncImageLoader;
     private Context context;
@@ -37,9 +35,8 @@ public class HomeRecipeAdapter extends BaseAdapter {
         this.inflater = inflater;
         this.context = context;
         this.listView = listView;
-        //imageLoader=new ImageLoader(context);
 
-        syncImageLoader = new SyncImageLoader();
+
     }
 
     public HomeRecipeAdapter(List<RecipeInfo> recipeInfoList) {
@@ -74,49 +71,39 @@ public class HomeRecipeAdapter extends BaseAdapter {
         String path = Config.SERVER_URL+"/public/images/"+imagepath;
         Log.v("image path:",path);
 
-        //imageLoader.DisplayImage(path, imageView);
+        if(imagepath!="" && !imagepath.equals("") && imagepath!=null){
+            syncImageLoader = new SyncImageLoader();
+            syncImageLoader.loadImage(position, path, new SyncImageLoader.OnImageLoadListener(){
 
-        syncImageLoader.loadImage(position, path, new SyncImageLoader.OnImageLoadListener(){
+                @Override
+                public void onImageLoad(Integer t, Drawable drawable) {
+                    //BookModel model = (BookModel) getItem(t);
+                    Log.v("get image", "success");
+                    Log.v("Integer",t+"");
+                    Log.v("Drawable:",drawable.toString());
+                    View view = listView.findViewWithTag(t);
+                    if(view != null){
+                        Log.v("view is not null","yes");
+                        ImageView imageView = (ImageView)view.findViewById(R.id.recipe_img);
+                        //imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        imageView.setBackgroundDrawable(drawable);
+                        //imageView.setImageDrawable(drawable);
 
-            @Override
-            public void onImageLoad(Integer t, Drawable drawable) {
-                //BookModel model = (BookModel) getItem(t);
-                Log.v("get image", "success");
-                Log.v("Integer",t+"");
-                Log.v("Drawable:",drawable.toString());
-                View view = listView.findViewWithTag(t);
-                if(view != null){
-                    Log.v("view is not null","yes");
-                    ImageView imageView = (ImageView)view.findViewById(R.id.recipe_img);
-                    //imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                    imageView.setBackgroundDrawable(drawable);
+                    }else{
+                        Log.v("view is null","no");
+                    }
+
                     //imageView.setImageDrawable(drawable);
-
-                }else{
-                    Log.v("view is null","no");
+                }
+                @Override
+                public void onError(Integer t) {
+                    Log.v("here is worng",t+"");
                 }
 
-                //imageView.setImageDrawable(drawable);
-            }
-            @Override
-            public void onError(Integer t) {
-                Log.v("here is worng",t+"");
-            }
+            });
+        }
 
-        });
+
         return convertView;
     }
-//    SyncImageLoader.OnImageLoadListener imageLoadListener = new SyncImageLoader.OnImageLoadListener(){
-//
-//        @Override
-//        public void onImageLoad(Integer t, Drawable drawable) {
-//            //BookModel model = (BookModel) getItem(t);
-//            Log.v("get image", "success");
-//            imageView.setBackgroundDrawable(drawable);
-//        }
-//        @Override
-//        public void onError(Integer t) {
-//        }
-//
-//    };
 }

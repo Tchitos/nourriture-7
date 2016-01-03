@@ -33,8 +33,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2015/12/9.
@@ -54,21 +55,12 @@ public class HomeFragment extends Fragment {
 
     private MyListView listView;
     private List<RecipeInfo> recipeInfoList;
-
-    private ScheduledExecutorService scheduledExecutorService;
-    HomeRecipeAdapter homeRecipeAdapter;
-
+    private HomeRecipeAdapter homeRecipeAdapter;
     private LinearLayout search_linear;
-
     private TextView loadmore,nomore;
-    // ListViewView
-    private View moreView;
     private Handler handler;
 
     private int MaxDateNum;
-
-    private int lastVisibleIndex;
-
     private ScrollView scrollView;
     private View contentView;
 
@@ -87,36 +79,40 @@ public class HomeFragment extends Fragment {
                         && contentView.getMeasuredHeight() <= scrollView.getScrollY()
                         + scrollView.getHeight()) {
                     if(event.getAction() == MotionEvent.ACTION_MOVE){
-                        if(homeRecipeAdapter.getCount() == MaxDateNum ){
-                            loadmore.setVisibility(View.GONE);
-                            nomore.setVisibility(View.VISIBLE);
-                        }else{
+//                        if(homeRecipeAdapter.getCount() == MaxDateNum ){
+//                            loadmore.setVisibility(View.GONE);
+//                            nomore.setVisibility(View.VISIBLE);
+//                        }else{
                             loadmore.setVisibility(View.VISIBLE);
                             nomore.setVisibility(View.GONE);
+                        //}
+
+                    }else if (event.getAction() == MotionEvent.ACTION_UP ) {
+                        Log.v("getMeasuredHeight:",contentView.getMeasuredHeight()+"");
+                        Log.v("start load more:", "homeRecipeAdapter.getCount()" + homeRecipeAdapter.getCount());
+                        Log.v("start load more:", "scrollView.getScrollY()" + scrollView.getScrollY());
+//                            if (contentView != null
+//                                    && contentView.getMeasuredHeight() <= scrollView.getScrollY()
+//                                    + scrollView.getHeight()) {
+
+                        if(homeRecipeAdapter.getCount() == MaxDateNum){
+                            loadmore.setVisibility(View.GONE);
+                            nomore.setVisibility(View.VISIBLE);
+                        }else {
+                            loadMoreDate();
+                            //homeRecipeAdapter.notifyDataSetChanged();
                         }
-
-                    }else{
-                        if (event.getAction() == MotionEvent.ACTION_UP) {
-                            Log.v("getMeasuredHeight:",contentView.getMeasuredHeight()+"");
-                            Log.v("start load more:", "homeRecipeAdapter.getCount()" + homeRecipeAdapter.getCount());
-                            Log.v("start load more:", "scrollView.getScrollY()" + scrollView.getScrollY());
-                            if (contentView != null
-                                    && contentView.getMeasuredHeight() <= scrollView.getScrollY()
-                                    + scrollView.getHeight()) {
-
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Log.v("start load more1:", "zidongjiazai");
-                                        loadMoreDate();
-                                        loadmore.setVisibility(View.GONE);
-                                        //nomore.setVisibility(View.GONE);
-                                        homeRecipeAdapter.notifyDataSetChanged();
-                                    }
-
-                                }, 2000);
-                            }
-                        }
+//                            handler.postDelayed(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    Log.v("start load more1:", "zidongjiazai");
+//                                    loadMoreDate();
+//                                    loadmore.setVisibility(View.GONE);
+//                                    homeRecipeAdapter.notifyDataSetChanged();
+//                                }
+//
+//                            }, 2000);
+                        //}
                     }
 
                 }
@@ -161,117 +157,24 @@ public class HomeFragment extends Fragment {
         };
         connectNet.execute();
 
-       // moreView = getActivity().getLayoutInflater().inflate(R.layout.moredata, null);
-
-//        loadmore = (TextView) moreView.findViewById(R.id.loadmore);
-//        nomore = (TextView) moreView.findViewById(R.id.nomore);
         handler = new Handler();
         listView = (MyListView)view.findViewById(R.id.recipe_home_listView);
         recipeInfoList = new ArrayList<RecipeInfo>();
         homeRecipeAdapter = new HomeRecipeAdapter(getActivity().getApplicationContext(),recipeInfoList, inflater,listView);
         loadMoreDate();
-        homeRecipeAdapter.notifyDataSetChanged();
-//        HttpUtil connectNet = new HttpUtil(
-//                "/getRecipes",
-//                HttpMethod.GET){
-//            @Override
-//            protected void getResult(String result) {
-//                //Toast.makeText(getActivity().getApplicationContext(), "Connect Server API success!=" + result,
-//                //        Toast.LENGTH_SHORT).show();
-//                try {
-//                    JSONObject jsonObject = new JSONObject(result);
-//                    String statusCode = jsonObject.getString("statusCode");
-//                    String value = jsonObject.getString("value");
-//                    Log.v("get value",value);
-//
-//                    try {
-//                        JSONArray jsonArray = new JSONArray(value);
-//                        for (int i = 0; i < jsonArray.length(); i++) {
-//                            jsonObject = jsonArray.getJSONObject(i);
-//                            String name = jsonObject.getString("name");
-//                            String image = jsonObject.getString("image");
-//                            RecipeInfo recipe = new RecipeInfo();
-//                            Log.v("name:", name);
-//                            recipe.setName(name);
-//                            recipe.setImgpath(image);
-//                            Log.v("image:", image);
-//                            recipeInfoList.add(recipe);
-//                            homeRecipeAdapter.notifyDataSetChanged();
-//                        }
-//                    } catch (JSONException e) {
-//                        // TODO Auto-generated catch block
-//                        e.printStackTrace();
-//                    }
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        };
-
-        //connectNet.execute();
-        Log.v("connect:", "connectNet.execute");
-        //homeRecipeAdapter = new HomeRecipeAdapter(getActivity().getApplicationContext(),recipeInfoList, inflater,listView);
 
         listView.setAdapter(homeRecipeAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), RecipeDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("recipename", recipeInfoList.get(position).getName());
-                intent.putExtras(bundle);
-                startActivity(intent);
+                        Intent intent = new Intent(getActivity(), RecipeDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("recipename", recipeInfoList.get(position).getName());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
 
             }
         });
-
-//        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-//                Log.v("scrollState:","scrollState"+scrollState);
-//                Log.v("start load more:","homeRecipeAdapter.getCount()"+homeRecipeAdapter.getCount());
-//                Log.v("start load more:","lastVisibleIndex"+lastVisibleIndex);
-//                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
-//                        && lastVisibleIndex == homeRecipeAdapter.getCount()) {
-//                    Log.v("start load more:","zidongjiazai");
-
-//                    loadmore.setVisibility(View.VISIBLE);
-//                    nomore.setVisibility(View.GONE);
-//                    handler.postDelayed(new Runnable() {
-//
-//                        @Override
-//                        public void run() {
-//                            Log.v("start load more1:","zidongjiazai");
-//                            loadMoreDate();
-//                            loadmore.setVisibility(View.GONE);
-//                            nomore.setVisibility(View.GONE);
-//                            homeRecipeAdapter.notifyDataSetChanged();
-//                        }
-//
-//                    }, 2000);
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//
-
-//                lastVisibleIndex = firstVisibleItem + visibleItemCount - 1;
-//
-//                Log.v("lastVisibleIndex",lastVisibleIndex+"");
-
-//                if (totalItemCount == MaxDateNum + 1) {
-//                    Log.v("totalItemCount",totalItemCount+"");
-//                    // listView.removeFooterView(moreView);
-//                    nomore.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        });
-
 
     }
 
@@ -281,7 +184,7 @@ public class HomeFragment extends Fragment {
         Log.v("the page:", page + "");
         Log.v("count", count + "");
         Log.v("MaxDateNum", MaxDateNum + "");
-        if(count < MaxDateNum){
+        //if(count < MaxDateNum){
             HttpUtil connectNet = new HttpUtil(
                     "/getRecipesByPage/:"+page,
                     HttpMethod.GET){
@@ -305,8 +208,9 @@ public class HomeFragment extends Fragment {
                                 JSONArray jsonArray = new JSONArray(value);
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     jsonObject = jsonArray.getJSONObject(i);
-                                    String name = jsonObject.getString("name");
-                                    String image = jsonObject.getString("image");
+                                    String name = jsonObject.optString("name");
+                                    String image = jsonObject.optString("image");
+                                    Log.v("jsonObject.optString",jsonObject.optString("image"));
                                     RecipeInfo recipe = new RecipeInfo();
                                     Log.v("name:", name);
                                     recipe.setName(name);
@@ -314,6 +218,8 @@ public class HomeFragment extends Fragment {
                                     Log.v("image:", image);
                                     recipeInfoList.add(recipe);
                                 }
+                                loadmore.setVisibility(View.GONE);
+                                homeRecipeAdapter.notifyDataSetChanged();
                             } catch (JSONException e) {
                                 // TODO Auto-generated catch block
                                 e.printStackTrace();
@@ -327,26 +233,7 @@ public class HomeFragment extends Fragment {
 
             };
             connectNet.execute();
-        }
-
-
-//        if (count + 5 < MaxDateNum) {
-//
-//            for (int i = count; i < count + 5; i++) {
-//                RecipeInfo recipe = new RecipeInfo();
-//                recipe.setName(i + "");
-//                recipe.setImgpath("baicai.jpg");
-//                recipeInfoList.add(recipe);
-//            }
-//        } else {
-//
-//            for (int i = count; i < MaxDateNum; i++) {
-//                RecipeInfo recipe = new RecipeInfo();
-//                recipe.setName(i+"");
-//                recipe.setImgpath("baicai.jpg");
-//                recipeInfoList.add(recipe);
-//            }
-//        }
+        //}
 
     }
     private void initRecipeGridView(View view,LayoutInflater inflater)
@@ -379,6 +266,8 @@ public class HomeFragment extends Fragment {
                     intent = new Intent(getActivity(), SearchResultActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("SEARCHCONTEXT", "search");
+                    bundle.putString("search_type","recipe_classification");
+                    bundle.putInt("currentIndex",1);
                     intent.putExtras(bundle);
                 }
 
@@ -484,32 +373,5 @@ public class HomeFragment extends Fragment {
 
         }
     }
-
-/*    private Handler handler = new Handler() {
-
-        public void handleMessage(android.os.Message msg){
-            viewPager.setCurrentItem(currentitem);
-        }
-    };
-
-    @Override
-    public void onStart() {
-        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-
-        scheduledExecutorService.scheduleAtFixedRate(new ScrollTask(), 1, 2, TimeUnit.SECONDS);
-        super.onStart();
-    }
-
-    private class ScrollTask implements Runnable {
-
-        public void run() {
-            synchronized (viewPager) {
-                System.out.println("currentItem: " + currentitem);
-                currentitem = (currentitem + 1) % imageList.size();
-                handler.obtainMessage().sendToTarget();
-            }
-        }
-
-    }*/
 
 }
