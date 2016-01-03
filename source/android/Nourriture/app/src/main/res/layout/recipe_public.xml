@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eeeeee"
+        android:orientation="vertical">
+
+
+
+    <RelativeLayout android:id="@+id/top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:background="#ffffff"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/search_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Publish Recipe"
+            android:textSize="20dp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+     <ImageView
+         android:id="@+id/menu_cover"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/public_recipe_demo"
+         android:layout_marginTop="-10dp"
+         android:scaleType="fitCenter"/>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="#ffffff"
+         android:layout_marginTop="5dp"
+         android:minHeight="25dp"
+         android:paddingTop="8dp"
+         android:paddingBottom="8dp">
+
+        <EditText
+            android:id="@+id/recipe_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Recipe Name (Required)"
+            android:textSize="15dp"
+            android:textColor="#000000"
+            android:textColorHint="#999999"
+            android:paddingLeft="20dp"
+            android:background="@null"
+            android:textCursorDrawable="@null"
+            android:cursorVisible="true"/>
+     </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Main Ingredients"
+            android:textColor="#333333"
+            android:textSize="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp" />
+
+        <LinearLayout
+            android:id="@+id/ingredient_linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ingredient"
+                    android:textSize="15dp"
+                    android:textColor="#000000"
+                    android:textColorHint="#999999"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:id="@+id/ingredient_name_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:textColor="#000000"
+                    android:paddingLeft="2dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:textCursorDrawable="@null"
+                    android:cursorVisible="true"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#888888">
+                </View>
+                
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Content"
+                    android:textSize="15dp"
+                    android:textColor="#000000"
+                    android:textColorHint="#999999"
+                    android:paddingLeft="10dp"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:id="@+id/ingredient_cotent_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:textColor="#000000"
+                    android:paddingLeft="2dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:textCursorDrawable="@null"
+                    android:cursorVisible="true"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dddddd"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp"
+                android:layout_marginRight="20dp">
+            </View>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:background="#ffffff"
+            android:paddingBottom="5dp">
+
+            <ImageView
+                android:id="@+id/add_ingredient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/add"
+                android:layout_marginTop="10dp"
+                android:clickable="true"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sub Ingredients"
+            android:textColor="#333333"
+            android:textSize="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp" />
+
+        <LinearLayout
+            android:id="@+id/sub_linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:layout_marginTop="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ingredient"
+                    android:textSize="15dp"
+                    android:textColor="#000000"
+                    android:textColorHint="#999999"
+
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:id="@+id/sub_name_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:textColor="#000000"
+                    android:paddingLeft="2dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:textCursorDrawable="@null"
+                    android:cursorVisible="true"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#888888">
+                </View>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Content"
+                    android:textSize="15dp"
+                    android:textColor="#000000"
+                    android:textColorHint="#999999"
+                    android:paddingLeft="10dp"
+                    android:layout_weight="1"/>
+
+                <EditText
+                    android:id="@+id/sub_cotent_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:textColor="#000000"
+                    android:paddingLeft="2dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:textCursorDrawable="@null"
+                    android:cursorVisible="true"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dddddd"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="20dp"
+                android:layout_marginRight="20dp">
+            </View>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:background="#ffffff"
+            android:paddingBottom="5dp">
+
+            <ImageView
+                android:id="@+id/add_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/add"
+                android:layout_marginTop="10dp"
+                android:clickable="true"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/recipe_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="The introduction of the Recipe"
+                android:textSize="15dp"
+                android:textColor="#000000"
+                android:textColorHint="#999999"
+                android:background="@null"
+                android:textCursorDrawable="@null"
+                android:cursorVisible="true"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="20dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recipe Step"
+            android:textColor="#333333"
+            android:textSize="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp" />
+
+        <LinearLayout
+            android:id="@+id/step_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:background="#ffffff"
+            android:layout_marginTop="5dp"
+            android:paddingBottom="30dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:textSize="15dp"
+                        android:textColor="#333333"/>
+
+                    <EditText
+                        android:id="@+id/step_descrip_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Edit Step"
+                        android:textSize="15dp"
+                        android:textColor="#000000"
+                        android:textColorHint="#999999"
+                        android:background="@null"
+                        android:textCursorDrawable="@null"
+                        android:cursorVisible="true"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="20dp"/>
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/step_img_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:src="@mipmap/step_photo_demo2"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2"
+                        android:textSize="15dp"
+                        android:textColor="#333333"/>
+
+                    <EditText
+                        android:id="@+id/step_descrip_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Edit Step"
+                        android:textSize="15dp"
+                        android:textColor="#000000"
+                        android:textColorHint="#999999"
+                        android:background="@null"
+                        android:textCursorDrawable="@null"
+                        android:cursorVisible="true"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="20dp"/>
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/step_img_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:src="@mipmap/step_photo_demo2"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3"
+                        android:textSize="15dp"
+                        android:textColor="#333333"/>
+
+                    <EditText
+                        android:id="@+id/step_descrip_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Edit Step"
+                        android:textSize="15dp"
+                        android:textColor="#000000"
+                        android:textColorHint="#999999"
+                        android:background="@null"
+                        android:textCursorDrawable="@null"
+                        android:cursorVisible="true"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="20dp"/>
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/step_img_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:src="@mipmap/step_photo_demo2"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:id="@+id/publish"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Publish Recipe "
+                    android:textSize="20dp"
+                    android:background="@drawable/rounded_outer8"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        
+
+
+    </LinearLayout>
+
+</ScrollView>

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.android.nurriture.entity.RecipeInfo;
 import com.android.nurriture.entity.StepInfo;
+import com.android.nurriture.fragment.MyListView;
 import com.android.nurriture.util.HttpMethod;
 import com.android.nurriture.util.HttpUtil;
 import com.android.nuttriture.adapter.StepAdapter;
@@ -49,6 +50,8 @@ public class RecipeDetailActivity extends Activity{
     private TextView nameOfrecipe,author_name,recipe_intro,recipe_tips;
     private int screenWidth;
     private String recipename,username,image,tips;
+    private List<StepInfo> stepList;
+    private StepAdapter stepAdapter;
 
 
     @Override
@@ -68,6 +71,7 @@ public class RecipeDetailActivity extends Activity{
         initList();
     }
     private void getData(){
+        stepAdapter = new StepAdapter(stepList,this.getLayoutInflater());
         Map<String, String> map = new HashMap<String, String>();
         map.put("name", recipename);
         HttpUtil connectNet = new HttpUtil(
@@ -105,12 +109,24 @@ public class RecipeDetailActivity extends Activity{
                                 Log.v("username:", username);
                                 nameOfrecipe = (TextView)findViewById(R.id.recipe_name);
                                 nameOfrecipe.setText(recipename);
-                                author_name = (TextView)findViewById(R.id.author_name);
-                                author_name.setText(username);
+                                //author_name = (TextView)findViewById(R.id.author_name);
+                                //author_name.setText(username);
                                 recipe_intro = (TextView)findViewById(R.id.recipe_intro);
                                 recipe_intro.setText(desc);
                                 recipe_tips = (TextView)findViewById(R.id.recipe_tips);
                                 recipe_tips.setText(tips);
+                                JSONArray stpes = new JSONArray(recipe.getString("step"));
+                                if(stpes.length()>0){
+                                    for(int i = 0;i<stpes.length();i++){
+                                        Log.v("number length:",i+"");
+                                        StepInfo stepInfo = new StepInfo();
+                                        stepInfo.setNumber(number[i]);
+                                        stepInfo.setDesc(desc);
+                                        stepInfo.setImg(img);
+                                        stepList.add(stepInfo);
+                                    }
+                                    stepAdapter.notifyDataSetChanged();
+                                }
 
                             } catch (JSONException e) {
                                 // TODO Auto-generated catch block
@@ -174,21 +190,21 @@ public class RecipeDetailActivity extends Activity{
 
     private void initList(){
         Log.v("initList:","enter");
-        ListView listView = (ListView)findViewById(R.id.recipe_steps);
-        List<StepInfo> stepList = new ArrayList<StepInfo>();
-        StepInfo stepInfo;
-        for(int i = 0; i < number.length; i++){
-            Log.v("number length:",i+"");
-            stepInfo = new StepInfo();
-            stepInfo.setNumber(number[i]);
-            stepInfo.setDesc(desc);
-            stepInfo.setImg(img);
-            stepList.add(stepInfo);
-        }
-        StepAdapter stepAdapter = new StepAdapter(stepList,this.getLayoutInflater());
+        MyListView listView = (MyListView)findViewById(R.id.recipe_steps);
+//        List<StepInfo> stepList = new ArrayList<StepInfo>();
+//        StepInfo stepInfo;
+//        for(int i = 0; i < number.length; i++){
+//            Log.v("number length:",i+"");
+//            stepInfo = new StepInfo();
+//            stepInfo.setNumber(number[i]);
+//            stepInfo.setDesc(desc);
+//            stepInfo.setImg(img);
+//            stepList.add(stepInfo);
+//        }
+//        StepAdapter stepAdapter = new StepAdapter(stepList,this.getLayoutInflater());
         listView.setAdapter(stepAdapter);
 
-        fixListViewHeight(listView, stepAdapter);
+        //fixListViewHeight(listView, stepAdapter);
     }
 
     public void fixListViewHeight(ListView listView,StepAdapter stepAdapter) {

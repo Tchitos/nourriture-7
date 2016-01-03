@@ -1,25 +1,19 @@
 package com.android.nurriture.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,9 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
@@ -141,7 +133,32 @@ public class HomeFragment extends Fragment {
 
     private void initRecipeListView(View view,LayoutInflater inflater)
     {
-        MaxDateNum = 22;
+        HttpUtil connectNet = new HttpUtil(
+                "/getRecipesCount",
+                HttpMethod.GET){
+            @Override
+            protected void getResult(String result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    String statusCode = jsonObject.getString("statusCode");
+                    String value = jsonObject.getString("value");
+                    Log.v("getRecipesCountvalue", value);
+                    if(statusCode.equals("200") ||statusCode=="200"){
+                        MaxDateNum = Integer.parseInt(value);
+                    }else if(statusCode.equals("401") ||statusCode=="401"){
+
+                        MaxDateNum = 0;
+                        Toast.makeText(getActivity().getApplicationContext(), "An error occured during the search" ,
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        };
+        connectNet.execute();
 
        // moreView = getActivity().getLayoutInflater().inflate(R.layout.moredata, null);
 
@@ -259,23 +276,76 @@ public class HomeFragment extends Fragment {
 
     private void loadMoreDate() {
         int count = homeRecipeAdapter.getCount();
-        if (count + 5 < MaxDateNum) {
+        int page = count/5 + 1;
+        Log.v("the page:", page + "");
+        Log.v("count", count + "");
+        Log.v("MaxDateNum", MaxDateNum + "");
+        if(count < MaxDateNum){
+            HttpUtil connectNet = new HttpUtil(
+                    "/getRecipesByPage/:"+page,
+                    HttpMethod.GET){
+                @Override
+                protected void getResult(String result) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        String statusCode = jsonObject.getString("statusCode");
+                        String value = jsonObject.getString("value");
+                        Log.v("statusCode", statusCode);
+                        Log.v("getRecipesCountvalue", value);
+                        if(statusCode.equals("201") ||statusCode=="201"){
 
-            for (int i = count; i < count + 5; i++) {
-                RecipeInfo recipe = new RecipeInfo();
-                recipe.setName(i + "");
-                recipe.setImgpath("baicai.jpg");
-                recipeInfoList.add(recipe);
-            }
-        } else {
+                            Toast.makeText(getActivity().getApplicationContext(), "No recipes found." ,
+                                    Toast.LENGTH_SHORT).show();
+                        }else if(statusCode.equals("401") ||statusCode=="401"){
+                            Toast.makeText(getActivity().getApplicationContext(), "An error occured during the search" ,
+                                    Toast.LENGTH_SHORT).show();
+                        }else{
+                            try {
+                                JSONArray jsonArray = new JSONArray(value);
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    jsonObject = jsonArray.getJSONObject(i);
+                                    String name = jsonObject.getString("name");
+                                    String image = jsonObject.getString("image");
+                                    RecipeInfo recipe = new RecipeInfo();
+                                    Log.v("name:", name);
+                                    recipe.setName(name);
+                                    recipe.setImgpath(image);
+                                    Log.v("image:", image);
+                                    recipeInfoList.add(recipe);
+                                }
+                            } catch (JSONException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
 
-            for (int i = count; i < MaxDateNum; i++) {
-                RecipeInfo recipe = new RecipeInfo();
-                recipe.setName(i+"");
-                recipe.setImgpath("baicai.jpg");
-                recipeInfoList.add(recipe);
-            }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            };
+            connectNet.execute();
         }
+
+
+//        if (count + 5 < MaxDateNum) {
+//
+//            for (int i = count; i < count + 5; i++) {
+//                RecipeInfo recipe = new RecipeInfo();
+//                recipe.setName(i + "");
+//                recipe.setImgpath("baicai.jpg");
+//                recipeInfoList.add(recipe);
+//            }
+//        } else {
+//
+//            for (int i = count; i < MaxDateNum; i++) {
+//                RecipeInfo recipe = new RecipeInfo();
+//                recipe.setName(i+"");
+//                recipe.setImgpath("baicai.jpg");
+//                recipeInfoList.add(recipe);
+//            }
+//        }
 
     }
     private void initRecipeGridView(View view,LayoutInflater inflater)

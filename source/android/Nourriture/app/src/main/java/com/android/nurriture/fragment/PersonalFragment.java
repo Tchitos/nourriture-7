@@ -13,12 +13,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.nourriture.nourriture.LoginActivity;
 import com.android.nourriture.nourriture.MainActivity;
 import com.android.nourriture.nourriture.R;
+import com.android.nourriture.nourriture.RecipePublicActivity;
 import com.android.nourriture.nourriture.RegistActivity;
 import com.android.nurriture.util.HttpMethod;
 import com.android.nurriture.util.HttpUtil;
@@ -37,6 +39,8 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
     private ImageView touxiang;
     private LinearLayout mylinear;
     private SharedPreferences sp;
+    private RelativeLayout public_button;
+
     private Button logout;
 
     @Override
@@ -60,6 +64,8 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
         logout = (Button)view.findViewById(R.id.logout);
 
 
+        public_button = (RelativeLayout)view.findViewById(R.id.public_button);
+
         sp = getActivity().getSharedPreferences("userinfo",0);
         String usernamestring = sp.getString("username", null);
         if(usernamestring !=null)
@@ -72,6 +78,15 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
             logout.setVisibility(View.VISIBLE);
 
         }
+
+        public_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RecipePublicActivity.class);
+                startActivity(intent);
+            }
+        });
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,6 +146,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
         };
 
         connectNet.execute();
+
     }
 
     @Override

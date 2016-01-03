@@ -16,13 +16,12 @@ exports.logintest = function(req, res) {
 		};
     res.send(JSON.stringify(myuser));
 };
+
 exports.login = function(req, res, next) {
 
-    console.log('tryLogin');
     // Already logged in
     if (req.session.authorized)
         return res.status(200).send('Already logged');
-	console.log("req.body:"+req.body.username);
     if (!req.body.username || !req.body.password)
         return res.send('Missing parameters');
 
@@ -43,7 +42,6 @@ exports.login = function(req, res, next) {
             delete user.password;
             req.session.user = user;
             req.session.authorized = true;
-            console.log(req.session);
             res.send(JSON.stringify(user));
         });
     });
@@ -86,7 +84,6 @@ exports.register = function(req, res, next) {
 
 exports.stilllogged = function(req, res, next) {
     
-    console.log(req.session);
     if (req.session.authorized)
         res.send(JSON.stringify(req.session.user));
     else

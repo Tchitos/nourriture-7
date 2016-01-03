@@ -2,9 +2,27 @@ nourritureApp.factory('recipeService', ['$http', 'httpService', '$location', fun
 
 	var recipeServiceInstance = {
 
+		'addRecipe': addRecipeFunction,
 		'getRecipes': getRecipesFunction,
 		'getRecipeByName': getRecipeByNameFunction
 	};
+
+	function addRecipeFunction(recipeName, recipeDesc, recipeTips, ingredients, steps, cb) {
+
+		var data = {
+			'recipeName': recipeName,
+			'recipeDesc': recipeDesc,
+			'recipeTips': recipeTips,
+			'ingredients': ingredients,
+			'steps': steps,
+		};
+		var url = httpService.makeUrl('/recipe/add');
+
+		$http.post(url, data).then(function(response) {
+
+			cb(response);
+		}, httpService.httpError);
+	}
 
 	function getRecipesFunction(cb) {
 

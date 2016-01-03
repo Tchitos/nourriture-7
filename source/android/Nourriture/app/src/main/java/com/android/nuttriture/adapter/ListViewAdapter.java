@@ -58,7 +58,7 @@ public class ListViewAdapter extends BaseAdapter {
             temp = RecipeActivity.mPosition;
         }
         if (position == temp) {
-            convertView.setBackgroundResource(R.drawable.tongcheng_all_bg01);
+            convertView.setBackgroundResource(R.mipmap.tongcheng_all_bg03);
             tv.setSelected(true);
         } else {
             convertView.setBackgroundColor(Color.parseColor("#f4f4f4"));

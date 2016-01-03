@@ -121,7 +121,7 @@ public abstract class HttpUtil extends AsyncTask<Void, Void, String> {
             }
             url = url + "?" + paramsStr.toString();
         }
-        System.out.println("url:" + url);
+       Log.v("url:", url);
         HttpPost post = new HttpPost(url);
         HttpGet get = new HttpGet(url);
 
