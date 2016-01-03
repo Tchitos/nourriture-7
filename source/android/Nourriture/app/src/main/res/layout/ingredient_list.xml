@@ -5,6 +5,17 @@
     android:background="#f5f5f5"
     android:orientation="vertical" >
 
+    <TextView
+        android:id="@+id/no_record"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Target Ingredient!"
+        android:textSize="20dp"
+        android:textColor="#888888"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:visibility="gone"/>
+
     <ListView
         android:id="@+id/ingredient_list_view"
         android:layout_width="match_parent"

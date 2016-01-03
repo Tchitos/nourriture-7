@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.nourriture.nourriture.R;
 import com.android.nuttriture.adapter.ListViewAdapter;
@@ -27,6 +28,7 @@ public class IngredientFragment extends Fragment {
     private ListViewFragment listViewFragment;
     public static int mPosition;
     private Context context;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);

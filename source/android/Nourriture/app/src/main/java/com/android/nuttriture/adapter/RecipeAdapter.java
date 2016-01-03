@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.android.nourriture.nourriture.R;
 import com.android.nurriture.entity.RecipeInfo;
@@ -43,7 +44,25 @@ public class RecipeAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = (View)inflater.inflate(R.layout.recipe_list_item,parent,false);
+        ViewHolder holder;
+        if (convertView == null) {
+            holder = new ViewHolder();
+            convertView = (View) inflater.inflate(R.layout.recipe_list_item, parent, false);
+            holder.recipe_name = (TextView) convertView.findViewById(R.id.recipe_name);
+            holder.description = (TextView) convertView.findViewById(R.id.description);
+            convertView.setTag(holder);
+        }else
+            holder = (ViewHolder) convertView.getTag();
+        RecipeInfo recipeInfo = (RecipeInfo)getItem(position);
+        if (recipeInfoList != null && recipeInfoList.size() > 0) {
+            holder.recipe_name.setText(String.valueOf(recipeInfo.getName()));
+            holder.description.setText(recipeInfo.getDescription());
+        }
         return convertView;
+    }
+
+    public class ViewHolder {
+        TextView recipe_name;
+        TextView description;
     }
 }
