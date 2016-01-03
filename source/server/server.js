@@ -139,6 +139,7 @@ server.get('/stilllogged', usersService.stilllogged);
 server.get('/logout', usersService.logout);
 
 server.post('/ingredient/add', upload.single('photo'), ingredientsService.addIngredient)
+server.post('/getIngredientsBySearch', ingredientsService.findIngredientsBySearch)
 server.get('/getIngredients', ingredientsService.findAllIngredients)
 
 server.get('/getTypesDetails', typeService.findAllTypesDetails);

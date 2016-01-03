@@ -70,6 +70,26 @@ exports.findIngredientById = function(req, res) {
 	});
 };
 
+exports.findIngredientsBySearch = function(req, res) {
+
+	if (!req.body.search)
+		return res.status(401).send('No search given.');
+
+	var search = req.body.search;
+
+	console.log('Get an ingredient: ' + search);
+
+	model.ingredient.fetchBySearch(search, function(err, ingredients) {
+		if (err != null)
+			res.status(401).send('An error occured during the search.');
+		else if (ingredients.length == 0)
+			res.status(201).send('No types found.');
+		else {
+			res.send(ingredients);
+		}
+	});
+};
+
 exports.findAllIngredients = function(req, res) {
 	model.ingredient.fetchAll(function(err, ingredients) {
 		if (err != null)
