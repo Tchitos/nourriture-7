@@ -68,28 +68,37 @@ nourritureApp.controller('AddRecipeController', ['$scope', '$filter', 'viewName'
 
 	var ingredients = [];
 
-	for (var i in $scope.viewScope.mainIngredients) {
+  for (var i in $scope.viewScope.mainIngredients) {
+    if ($scope.viewScope.mainIngredients[i].id) {
+      ingredients.push({
+        'ingredient': $scope.viewScope.mainIngredients[i].id,
+        'mandatory': true,
+        'quantity': $scope.viewScope.mainIngredients[i].quantity
+      });
+    } else if ($scope.viewScope.mainIngredients[i].searchText) {
+      ingredients.push({
+        'name': $scope.viewScope.mainIngredients[i].searchText,
+        'mandatory': true,
+        'quantity': $scope.viewScope.mainIngredients[i].quantity
+      });
+    }
+  }
 
-		if ($scope.viewScope.mainIngredients[i].id) {
-			ingredients.push({
-				'ingredient': $scope.viewScope.mainIngredients[i].id,
-				'mandatory': true,
-				'quantity': $scope.viewScope.mainIngredients[i].quantity
-			});
-		}
-	}
-
-
-	for (var i in $scope.viewScope.subIngredients) {
-
-		if ($scope.viewScope.subIngredients[i].id) {        
-			ingredients.push({
-				'ingredient': $scope.viewScope.subIngredients[i].id,
-				'mandatory': false,
-				'quantity': $scope.viewScope.subIngredients[i].quantity
-			});
-		}
-	}
+  for (var i in $scope.viewScope.subIngredients) {
+    if ($scope.viewScope.subIngredients[i].id) {  
+      ingredients.push({
+        'ingredient': $scope.viewScope.subIngredients[i].id,
+        'mandatory': false,
+        'quantity': $scope.viewScope.subIngredients[i].quantity
+      });
+    } else if ($scope.viewScope.subIngredients[i].searchText) {
+      ingredients.push({
+        'name': $scope.viewScope.subIngredients[i].searchText,
+        'mandatory': true,
+        'quantity': $scope.viewScope.subIngredients[i].quantity
+      });
+    }
+  }
 
 	ingredients = $filter('json')(ingredients);
 	

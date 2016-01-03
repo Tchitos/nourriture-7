@@ -6,7 +6,7 @@
 			<th>Delete</th>
 		</tr>
 		<tr ng-repeat="(key, recipe) in viewScope.recipes">
-			<td><a>{{recipe.name}}</a></td>
+			<td><a href="#/recipes/edit/{{recipe.name}}">{{recipe.name}}</a></td>
 			<td><a ng-click="delete(key)" class="btn btn-danger">Delete</a></td>
 		</tr>
 	</table>

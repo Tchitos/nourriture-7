@@ -15,7 +15,7 @@ var getPath			= require('path');
 ** recipeDesc: string
 ** recipeTips: string
 ** equipements: JSON Array : [{name: string}]
-** ingredients: JSON Array : [{ingredient: id, mandatory: boolean quantity: string}]
+** ingredients: JSON Array : [{ingredient: id, name: string, mandatory: boolean quantity: string}]
 ** steps: JSON Array : [{level: id, text: string}]
 */
 exports.addRecipe = function(req, res, next) {
