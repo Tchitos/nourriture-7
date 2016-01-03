@@ -87,7 +87,7 @@ public class LoginActivity extends Activity {
             PostRequestAPI api = new PostRequestAPI(this);
             api.setUsername(usernameString);
             api.setPassword(passwordString);
-            api.setRequest("/login");
+            api.setRequest("login");
             api.execute();
 
             if (api.getSuccess() == false) {
