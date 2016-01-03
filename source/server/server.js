@@ -152,6 +152,7 @@ server.get('/getMyRecipes', recipeService.findMyRecipes);
 server.post('/getRecipeByName', recipeService.findRecipeByName);
 server.post('/getRecipesByIngredient', recipeService.findRecipesByIngredient);
 server.post('/getRecipesBySearch', recipeService.findRecipesBySearch);
+server.post('/getRecipesBySubtype', recipeService.findRecipesBySubtype);
 
 server.get('/getNutritions', nutritionService.findAllNutritions);
 server.post('/getNutritionByName', nutritionService.findNutritionByName);

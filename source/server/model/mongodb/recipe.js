@@ -151,3 +151,17 @@ module.exports.fetchBySearch = function(search, cb) {
 		});
 	});
 };
+
+module.exports.fetchBySubtypes = function(subtypeIds, cb) {
+
+	db.collection('recipes', function(err, collection) {
+
+		collection.find({"subtypes": {$in: subtypeIds}}).toArray(function(err, recipes) {
+
+			if (err)
+				return cb();
+
+			return cb(null, recipes);
+		});
+	});
+};

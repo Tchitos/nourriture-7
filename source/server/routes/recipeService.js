@@ -328,7 +328,47 @@ exports.findRecipesByIngredient = function(req, res) {
 			}
 
 		});
-	});};
+	});
+};
+
+exports.findRecipesBySubtype = function(req, res) {
+	
+	console.log('GetRecipesBySubtype');
+
+	if (req.body.search === undefined) {
+		return res.status(401).send('No search given.');
+	}
+
+	if (req.body.search.length < 3) {
+		return res.status(201).send('Search start after 3 character.');
+	}
+
+	model.subtype.fetchBySearch(req.body.search, function(err, subtypes) {
+
+		if (err != null)
+			return res.status(401).send('An error occured during the search.');
+		else if (!subtypes)
+			return res.status(201).send('No ingredient found.');
+
+		var subtypeIds = [];
+
+		for (var index in subtypes) {
+			subtypeIds.push(subtypes[index]['_id']);
+		}
+
+		model.recipe.fetchBySubtypes(subtypeIds, function(err, recipes) {
+
+			if (err != null)
+				return res.status(401).send('An error occured during the search.');
+			else if (!recipes)
+				return res.status(201).send('No recipes found.');
+			else {
+				res.send(recipes);
+			}
+
+		});
+	});
+};
 
 var populateDB = function() {
 
