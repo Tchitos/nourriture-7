@@ -30,3 +30,12 @@ source/android/Nourriture/.idea/modules.xml
 source/android/Nourriture/app/app.iml
 source/android/Nourriture/app/app.iml
 source/android/Nourriture/.idea/vcs.xml
+source/android/Nourriture/app/app.iml
+source/android/Nourriture/app/app.iml
+source/android/Nourriture/.idea/vcs.xml
+source/android/Nourriture/Nourriture.iml
+source/android/Nourriture/app/src/main/res/layout/spinner_item.xml
+source/android/Nourriture/app/src/main/java/com/android/nuttriture/adapter/IngredientAdapter.java
+source/android/Nourriture/app/src/main/java/com/android/nurriture/fragment/IngredientListFragment.java
+source/android/Nourriture/app/src/main/res/layout/recipe_public.xml
+source/android/Nourriture/app/src/main/java/com/android/nourriture/nourriture/RecipePublicActivity.java
