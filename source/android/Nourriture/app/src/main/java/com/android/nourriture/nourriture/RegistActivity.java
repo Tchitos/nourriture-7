@@ -13,6 +13,10 @@ import android.widget.Toast;
 
 import com.android.nurriture.util.PostRequestAPI;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 /**
  * Created by Administrator on 2015/12/14.
  */
@@ -80,6 +84,16 @@ public class RegistActivity extends Activity {
             api.setEmail(emailString);
             api.setRequest("register");
             api.execute();
+
+            try {
+                api.get(5, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
+                e.printStackTrace();
+            }
 
             if (api.getSuccess() == false) {
                 Toast toast = Toast.makeText(getApplicationContext(),
