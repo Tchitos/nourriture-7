@@ -6,13 +6,15 @@
 		<div class="category-list">
 			<dl ng-repeat="type in viewScope.types">
 				<dt>{{type.name}}</dt>
-				<dd ng-repeat="subtype in type.subtypes">{{subtype.name}}</dd>
+				<a ng-repeat="subtype in type.subtypes" href="#/recipes/{{subtype.name}}">
+					<dd>{{subtype.name}}</dd>
+				</a>
 			</dl>
 		</div>
 	</div>
 	<div class="recipe-main col-md-10">
 		
-		<div class="recipes-info">
+		<div ng-if="viewScope.recipes.length > 0" class="recipes-info">
 			<div ng-repeat="(key, recipe) in viewScope.recipes" class="col-xs-4 col-md-3 recipe-block">
 				<div ng-if="key >= viewScope.offset * viewScope.perPage && key < (viewScope.offset + 1) * viewScope.perPage">
 					<div class="image">
@@ -25,6 +27,9 @@
 					</a>
 				</div>
 			</div>
+		</div>
+		<div ng-if="viewScope.recipes == 0" class="recipes-info">
+			<p>No Recipies found</p>
 		</div>
 		<div class="paginations">
 			<a ng-click="viewScope.offset = viewScope.offset - 1" ng-if="viewScope.offset > 0">« PREV PAGE</a>
