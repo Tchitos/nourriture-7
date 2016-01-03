@@ -72,14 +72,26 @@ nourritureApp.controller('AddRecipeController', ['$scope', '$filter', 'viewName'
           'mandatory': true,
           'quantity': $scope.viewScope.mainIngredients[i].quantity
         });
+      } else if ($scope.viewScope.mainIngredients[i].searchText) {
+        ingredients.push({
+          'name': $scope.viewScope.mainIngredients[i].searchText,
+          'mandatory': true,
+          'quantity': $scope.viewScope.mainIngredients[i].quantity
+        });
       }
     }
 
     for (var i in $scope.viewScope.subIngredients) {
-      if ($scope.viewScope.subIngredients[i].id) {        
+      if ($scope.viewScope.subIngredients[i].id) {  
         ingredients.push({
           'ingredient': $scope.viewScope.subIngredients[i].id,
           'mandatory': false,
+          'quantity': $scope.viewScope.subIngredients[i].quantity
+        });
+      } else if ($scope.viewScope.subIngredients[i].searchText) {
+        ingredients.push({
+          'name': $scope.viewScope.subIngredients[i].searchText,
+          'mandatory': true,
           'quantity': $scope.viewScope.subIngredients[i].quantity
         });
       }

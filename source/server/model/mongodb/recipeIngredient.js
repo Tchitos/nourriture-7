@@ -2,26 +2,50 @@ var mongo = require('mongodb');
 var commonService = require('../../routes/commonService');
 var tokenModel = require('./token');
 var db = commonService.db;
+var ingredientModel = require('./ingredient');
 
-function addRecipeIngredientRec(i, recipeId, ingredients, recipeIngredientsIds, cb) {
+function subAddRecibeIngredientRec(i, recipeId, ingredients, recipeIngredientsIds, cb) {
 
-	if (i >= ingredients.length)
-		return (cb(recipeIngredientsIds));
+	var recipeIngredients = {
+		'quantity': ingredients[i].quantity,
+		'mandatory': ingredients[i].mandatory,
+		'ingredient': new mongo.ObjectID(ingredients[i].ingredient),
+		'recipe': new mongo.ObjectID(recipeId),
+	};
 
 	db.collection('recipeIngredients', function(err, collection) {
 
-		var recipeIngredients = {
-			'quantity': ingredients[i].quantity,
-			'mandatory': ingredients[i].mandatory,
-			'ingredient': new mongo.ObjectID(ingredients[i].ingredient),
-			'recipe': new mongo.ObjectID(recipeId),
-		};
 		collection.insert(recipeIngredients, {safe:true}, function(err, result) {
 
 			recipeIngredientsIds.push(result.ops[0]._id);
 			addRecipeIngredientRec(i + 1, recipeId, ingredients, recipeIngredientsIds, cb);
 		});
 	});
+}
+
+function addRecipeIngredientRec(i, recipeId, ingredients, recipeIngredientsIds, cb) {
+
+	if (i >= ingredients.length)
+		return (cb(recipeIngredientsIds));
+
+	if (!ingredients[i].ingredient) {
+		ingredientModel.fetchByName(ingredients[i].name, function(err, ingredient) {
+
+			if (ingredient) {
+
+				ingredients[i].ingredient = ingredient._id;
+				subAddRecibeIngredientRec(i, recipeId, ingredients, recipeIngredientsIds, cb);
+			} else {
+
+				ingredientModel.addWithoutImage(ingredients[i].name, function(err, ingredient) {
+
+					ingredients[i].ingredient = ingredient._id;
+					subAddRecibeIngredientRec(i, recipeId, ingredients, recipeIngredientsIds, cb);
+				});
+			}
+		});
+	} else
+		subAddRecibeIngredientRec(i, recipeId, ingredients, recipeIngredientsIds, cb);
 }
 
 module.exports.add = function(recipeId, ingredients, cb) {

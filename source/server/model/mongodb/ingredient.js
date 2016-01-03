@@ -20,6 +20,22 @@ module.exports.add = function(ingredientName, imageId, cb) {
 	});
 }
 
+module.exports.addWithoutImage = function(ingredientName, cb) {
+
+	db.collection('ingredients', function(err, collection) {
+
+		ingredient = {
+			'name': ingredientName
+		};
+
+		collection.insert(ingredient, {safe:true}, function(err, result) {
+            if (err)
+				return cb(); 
+			return cb(null, result.ops[0]);
+        });
+	});
+}
+
 module.exports.fetchAll = function(cb) {
 
 	db.collection('ingredients', function(err, collection) {

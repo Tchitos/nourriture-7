@@ -1,0 +1,111 @@
+<div class="recipes">
+	<div class="col-md-6 add-form">
+		<span>{{viewScope.message}}</span>
+		<form ng-submit="addRecipe()">
+			<div>
+				<h5>Recipe Name:</h5>	
+				<input type="text" value="" ng-model="viewScope.recipeName">
+			</div>
+			<div>
+				<h5>Recipe Description:</h5>	
+				<textarea ng-model="viewScope.recipeDesc" placeholder="Recipe description"></textarea>
+			</div>
+			<div>
+				<h5>Recipe Tips:</h5>	
+				<textarea ng-model="viewScope.recipeTips" placeholder="Recipe tips"></textarea>
+			</div>
+			<div>
+				<h5>Recipe Equipements:</h5>
+			</div>
+			<div class="row" ng-repeat="(key, equipement) in viewScope.equipements">
+				<div class="col-xs-10">
+					<input type="text" ng-model="equipement.name" placeholder="Equipement"></textarea>
+				</div>
+				<div class="col-xs-2">
+					<div class="btn btn-danger" ng-click="removeEquipement(key)">Remove equipement</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="btn btn-success" ng-click="addEquipement()">Add equipement</div>
+			</div>
+			<div>
+				<h5>Recipe Main Ingredients:</h5>
+			</div>
+			<div class="autocomplete row" ng-repeat="(key, mainIngredient) in viewScope.mainIngredients">
+				<div class="col-xs-10">
+					<md-autocomplete
+						md-selected-item="selectedItem"
+						md-search-text-change="searchTextChange(mainIngredient.searchText)"
+						md-search-text="mainIngredient.searchText"
+						md-selected-item-change="selectedMainIngredientChange(item, key)"
+						md-items="item in querySearch(mainIngredient.searchText)"
+						md-item-text="item.display"
+						md-min-length="0"
+						placeholder="Ingredient">
+						<md-item-template>
+							<span md-highlight-text="mainIngredient.searchText" md-highlight-flags="^i">{{item.display}}</span>
+						</md-item-template>
+						<md-not-found>
+							No ingredients matching "{{mainIngredient.searchText}}" were found.
+							<a ng-click="newIngredient('mainIngredient.searchText')">Create a new one!</a>
+						</md-not-found>
+					</md-autocomplete>
+					<input type="text" placeholder="quantity" ng-model="mainIngredient.quantity">
+				</div>
+				<div class="col-xs-2">
+					<div class="btn btn-danger" ng-click="removeMainIngredient(key)">Remove ingredient</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="btn btn-success" ng-click="addMainIngredient()">Add main ingredient</div>
+			</div>
+			<div>
+				<h5>Recipe Sub Ingredients:</h5>
+			</div>
+			<div class="autocomplete row" ng-repeat="(key, subIngredient) in viewScope.subIngredients">
+				<div class="col-xs-10">
+					<md-autocomplete
+						md-selected-item="selectedItem"
+						md-search-text-change="searchTextChange(subIngredient.searchText)"
+						md-search-text="subIngredient.searchText"
+						md-selected-item-change="selectedSubIngredientChange(item, key)"
+						md-items="item in querySearch(subIngredient.searchText)"
+						md-item-text="item.display"
+						md-min-length="0"
+						placeholder="Ingredient">
+						<md-item-template>
+							<span md-highlight-text="subIngredient.searchText" md-highlight-flags="^i">{{item.display}}</span>
+						</md-item-template>
+						<md-not-found>
+							No ingredients matching "{{subIngredient.searchText}}" were found.
+							<a ng-click="newIngredient('subIngredient.searchText')">Create a new one!</a>
+						</md-not-found>
+					</md-autocomplete>
+					<input type="text" placeholder="quantity" ng-model="subIngredient.quantity">
+				</div>
+				<div class="col-xs-2">
+					<div class="btn btn-danger" ng-click="removeSubIngredient(key)">Remove ingredient</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="btn btn-success" ng-click="addSubIngredient()">Add sub ingredient</div>
+			</div>
+			<div>
+				<h5>Recipe Steps:</h5>
+			</div>
+			<div class="autocomplete row" ng-repeat="(key, step) in viewScope.steps">
+				<div class="col-xs-10">
+					<textarea ng-model="step.text" placeholder="Step description"></textarea>
+				</div>
+				<div class="col-xs-2">
+					<div class="btn btn-danger" ng-click="removeStep(key)">Remove step</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="btn btn-success" ng-click="addStep()">Add step</div>
+			</div>
+			<input type="submit" value="ADD">
+		</form>
+		<a href="#/account">Back</a>
+	</div>
+</div>
