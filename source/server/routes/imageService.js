@@ -9,15 +9,22 @@ var fs              = require('fs-extra');
 var getPath         = require('path');
 
 exports.findImageById = function(req, res) {
-	var id = req.params.id;
-	console.log('Get an image: ' + id);
-	model.image.fetchById(id, function(err, images) {
+	var imageId = req.params.imageId;
+
+	console.log('Get an image: ' + imageId);
+
+	if (imageId.length < 12) {
+		sendDefaultImage(res);
+		return;
+	}
+
+	model.image.fetchById(imageId, function(err, image) {
 		if (err != null)
 			res.status(401).send('An error occured during the search.');
-		else if (images.length == 0)
-			res.status(201).send('No types found.');
-		else {
-			res.send(images);
+		else if (image == null) {
+			sendDefaultImage(res);
+		} else {
+			sendImage(image.path, image.size, image.mimetype, res);
 		}
 	});
 };
@@ -29,24 +36,41 @@ exports.findImageByName = function(req, res) {
 	model.image.fetchByName(imageName, function(err, image) {
 		if (err != null)
 			res.status(401).send('An error occured during the search.');
-		else if (image.length == 0)
-			res.status(201).send('No types found.');
+		else if (image == null)
+			sendDefaultImage(res);
 		else {
-			res.sendFile(image.path, {
-				// root: image.path,
-				headers: {
-					'Accept-Ranges':	'bytes',
-					'Cache-Control':	'max-age=0',
-					'Connection': 		'keep-alive',
-					'Content-length':	image.size,
-					'Content-type':		image.mimetype,
-					'x-timestamp': Date.now(),
-					'x-sent': true
-				}
-			});
+			sendImage(image.path, image.size, image.mimetype, res);
 		}
 	});
 };
+
+function sendImage(path, size, type, res) {
+	res.sendFile(path, {
+		headers: {
+			'Accept-Ranges':	'bytes',
+			'Cache-Control':	'max-age=0',
+			'Connection': 		'keep-alive',
+			'Content-length':	size,
+			'Content-type':		type,
+			'x-timestamp':		Date.now(),
+			'x-sent': true
+		}
+	});
+}
+
+function sendDefaultImage(res) {
+	res.sendFile(getPath.resolve(process.cwd(), './uploads/default.png'), {
+		headers: {
+			'Accept-Ranges':	'bytes',
+			'Cache-Control':	'max-age=0',
+			'Connection': 		'keep-alive',
+			'Content-length':	4924,
+			'Content-type':		'image/png',
+			'x-timestamp':		Date.now(),
+			'x-sent':			true
+		}
+	});
+}
 
 exports.findAllImages = function(req, res) {
 	model.image.fetchAll(function(err, images) {

@@ -92,7 +92,7 @@
         android:layout_marginTop="10dp">
     </com.android.nurriture.fragment.MyGridView>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="100dip"
         android:orientation="horizontal">
@@ -144,7 +144,7 @@
                 android:src="@mipmap/img_nutrition"
                 android:paddingLeft="10dp"/>
         </LinearLayout>
-    </LinearLayout>
+    </LinearLayout>-->
 
     <com.android.nurriture.fragment.MyListView
         android:id="@+id/recipe_home_listView"

@@ -5,68 +5,6 @@
     android:background="#ffffff"
     android:orientation="vertical" >
 
-    <!--<TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:text="Nutrition"
-        android:layout_marginTop="20px"
-        android:textSize="20dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:paddingBottom="10dp"/>
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="#cdcdcd" />-->
-
-    <!--<LinearLayout
-        android:id="@+id/search_linear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:background="#ececec">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:orientation="horizontal"
-            android:background="@drawable/rounded_outer6"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/search_img"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Recipe/Ingredient/Nutrition"
-                android:textColor="#999999"
-                android:textSize="12dp"
-                android:layout_marginLeft="10dp"/>
-        </LinearLayout>
-    </LinearLayout>-->
-
-<!--    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ingredientScroll">
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/ingredientTypeView"
-            android:orientation="vertical"
-            android:background="#ffffff">
-
-        </LinearLayout>
-    </ScrollView>-->
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -80,8 +18,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="10dp">
-
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
 
 
         <TextView
@@ -101,7 +39,7 @@
         android:id="@+id/gv_nutrition"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:numColumns="3"
+        android:numColumns="2"
         android:horizontalSpacing="10dp"
         android:verticalSpacing="10dp"
         android:layout_marginBottom="10dp"
@@ -110,7 +48,7 @@
         android:layout_marginRight="10dp">
     </com.android.nurriture.fragment.MyGridView>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -140,9 +78,9 @@
             android:layout_weight="1">
         </View>
 
-    </LinearLayout>
+    </LinearLayout>-->
 
-    <com.android.nurriture.fragment.MyGridView
+    <!--<com.android.nurriture.fragment.MyGridView
         android:id="@+id/gv_mineral"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -153,7 +91,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
-    </com.android.nurriture.fragment.MyGridView>
+    </com.android.nurriture.fragment.MyGridView>-->
     </LinearLayout>
     </ScrollView>
 </LinearLayout>

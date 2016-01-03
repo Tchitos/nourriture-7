@@ -59,6 +59,20 @@ module.exports.fetchByIds = function(ids, cb) {
 	});
 };
 
+module.exports.fetchByIngredients = function(ingredients, cb) {
+
+	db.collection('recipeIngredients', function(err, collection) {
+
+		collection.find({"ingredient": {$in: ingredients}}).toArray(function(err, recipeIngredients) {
+
+			if (err)
+				return cb();   
+
+			return cb(null, recipeIngredients);
+		});
+	});
+};
+
 module.exports.fetchById = function(id, cb) {
 
 	db.collection('recipeIngredients', function(err, collection) {
