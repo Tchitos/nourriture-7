@@ -2,25 +2,37 @@ var mongo = require('mongodb');
 var commonService = require('../../routes/commonService');
 var tokenModel = require('./token');
 var db = commonService.db;
-var TYPE = 'mongodb';
-var model = require('../../model/' + TYPE);
+var recipeIngredientModel = require('./recipeIngredient');
 
-module.exports.add = function(recipeName, recipeDesc, recipeTips, ingredients, steps, cb) {
+module.exports.add = function(userId, recipeName, recipeDesc, recipeTips, equipements, ingredients, steps, cb) {
 
 	db.collection('recipes', function(err, collection) {
 
-		recipe = {
+		var recipe = {
+			'author': new mongo.ObjectID(userId),
 			'name': recipeName,
 			'description': recipeDesc,
 			'tips': recipeTips,
+			'steps': steps,
+			'users': [],
+			'equipments': equipements
 		};
 
 		collection.insert(recipe, {safe:true}, function(err, result) {
             if (err)
-				return cb();
-			//model.recipeIngredient.add(result.ops[0]._id, ingredients);
-			//model.step.add(result.ops[0]._id, steps);
-			return cb(null, result.ops[0]);
+				return cb(err);
+			recipeIngredientModel.add(result.ops[0]._id, ingredients, function(recipeIngredientsIds) {
+
+				var recipeIngredients = [];
+				for (var i in recipeIngredientsIds) {
+					recipeIngredients.push(new mongo.ObjectID(recipeIngredientsIds[i]));
+				}
+				collection.update({_id: result.ops[0]._id}, {$set: {'recipeIngredients': recipeIngredients}}, {safe: true}, function(err, result) {
+					if (err)
+						return cb(err);
+					return cb();
+				});
+			});
         });
 	});
 }

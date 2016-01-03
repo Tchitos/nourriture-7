@@ -15,6 +15,20 @@
 				<textarea ng-model="viewScope.recipeTips" placeholder="Recipe tips"></textarea>
 			</div>
 			<div>
+				<h5>Recipe Equipements:</h5>
+			</div>
+			<div class="row" ng-repeat="(key, equipement) in viewScope.equipements">
+				<div class="col-xs-10">
+					<input type="text" ng-model="equipement.name" placeholder="Equipement"></textarea>
+				</div>
+				<div class="col-xs-2">
+					<div class="btn btn-danger" ng-click="removeEquipement(key)">Remove equipement</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="btn btn-success" ng-click="addEquipement()">Add equipement</div>
+			</div>
+			<div>
 				<h5>Recipe Main Ingredients:</h5>
 			</div>
 			<div class="autocomplete row" ng-repeat="(key, mainIngredient) in viewScope.mainIngredients">
@@ -23,7 +37,7 @@
 						md-selected-item="selectedItem"
 						md-search-text-change="searchTextChange(mainIngredient.searchText)"
 						md-search-text="mainIngredient.searchText"
-						md-selected-item-change="selectedItemChange(item)"
+						md-selected-item-change="selectedMainIngredientChange(item, key)"
 						md-items="item in querySearch(mainIngredient.searchText)"
 						md-item-text="item.display"
 						md-min-length="0"
@@ -36,6 +50,7 @@
 							<a ng-click="newIngredient('mainIngredient.searchText')">Create a new one!</a>
 						</md-not-found>
 					</md-autocomplete>
+					<input type="text" placeholder="quantity" ng-model="mainIngredient.quantity">
 				</div>
 				<div class="col-xs-2">
 					<div class="btn btn-danger" ng-click="removeMainIngredient(key)">Remove ingredient</div>
@@ -53,7 +68,7 @@
 						md-selected-item="selectedItem"
 						md-search-text-change="searchTextChange(subIngredient.searchText)"
 						md-search-text="subIngredient.searchText"
-						md-selected-item-change="selectedItemChange(item)"
+						md-selected-item-change="selectedSubIngredientChange(item, key)"
 						md-items="item in querySearch(subIngredient.searchText)"
 						md-item-text="item.display"
 						md-min-length="0"
@@ -66,6 +81,7 @@
 							<a ng-click="newIngredient('subIngredient.searchText')">Create a new one!</a>
 						</md-not-found>
 					</md-autocomplete>
+					<input type="text" placeholder="quantity" ng-model="subIngredient.quantity">
 				</div>
 				<div class="col-xs-2">
 					<div class="btn btn-danger" ng-click="removeSubIngredient(key)">Remove ingredient</div>
@@ -79,8 +95,7 @@
 			</div>
 			<div class="autocomplete row" ng-repeat="(key, step) in viewScope.steps">
 				<div class="col-xs-10">
-					<input type="text" value="" placeholder="title" ng-model="step.title">
-					<textarea ng-model="step.desc" placeholder="Step description"></textarea>
+					<textarea ng-model="step.text" placeholder="Step description"></textarea>
 				</div>
 				<div class="col-xs-2">
 					<div class="btn btn-danger" ng-click="removeStep(key)">Remove step</div>

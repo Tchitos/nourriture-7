@@ -6,25 +6,35 @@ var ObjectId = require('mongodb').ObjectID;
 var TYPE = 'mongodb';
 var model = require('../model/' + TYPE);
 
+/*
+** Add a recipe
+** POST fields :
+** recipeName: string
+** recipeDesc: string
+** recipeTips: string
+** equipements: JSON Array : [{name: string}]
+** ingredients: JSON Array : [{ingredient: id, mandatory: boolean quantity: string}]
+** steps: JSON Array : [{level: id, text: string}]
+*/
 exports.addRecipe = function(req, res, next) {
 
 	if (!req.session || !req.session.authorized)
         return res.status(403).send();
 
-    if (!req.body.recipeName || !req.body.recipeDesc || !req.body.recipeTips ||!req.body.ingredients || !req.body.steps)
+    if (!req.body.recipeName || !req.body.recipeDesc || !req.body.recipeTips || !req.body.equipements || !req.body.ingredients || !req.body.steps)
         return res.send('Missing parameters');
 
     var recipeName = req.body.recipeName;
     var recipeDesc = req.body.recipeDesc;
     var recipeTips = req.body.recipeTips;
+    var equipements = JSON.parse(req.body.equipements);
     var ingredients = JSON.parse(req.body.ingredients);
     var steps = JSON.parse(req.body.steps);
 
-    model.recipe.add(recipeName, recipeDesc, recipeTips, ingredients, steps, function(err, recipe) {
+    model.recipe.add(req.session.user._id, recipeName, recipeDesc, recipeTips, equipements, ingredients, steps, function(err) {
 
         if (err)
             return res.status(500).send('An error occured.');
-
         res.send('ok');
     });
 };
@@ -40,9 +50,9 @@ function loadRecipeDetailsLoop(res, recipe, tablesToLoad, index) {
 	if (recipe != null && recipe[tablesToLoad[index]+'s'] != null) {
 		model[tablesToLoad[index]].fetchByIds(recipe[tablesToLoad[index]+'s'], function(err, result) {
 			if (err != null)
-				res.status(401).send('An error occured during the search.');
+				return res.status(401).send('An error occured during the search.');
 			else if (result == null)
-				res.status(201).send('No '+tablesToLoad[index]+' found.');
+				return res.status(201).send('No '+tablesToLoad[index]+' found.');
 			else {
 				recipe[tablesToLoad[index]+'s'] = result;
 
@@ -57,31 +67,32 @@ function loadRecipeDetailsLoop(res, recipe, tablesToLoad, index) {
 }
 
 function loadRecipeDetails(res, recipe) {
+
 	model.recipeIngredient.fetchByIds(recipe.recipeIngredients, function(err, recipeIngredients) {
 
 		if (err != null)
-			res.status(401).send('An error occured during the search.');
+			return res.status(401).send('An error occured during the search.');
 		else if (recipeIngredients == null)
-			res.status(201).send('No ingredient found.');
+			return res.status(201).send('No ingredient found.');
 		else
 			recipe.recipeIngredients = recipeIngredients;
 		model.ingredient.fetchByRecipeIngredients(recipe.recipeIngredients, function(err, recipeIngredients2) {
 
 			if (err != null)
-				res.status(401).send('An error occured during the search.');
+				return res.status(401).send('An error occured during the search.');
 			else if (recipeIngredients2 == null)
-				res.status(201).send('No ingredient found.');
+				return res.status(201).send('No ingredient found.');
 			else
 				recipe.recipeIngredients = recipeIngredients2;
 
-			tablesToLoad = ['step', 'equipment', 'user'];
+			tablesToLoad = ['user'];
 
 			recipe = loadRecipeDetailsLoop(res, recipe, tablesToLoad, 0);
 		});
 	});
 }
 
-exports.findRecipeByName = function(req, res, next) {
+exports.findRecipeByName = function(req, res) {
 
 	if (req.body.name === undefined) {
 		res.status(401).send('No name given.');
@@ -97,9 +108,9 @@ exports.findRecipeByName = function(req, res, next) {
 		var recipe = null;
 
 		if (err != null)
-			res.status(401).send('An error occured during the search.');
+			return res.status(401).send('An error occured during the search.');
 		else if (recipeRes == null)
-			res.status(201).send('No recipe found.');
+			return res.status(201).send('No recipe found.');
 		else
 			recipe = recipeRes;
 
@@ -112,11 +123,11 @@ exports.findAllRecipes = function(req, res) {
 	console.log('GetRecipes');
 	model.recipe.fetchAll(0, 0, function(err, recipes) {
 		if (err != null)
-			res.status(401).send('An error occured during the search.');
+			return res.status(401).send('An error occured during the search.');
 		else if (recipes.length == 0)
-			res.status(201).send('No recipes found.');
+			return res.status(201).send('No recipes found.');
 		else
-			res.send(recipes);
+			return res.send(recipes);
 	});
 };
 
@@ -126,9 +137,9 @@ exports.countAllRecipes = function(req, res) {
 
 	model.recipe.countAll(function(err, nbRecipes) {
 		if (err != null)
-			res.status(401).send('An error occured during the search.');
+			return res.status(401).send('An error occured during the search.');
 		else
-			res.status(200).send(nbRecipes+'');
+			return res.status(200).send(nbRecipes+'');
 	});
 };
 
@@ -144,13 +155,11 @@ exports.findAllRecipesPaginate = function(req, res) {
 
 	model.recipe.fetchAll((nbPage - 1) * limit, limit, function(err, recipes) {
 		if (err != null)
-			res.status(401).send('An error occured during the search.');
+			return res.status(401).send('An error occured during the search.');
 		else if (recipes.length == 0)
-			res.status(201).send('No recipes found.');
-		else {
-			res.send(recipes);
-			console.log(recipes);
-		}
+			return res.status(201).send('No recipes found.');
+		else
+			return res.send(recipes);
 	});
 };
 
@@ -241,12 +250,36 @@ var populateDB = function() {
 			"image": "baicai.jpg",
 			"tips": "Pomelo spiced salt in my recipes have separate method.This is the main condiment is Thai sweet chili sauce and pomelo spiced salt, the other can be adjusted according to personal taste.",
 			"steps": [
-				new mongo.ObjectID("566d6fe9e1b9caac0dac79f4"),
-				new mongo.ObjectID("566d7022e1b9caac0dac79f5"),
-				new mongo.ObjectID("566d7048e1b9caac0dac79f6"),
-				new mongo.ObjectID("566d7091e1b9caac0dac79f7"),
-				new mongo.ObjectID("566d70b9e1b9caac0dac79f8"),
-				new mongo.ObjectID("566d70f9e1b9caac0dac79f9")
+				{
+					"level":1,
+					"text":"To prepare sauce.",
+					"image":"step1.jpg",
+				},
+				{
+					"level":2,
+					"text":"Wash chicken wings and ice water for 30 minutes, draw two blade so that a good flavor, add soya milk, chicken, sweet chili sauce, shaddock spiced salt, chili powder, sugar, oyster sauce mix together, pickled flavor.About 1 hour.",
+					"image":"step2.jpg"
+				},
+				{
+					"level":3,
+					"text":"Good pickled chicken wings on the grill and sprinkle with sesame seeds ground into a powder.In a little bit of pomelo spiced salt.",
+					"image":"step3.jpg"
+				},
+				{
+					"level":4,
+					"text":"Slag baking oven bottom put, rack up and down into the middle roast fire 180 degrees bake for 15 minutes.",
+					"image":"step4.jpg"
+				},
+				{
+					"level":5,
+					"text":"Remove the chicken wings over here, also sprinkle some sesame powder and pomelo spiced salt, into the oven to bake for 10 minutes.Circumstances can flip again into the upper bake for 5 minutes, will be more burn.",
+					"image":"step5.jpg"
+				},
+				{
+					"level":6,
+					"text":"Meimei's wings to ok pomelo.",
+					"image":"step6.jpg"
+				}
 			],
 			"users": [
 				new mongo.ObjectID("4e54ed9f48dc5922c0094a32")
@@ -254,13 +287,7 @@ var populateDB = function() {
 			"recipeIngredients": [
 				new mongo.ObjectID("566d7541e1b9caac0dac79fa"),
 				new mongo.ObjectID("566d7568e1b9caac0dac79fb"),
-				new mongo.ObjectID("566d75a3e1b9caac0dac79fc"),
-				new mongo.ObjectID("56768efc4058c19e7a7d170c"),
-				new mongo.ObjectID("56768f594058c19e7a7d170d"),
-				new mongo.ObjectID("56768fe44058c19e7a7d170f"),
-				new mongo.ObjectID("5676903d4058c19e7a7d1710"),
-				new mongo.ObjectID("5676904c4058c19e7a7d1711"),
-				new mongo.ObjectID("5676943c4058c19e7a7d1712") 
+				new mongo.ObjectID("566d75a3e1b9caac0dac79fc")
 			],
 		    "equipments": [
 		        new mongo.ObjectID("5676583a92a6087f7461b010")

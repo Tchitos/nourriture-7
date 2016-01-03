@@ -41,6 +41,7 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 public class HomeFragment extends Fragment {
 
+    private boolean hadIntercept;
     private ViewPager viewPager;
     private List<ImageView> imageList = new ArrayList<ImageView>();
     private List<View> dots;

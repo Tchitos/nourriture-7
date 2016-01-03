@@ -2,6 +2,10 @@
 ** Custom css
 */
 
+.top-nav ul li:last-of-type a {
+    border-right: none;
+}
+
 #account .account-action {
 
 	text-align: center;

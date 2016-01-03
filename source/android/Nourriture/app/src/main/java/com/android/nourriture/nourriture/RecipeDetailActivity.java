@@ -64,30 +64,30 @@ public class RecipeDetailActivity extends Activity{
         screenWidth = dm.widthPixels;
         getBundle();
         init();
-        getData();
         initTable();
         initList();
+
+        getData();
     }
     private void getData(){
         Map<String, String> map = new HashMap<String, String>();
         map.put("name", recipename);
-        HttpUtil connectNet = new HttpUtil(
-                "/getRecipeByName",
-                HttpMethod.POST, map) {
+        HttpUtil connectNet = new HttpUtil("/getRecipeByName", HttpMethod.POST, map) {
             @Override
             protected void getResult(String result) {
-                Toast.makeText(getApplicationContext(), "Connect Server API success!=" + result,
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Connect", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Connect Server API success!=" + result, Toast.LENGTH_SHORT).show();
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String statusCode = jsonObject.getString("statusCode");
                     if(statusCode == "401"){
-
+                        Toast.makeText(getApplicationContext(), "Failed" + result, Toast.LENGTH_SHORT).show();
                     }else if(statusCode == "201"){
 
+                        Toast.makeText(getApplicationContext(), "Failed" + result, Toast.LENGTH_SHORT).show();
                     }else{
                         String value = jsonObject.getString("value");
-                        Log.v("value:", value);
+                      Log.v("wzzvalue:", value);
 //                    Toast.makeText(getApplicationContext(), "statusCode="+statusCode+" value:"+value,
 //                            Toast.LENGTH_SHORT).show();
                         if(value!="" && value!=null && !value.isEmpty()){
@@ -100,19 +100,22 @@ public class RecipeDetailActivity extends Activity{
                                 Log.v("desc:", desc);
                                 tips = recipe.getString("tips");
                                 Log.v("tips:", tips);
-                                JSONArray users = new JSONArray(recipe.getString("users"));
+                                /*JSONArray users = new JSONArray(recipe.getString("users"));
+                                Log.v("wzzusername:", users.toString());
                                 JSONObject user = users.getJSONObject(0);
                                 username = user.getString("username");
-                                Log.v("username:", username);
+                                Log.v("username:", username);*/
 
                                 nameOfrecipe.setText(recipename);
                                 //author_name = (TextView)findViewById(R.id.author_name);
                                 //author_name.setText(username);
 
-                                recipe_intro.setText(desc);
+                               recipe_intro.setText(desc);
 
                                 recipe_tips.setText(tips);
                                 JSONArray stpes = new JSONArray(recipe.getString("steps"));
+                                Toast.makeText(getApplicationContext(), "Connect step", Toast.LENGTH_SHORT).show();
+                                Log.v("wzzstep:",recipe.getString("steps"));
                                 if(stpes.length()>0){
                                     for(int i = 0;i<stpes.length();i++){
                                         Log.v("stepvalue:",recipe.getString("steps"));

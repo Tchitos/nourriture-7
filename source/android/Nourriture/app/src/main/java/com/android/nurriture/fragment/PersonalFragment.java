@@ -76,6 +76,7 @@ public class PersonalFragment extends Fragment implements View.OnClickListener{
             tou_username.setVisibility(View.VISIBLE);
             touxiang.setVisibility(View.VISIBLE);
             logout.setVisibility(View.VISIBLE);
+            tou_username.setText(usernamestring);
 
         }
 

@@ -68,11 +68,8 @@ public class RecipePublicActivity extends Activity {
 
     private int img_select;
 
-    //存放主料和辅料id的list
     private List<Map<String,Integer>> idMainIngredientList = new ArrayList<Map<String,Integer>>();
     private List<Map<String,Integer>> idSubIngredientList = new ArrayList<Map<String,Integer>>();
-
-    //存放主料和辅料内容的list
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,6 +148,7 @@ public class RecipePublicActivity extends Activity {
                 int content_id = ++count_sub;
 
                 Map<String,Integer> mainIngred = new HashMap<String,Integer>();
+
                 mainIngred.put("id", name_id);
                 mainIngred.put("content", content_id);
                 idSubIngredientList.add(mainIngred);
@@ -182,9 +180,24 @@ public class RecipePublicActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            //获取菜谱名称
-            String recipename = String.valueOf(recipe_name.getText());
-            //获取主料array
+            /*
+** Add a recipe
+** POST fields :
+** recipeName: string
+** recipeDesc: string
+** recipeTips: string
+** equipements: JSON Array : [{name: string}]
+** ingredients: JSON Array : [{ingredient: id, mandatory: boolean quantity: string}]
+** steps: JSON Array : [{level: id, text: string}]
+*/
+
+            String recipeName = "";
+            String recipeDesc = "";
+            String recipeTips = "Just Be careful!";
+
+            recipeName = String.valueOf(recipe_name.getText());
+            recipeDesc = String.valueOf(recipe_profile.getText());
+
             JSONArray mainIngredientArray = new JSONArray();
             try {
                 for(Map map:idMainIngredientList){
@@ -194,7 +207,7 @@ public class RecipePublicActivity extends Activity {
                     {
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("ingredient_name", ingredientname.getText());
-                        jsonObject.put("ingredient_content", ingredientcontent.getText());
+                        jsonObject.put("quantity", ingredientcontent.getText());
                         mainIngredientArray.put(jsonObject);
                     }
                 }
@@ -202,7 +215,6 @@ public class RecipePublicActivity extends Activity {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            //获取辅料array
             JSONArray subIngredientArray = new JSONArray();
             try {
                 for(Map map:idSubIngredientList){
@@ -211,8 +223,8 @@ public class RecipePublicActivity extends Activity {
                     if(ingredientname.getText()!=null && ingredientcontent.getText()!=null)
                     {
                         JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("ingredient_name", ingredientname.getText());
-                        jsonObject.put("ingredient_content", ingredientcontent.getText());
+                        jsonObject.put("name", ingredientname.getText());
+                        //jsonObject.put("ingredient_content", ingredientcontent.getText());
                         subIngredientArray.put(jsonObject);
                     }
                 }
@@ -221,9 +233,6 @@ public class RecipePublicActivity extends Activity {
                 e.printStackTrace();
             }
 
-            //获取菜谱简介
-            String recipefile = String.valueOf(recipe_profile.getText());
-            //获取步骤array
             JSONArray stepArray = new JSONArray();
             try {
                 JSONObject step1 = new JSONObject();
@@ -248,12 +257,72 @@ public class RecipePublicActivity extends Activity {
                 e.printStackTrace();
             }
 
-            //发送
+            /*String recipename = String.valueOf(recipe_name.getText());
+            JSONArray mainIngredientArray = new JSONArray();
+            try {
+                for(Map map:idMainIngredientList){
+                    EditText ingredientname =(EditText)findViewById((Integer)map.get("id"));
+                    EditText ingredientcontent =(EditText)findViewById((Integer)map.get("content"));
+                    if(ingredientname.getText()!=null && ingredientcontent.getText()!=null)
+                    {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("ingredient_name", ingredientname.getText());
+                        jsonObject.put("ingredient_content", ingredientcontent.getText());
+                        mainIngredientArray.put(jsonObject);
+                    }
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            JSONArray subIngredientArray = new JSONArray();
+            try {
+                for(Map map:idSubIngredientList){
+                    EditText ingredientname =(EditText)findViewById((Integer)map.get("id"));
+                    EditText ingredientcontent =(EditText)findViewById((Integer)map.get("content"));
+                    if(ingredientname.getText()!=null && ingredientcontent.getText()!=null)
+                    {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("ingredient_name", ingredientname.getText());
+                        jsonObject.put("ingredient_content", ingredientcontent.getText());
+                        subIngredientArray.put(jsonObject);
+                    }
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            String recipefile = String.valueOf(recipe_profile.getText());
+            JSONArray stepArray = new JSONArray();
+            try {
+                JSONObject step1 = new JSONObject();
+                step1.put("step_descrip",String.valueOf(step_descrip_1.getText()));
+                step1.put("step_img_name",UUID.randomUUID() + ".JPEG");
+                step1.put("step_img",Base64Util.bitmapToBase64(((BitmapDrawable)step_img_1.getDrawable()).getBitmap()));
+                stepArray.put(step1);
+
+                JSONObject step2 = new JSONObject();
+                step2.put("step_descrip", String.valueOf(step_descrip_1.getText()));
+                step2.put("step_img_name",UUID.randomUUID() + ".JPEG");
+                step2.put("step_img",Base64Util.bitmapToBase64(((BitmapDrawable) step_img_1.getDrawable()).getBitmap()));
+                stepArray.put(step2);
+
+                JSONObject step3 = new JSONObject();
+                step3.put("step_descrip",String.valueOf(step_descrip_1.getText()));
+                step3.put("step_img_name",UUID.randomUUID() + ".JPEG");
+                step3.put("step_img",Base64Util.bitmapToBase64(((BitmapDrawable)step_img_1.getDrawable()).getBitmap()));
+                stepArray.put(step3);
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
             Map<String, String> map = new HashMap<String, String>();
             map.put("menu_cover_name", UUID.randomUUID() + ".JPEG");
             map.put("menu_cover_img", Base64Util.bitmapToBase64(((BitmapDrawable)menu_cover.getDrawable()).getBitmap()));
             map.put("recipe_name",recipename);
-            map.put("recipe_profile",recipefile);
+            map.put("recipe_profile",recipefile);*/
         }
     }
 
@@ -372,7 +441,6 @@ public class RecipePublicActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-         //   Toast.makeText(getApplicationContext(), "默认的Toast", Toast.LENGTH_SHORT).show();
             new PopupWindows(RecipePublicActivity.this,v);
         }
     }
@@ -382,7 +450,6 @@ public class RecipePublicActivity extends Activity {
     private static final int TAKE_PICTURE = 3023;
 
     public void gallery(View view) {
-        // 激活系统图库，选择一张图片
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         /*intent.putExtra("crop", "true");
@@ -391,7 +458,6 @@ public class RecipePublicActivity extends Activity {
         intent.putExtra("outputX", 800);
         intent.putExtra("outputY", 400);
         intent.putExtra("return-data", true);*/
-        // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
         startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
     }
 
@@ -427,13 +493,12 @@ public class RecipePublicActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         ContentResolver resolver = getContentResolver();
         if (requestCode == PHOTO_REQUEST_GALLERY) {
-            // 从相册返回的数据
             if (data != null) {
                 Bitmap mBitmap = null;
                 Uri uri = data.getData();
                 if(uri != null){
                     String realPath = getRealPathFromURI(uri);
-                    Log.e(tag, "Huo qu tu pian chenggong，path=" + realPath);
+                    Log.e(tag, "Huo qu tu pian chenggong锟斤拷path=" + realPath);
                     Bitmap bmp = BitmapFactory.decodeFile(realPath);
 
                     /*Bitmap bmp = null;
@@ -465,7 +530,7 @@ public class RecipePublicActivity extends Activity {
 
                     }
                 }else
-                    Log.e(tag, "从相册获取图片失败");
+                    Log.e(tag, "error");
             }
 
 
@@ -479,7 +544,6 @@ public class RecipePublicActivity extends Activity {
                                 f.getAbsolutePath(), null, null));
                 if(uri != null){
                     String realPath = getRealPathFromURI(uri);
-                    Log.e(tag, "Huo qu tu pian chenggong，path=" + realPath);
                     Bitmap bmp = BitmapFactory.decodeFile(realPath);
 
                     switch (img_select)
@@ -503,7 +567,7 @@ public class RecipePublicActivity extends Activity {
 
                     }
                 }else
-                    Log.e(tag, "从相册获取图片失败");
+                    Log.e(tag, "error");
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -515,7 +579,7 @@ public class RecipePublicActivity extends Activity {
                     toast("zhezhe");
                     String realPath = getRealPathFromURI(uri);
                     toast("zhezhepath:"+realPath);
-                    Log.e(tag, "Huo qu tu pian chenggong，path="+realPath);
+                    Log.e(tag, "Huo qu tu pian chenggong锟斤拷path="+realPath);
                     Bitmap bmp = BitmapFactory.decodeFile(realPath);
                     mBitmap = Bitmap.createScaledBitmap(bmp, menu_cover.getWidth(), menu_cover.getHeight(), true);
                     *//*Bitmap bmp = null;
@@ -527,7 +591,7 @@ public class RecipePublicActivity extends Activity {
                     mBitmap = Bitmap.createBitmap(bmp, 0,0,menu_cover.getWidth(), menu_cover.getHeight());*//*
                     this.menu_cover.setImageBitmap(mBitmap);
                 }else
-                    Log.e(tag, "从相册获取图片失败");
+                    Log.e(tag, "锟斤拷锟斤拷锟斤拷取图片失锟斤拷");
             }*/
 
         }

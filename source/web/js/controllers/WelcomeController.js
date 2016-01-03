@@ -5,15 +5,4 @@ nourritureApp.controller('WelcomeController', ['$scope', 'viewName', 'loginServi
 	loginService.init($scope);
 	$scope.viewScope = {};
 
-	$scope.viewScope.dataSauterelles = [
-		{
-			'name': 'Jimmy',
-			'color': 'green'
-		},
-		{
-			'name': 'James',
-			'color': 'bleue'
-		},
-	];
-
 }]);

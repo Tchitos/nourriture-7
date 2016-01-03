@@ -65,6 +65,14 @@ public class NutritionDetailActivity extends Activity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(NutritionDetailActivity.this, MainActivity.class);
+        intent.putExtra("currentIndex", 2);
+        startActivity(intent);
+        finish();
+    }
+
     private void initData()
     {
         Intent intent = getIntent();
