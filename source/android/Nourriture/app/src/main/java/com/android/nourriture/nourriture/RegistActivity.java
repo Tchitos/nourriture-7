@@ -86,7 +86,7 @@ public class RegistActivity extends Activity {
             api.execute();
 
             try {
-                api.get(5, TimeUnit.SECONDS);
+                api.get(10000, TimeUnit.MILLISECONDS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
