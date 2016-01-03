@@ -1,22 +1,23 @@
 var TYPE = 'mongodb';
 
 var
-	express				= require('express'),
-	query				= require('querystring'),
-	usersService		= require('./routes/usersService'),
-	ingredientsService	= require('./routes/ingredientsService'),
-	recipeService		= require('./routes/recipeService'),
-	typeService			= require('./routes/typeService'),
-	subtypeService		= require('./routes/subtypeService'),
-	imageService		= require('./routes/imageService'),
-	oauth20				= require('./oauth20.js')(TYPE),
-	model				= require('./model/' + TYPE),
-	config				= require('./config'),
-	session				= require('express-session'),
-	bodyParser			= require('body-parser'),
-	multer				= require('multer'),
-	upload				= multer({dest: '/tmp/nourriture'}),
-	server				= express();
+	express						= require('express'),
+	query						= require('querystring'),
+	usersService				= require('./routes/usersService'),
+	ingredientsService			= require('./routes/ingredientsService'),
+	recipeIngredientsService	= require('./routes/recipeIngredientsService'),
+	recipeService				= require('./routes/recipeService'),
+	typeService					= require('./routes/typeService'),
+	subtypeService				= require('./routes/subtypeService'),
+	imageService				= require('./routes/imageService'),
+	oauth20						= require('./oauth20.js')(TYPE),
+	model						= require('./model/' + TYPE),
+	config						= require('./config'),
+	session						= require('express-session'),
+	bodyParser					= require('body-parser'),
+	multer						= require('multer'),
+	upload						= multer({dest: '/tmp/nourriture'}),
+	server						= express();
 
 server.set('oauth2', oauth20);
 

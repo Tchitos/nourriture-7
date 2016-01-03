@@ -8,7 +8,7 @@ module.exports.add = function(ingredientName, imageId, cb) {
 	db.collection('ingredients', function(err, collection) {
 
 		ingredient = {
-			'ingredientName': ingredientName,
+			'name': ingredientName,
 			'imageId': imageId
 		};
 
