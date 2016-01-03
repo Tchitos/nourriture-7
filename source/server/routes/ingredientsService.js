@@ -16,7 +16,6 @@ exports.addIngredient = function(req, res, next) {
 	if (!req.body.name)
 		return res.send('Missing parameters');
 
-
 	var ingredientName = req.body.name;
 
 	var path = './uploads/'+req.file.filename;

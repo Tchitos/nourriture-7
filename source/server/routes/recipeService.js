@@ -31,7 +31,7 @@ exports.addRecipe = function(req, res, next) {
     var ingredients = JSON.parse(req.body.ingredients);
     var steps = JSON.parse(req.body.steps);
 
-    model.recipe.add(recipeName, recipeDesc, recipeTips, equipements, ingredients, steps, function(err) {
+    model.recipe.add(req.session.user._id, recipeName, recipeDesc, recipeTips, equipements, ingredients, steps, function(err) {
 
         if (err)
             return res.status(500).send('An error occured.');

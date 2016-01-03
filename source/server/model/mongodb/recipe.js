@@ -4,11 +4,12 @@ var tokenModel = require('./token');
 var db = commonService.db;
 var recipeIngredientModel = require('./recipeIngredient');
 
-module.exports.add = function(recipeName, recipeDesc, recipeTips, equipements, ingredients, steps, cb) {
+module.exports.add = function(userId, recipeName, recipeDesc, recipeTips, equipements, ingredients, steps, cb) {
 
 	db.collection('recipes', function(err, collection) {
 
 		var recipe = {
+			'author': new mongo.ObjectID(userId),
 			'name': recipeName,
 			'description': recipeDesc,
 			'tips': recipeTips,

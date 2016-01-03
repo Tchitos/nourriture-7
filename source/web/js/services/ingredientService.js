@@ -20,9 +20,6 @@ nourritureApp.factory('ingredientService', ['$http', 'httpService', 'Upload', fu
 
 		var url = httpService.makeUrl('/ingredient/add');
 
-		console.log(file);
-		console.log(ingredient);
-
 		file.upload = Upload.upload({
 		  url: url,
 		  data: {photo: file, name: ingredient['Name']},
