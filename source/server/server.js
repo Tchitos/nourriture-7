@@ -149,6 +149,7 @@ server.get('/getRecipesByPage/:nbPage?', recipeService.findAllRecipesPaginate);
 server.post('/getRecipeByName', recipeService.findRecipeByName);
 
 server.get('/getNutritions', nutritionService.findAllNutritions);
+server.post('/getNutritionByName', nutritionService.findNutritionByName);
 
 server.get('/image/:imageName', imageService.findImageByName);
 

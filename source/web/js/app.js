@@ -118,7 +118,7 @@ nourritureApp.config(function ($routeProvider) {
 				}
 			}
 		})
-		.when('/nutrition_detail',
+		.when('/nutrition_detail/:nutritionName',
 		{
 			controller: 'NutritionDetailController',
 			templateUrl: '/views/template/default.html',

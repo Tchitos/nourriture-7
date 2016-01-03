@@ -72,7 +72,7 @@ var populateDB = function() {
 					7: "Help of emphysema, the treatment of hyperthyroidism。",
 				},
 				"dailyIntake": "As for the general adult male，5000IU(International unit)(1IU=0.3mg)To prevent deficiency；Women need 4000IU。the latest recommended intake during pregnancy does not suggest increase;But if you're a nursing mom, in the first six months but for an additional 2500 iu, while after 6 months to consume an extra 2000 iu.",
-				"supplementCycle": "Excess vitamin a performance： OFten allergic, Symptoms such as fever, diarrhea, and the symptoms will take 6 hours in excess.",
+				"supplementCycle": "Excess vitamin a performance： Often allergic, Symptoms such as fever, diarrhea, and the symptoms will take 6 hours in excess.",
 				"origin": "Liver, yellow and green vegetables such as carrots, white radish, yellow fruit, eggs, milk, dairy products, fish liver oil, etc.",
 				"crowd": "Winnowing fat malabsorption, if have disease of digestive tract, gastric bowel resection, often leads to A lack of vitamin A.This situation often happens to children under the age of five, mainly because of inadequate dietary intake. Vitamin A for long-term wear contact lenses or have to look at A computer screen for A long time, but also important nutrients. Pregnant women and breast-feeding women vitamin A is also need.",
 				"deficiency": "A severe lack of vitamin A for A long time, can lead to dry eyes of night blindness, and even can lead to blindness."

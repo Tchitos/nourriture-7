@@ -44,4 +44,3 @@ module.exports.fetchByName = function(name, cb) {
 		});
 	});
 };
-
