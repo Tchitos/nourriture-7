@@ -18,38 +18,68 @@ exports.addIngredient = function(req, res, next) {
 
 	var ingredientName = req.body.name;
 
-	var path = './uploads/'+req.file.filename;
-	path = getPath.resolve(process.cwd(), path);
+	if (req.file != null) {
+		var path = './uploads/'+req.file.filename;
+		path = getPath.resolve(process.cwd(), path);
 
-	fs.move(req.file.path, path, function (err) {
+		fs.move(req.file.path, path, function (err) {
 
-		if (err)
-			return res.status(500).send("The image could'nt be uploaded.");
-	});
+			if (err)
+				return res.status(500).send("The image could'nt be uploaded.");
+		});
 
-	model.image.add(req.file.originalname,
-					path,
-					req.file.mimetype,
-					req.file.size,
-					function(err, image) {
+		model.image.add(req.file.originalname,
+						path,
+						req.file.mimetype,
+						req.file.size,
+						function(err, image) {
 
-		if (err)
-			return res.status(500).send("The image couldn't be uploaded.");
-	});
+			if (err)
+				return res.status(500).send("The image couldn't be uploaded.");
 
-	model.ingredient.add(ingredientName, image._id, function(err, ingredient) {
+			model.ingredient.add(ingredientName, null, function(err, ingredient) {
 
-		if (err)
-			return res.status(500).send('An error occured.');
+				if (err)
+					return res.status(500).send('An error occured.');
 
-		res.send('ok');
-	});
+				res.send('ok');
+			});
+		});
+	} else {
+		model.ingredient.add(ingredientName, null, function(err, ingredient) {
+
+			if (err)
+				return res.status(500).send('An error occured.');
+
+			res.send('ok');
+		});
+	}
 };
 
 exports.findIngredientById = function(req, res) {
 	var id = req.params.id;
 	console.log('Get an ingredient: ' + id);
 	model.ingredient.fetchById(id, function(err, ingredients) {
+		if (err != null)
+			res.status(401).send('An error occured during the search.');
+		else if (ingredients.length == 0)
+			res.status(201).send('No types found.');
+		else {
+			res.send(ingredients);
+		}
+	});
+};
+
+exports.findIngredientsBySearch = function(req, res) {
+
+	if (!req.body.search)
+		return res.status(401).send('No search given.');
+
+	var search = req.body.search;
+
+	console.log('Get an ingredient: ' + search);
+
+	model.ingredient.fetchBySearch(search, function(err, ingredients) {
 		if (err != null)
 			res.status(401).send('An error occured during the search.');
 		else if (ingredients.length == 0)

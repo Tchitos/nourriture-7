@@ -109,12 +109,12 @@ module.exports.fetchBySearch = function(search, cb) {
 
 	db.collection('ingredients', function(err, collection) {
 
-		collection.find({'name': new RegExp(search, 'i')}).toArray(function(err, ingredient) {
+		collection.find({'name': new RegExp(search, 'i')}).toArray(function(err, ingredients) {
 
 			if (err)
 				return cb();
 
-			return cb(null, ingredient);
+			return cb(null, ingredients);
 		});
 	});
 };

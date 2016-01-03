@@ -139,6 +139,7 @@ server.get('/stilllogged', usersService.stilllogged);
 server.get('/logout', usersService.logout);
 
 server.post('/ingredient/add', upload.single('photo'), ingredientsService.addIngredient)
+server.post('/getIngredientsBySearch', ingredientsService.findIngredientsBySearch)
 server.get('/getIngredients', ingredientsService.findAllIngredients)
 
 server.get('/getTypesDetails', typeService.findAllTypesDetails);
@@ -152,6 +153,7 @@ server.get('/getMyRecipes', recipeService.findMyRecipes);
 server.post('/getRecipeByName', recipeService.findRecipeByName);
 server.post('/getRecipesByIngredient', recipeService.findRecipesByIngredient);
 server.post('/getRecipesBySearch', recipeService.findRecipesBySearch);
+server.post('/getRecipesBySubtype', recipeService.findRecipesBySubtype);
 
 server.get('/getNutritions', nutritionService.findAllNutritions);
 server.post('/getNutritionByName', nutritionService.findNutritionByName);
