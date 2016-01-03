@@ -37,6 +37,18 @@ module.exports.add = function(userId, recipeName, recipeDesc, recipeTips, equipe
 	});
 }
 
+module.exports.delete = function(name, cb) {
+
+	db.collection('recipes', function(err, collection) {
+	
+		collection.remove({'name': name}, {safe:true}, function(err, result) {
+			if (err)
+				return cb(err);
+			return cb();
+		})
+	});
+}
+
 module.exports.fetchByAuthor = function(userId, cb) {
 
 	db.collection('recipes', function(err, collection) {

@@ -3,9 +3,13 @@
 	<table class="table">
 		<tr>
 			<th>Name</th>
+			<th>Delete</th>
 		</tr>
-		<tr ng-repeat="recipe in viewScope.recipes">
-			<td>{{recipe.name}}</td>
+		<tr ng-repeat="(key, recipe) in viewScope.recipes">
+			<td><a>{{recipe.name}}</a></td>
+			<td><a ng-click="delete(key)" class="btn btn-danger">Delete</a></td>
 		</tr>
 	</table>
+	<div><a href="#/recipes/add" class="btn btn-primary">Add a recipe</a></div>
+	<a href="#/account">Back</a>
 </div>

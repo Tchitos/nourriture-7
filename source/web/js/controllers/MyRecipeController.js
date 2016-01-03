@@ -10,4 +10,12 @@ nourritureApp.controller('MyRecipeController', ['$scope', 'viewName', 'loginServ
 		$scope.viewScope.recipes = recipes;
 	});
 
+	$scope.delete = function(key) {
+
+		var recipe = $scope.viewScope.recipes[key];
+
+		recipeService.deleteRecipe(recipe.name);
+		$scope.viewScope.recipes.splice(key, 1);
+	}
+
 }]);

@@ -39,6 +39,24 @@ exports.addRecipe = function(req, res, next) {
     });
 };
 
+exports.deleteRecipe = function(req, res, next) {
+
+	if (!req.session || !req.session.authorized)
+        return res.status(403).send();
+
+    if (!req.body.name)
+    	return res.send('Missing parameters');
+
+    var name = req.body.name;
+
+    model.recipe.delete(name, function(err) {
+
+    	if (err)
+            return res.status(500).send('An error occured.');
+        res.send('ok');
+    });
+}
+
 exports.findMyRecipes = function(req, res) {
 
 	if (!req.session || !req.session.authorized)
