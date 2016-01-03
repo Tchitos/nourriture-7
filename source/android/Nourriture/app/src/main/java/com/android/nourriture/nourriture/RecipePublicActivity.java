@@ -68,11 +68,8 @@ public class RecipePublicActivity extends Activity {
 
     private int img_select;
 
-    //������Ϻ͸���id��list
     private List<Map<String,Integer>> idMainIngredientList = new ArrayList<Map<String,Integer>>();
     private List<Map<String,Integer>> idSubIngredientList = new ArrayList<Map<String,Integer>>();
-
-    //������Ϻ͸������ݵ�list
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +147,8 @@ public class RecipePublicActivity extends Activity {
                 int name_id = ++count_sub;
                 int content_id = ++count_sub;
 
-                Map<String,Integer> mainIngred = new HashMap<String, Integer>();
+                Map<String,Integer> mainIngred = new HashMap<String,Integer>();
+
                 mainIngred.put("id", name_id);
                 mainIngred.put("content", content_id);
                 idSubIngredientList.add(mainIngred);
@@ -182,9 +180,24 @@ public class RecipePublicActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            //��ȡ�������
-            String recipename = String.valueOf(recipe_name.getText());
-            //��ȡ����array
+            /*
+** Add a recipe
+** POST fields :
+** recipeName: string
+** recipeDesc: string
+** recipeTips: string
+** equipements: JSON Array : [{name: string}]
+** ingredients: JSON Array : [{ingredient: id, mandatory: boolean quantity: string}]
+** steps: JSON Array : [{level: id, text: string}]
+*/
+
+            String recipeName = "";
+            String recipeDesc = "";
+            String recipeTips = "Just Be careful!";
+
+            recipeName = String.valueOf(recipe_name.getText());
+            recipeDesc = String.valueOf(recipe_profile.getText());
+
             JSONArray mainIngredientArray = new JSONArray();
             try {
                 for(Map map:idMainIngredientList){
@@ -194,7 +207,7 @@ public class RecipePublicActivity extends Activity {
                     {
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("ingredient_name", ingredientname.getText());
-                        jsonObject.put("ingredient_content", ingredientcontent.getText());
+                        jsonObject.put("quantity", ingredientcontent.getText());
                         mainIngredientArray.put(jsonObject);
                     }
                 }
@@ -202,7 +215,6 @@ public class RecipePublicActivity extends Activity {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            //��ȡ����array
             JSONArray subIngredientArray = new JSONArray();
             try {
                 for(Map map:idSubIngredientList){
@@ -211,8 +223,8 @@ public class RecipePublicActivity extends Activity {
                     if(ingredientname.getText()!=null && ingredientcontent.getText()!=null)
                     {
                         JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("ingredient_name", ingredientname.getText());
-                        jsonObject.put("ingredient_content", ingredientcontent.getText());
+                        jsonObject.put("name", ingredientname.getText());
+                        //jsonObject.put("ingredient_content", ingredientcontent.getText());
                         subIngredientArray.put(jsonObject);
                     }
                 }
@@ -221,9 +233,6 @@ public class RecipePublicActivity extends Activity {
                 e.printStackTrace();
             }
 
-            //��ȡ���׼��
-            String recipefile = String.valueOf(recipe_profile.getText());
-            //��ȡ����array
             JSONArray stepArray = new JSONArray();
             try {
                 JSONObject step1 = new JSONObject();
@@ -248,12 +257,72 @@ public class RecipePublicActivity extends Activity {
                 e.printStackTrace();
             }
 
-            //����
+            /*String recipename = String.valueOf(recipe_name.getText());
+            JSONArray mainIngredientArray = new JSONArray();
+            try {
+                for(Map map:idMainIngredientList){
+                    EditText ingredientname =(EditText)findViewById((Integer)map.get("id"));
+                    EditText ingredientcontent =(EditText)findViewById((Integer)map.get("content"));
+                    if(ingredientname.getText()!=null && ingredientcontent.getText()!=null)
+                    {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("ingredient_name", ingredientname.getText());
+                        jsonObject.put("ingredient_content", ingredientcontent.getText());
+                        mainIngredientArray.put(jsonObject);
+                    }
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            JSONArray subIngredientArray = new JSONArray();
+            try {
+                for(Map map:idSubIngredientList){
+                    EditText ingredientname =(EditText)findViewById((Integer)map.get("id"));
+                    EditText ingredientcontent =(EditText)findViewById((Integer)map.get("content"));
+                    if(ingredientname.getText()!=null && ingredientcontent.getText()!=null)
+                    {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("ingredient_name", ingredientname.getText());
+                        jsonObject.put("ingredient_content", ingredientcontent.getText());
+                        subIngredientArray.put(jsonObject);
+                    }
+                }
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            String recipefile = String.valueOf(recipe_profile.getText());
+            JSONArray stepArray = new JSONArray();
+            try {
+                JSONObject step1 = new JSONObject();
+                step1.put("step_descrip",String.valueOf(step_descrip_1.getText()));
+                step1.put("step_img_name",UUID.randomUUID() + ".JPEG");
+                step1.put("step_img",Base64Util.bitmapToBase64(((BitmapDrawable)step_img_1.getDrawable()).getBitmap()));
+                stepArray.put(step1);
+
+                JSONObject step2 = new JSONObject();
+                step2.put("step_descrip", String.valueOf(step_descrip_1.getText()));
+                step2.put("step_img_name",UUID.randomUUID() + ".JPEG");
+                step2.put("step_img",Base64Util.bitmapToBase64(((BitmapDrawable) step_img_1.getDrawable()).getBitmap()));
+                stepArray.put(step2);
+
+                JSONObject step3 = new JSONObject();
+                step3.put("step_descrip",String.valueOf(step_descrip_1.getText()));
+                step3.put("step_img_name",UUID.randomUUID() + ".JPEG");
+                step3.put("step_img",Base64Util.bitmapToBase64(((BitmapDrawable)step_img_1.getDrawable()).getBitmap()));
+                stepArray.put(step3);
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
             Map<String, String> map = new HashMap<String, String>();
             map.put("menu_cover_name", UUID.randomUUID() + ".JPEG");
             map.put("menu_cover_img", Base64Util.bitmapToBase64(((BitmapDrawable)menu_cover.getDrawable()).getBitmap()));
             map.put("recipe_name",recipename);
-            map.put("recipe_profile",recipefile);
+            map.put("recipe_profile",recipefile);*/
         }
     }
 
@@ -372,7 +441,6 @@ public class RecipePublicActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-         //   Toast.makeText(getApplicationContext(), "Ĭ�ϵ�Toast", Toast.LENGTH_SHORT).show();
             new PopupWindows(RecipePublicActivity.this,v);
         }
     }
@@ -382,7 +450,6 @@ public class RecipePublicActivity extends Activity {
     private static final int TAKE_PICTURE = 3023;
 
     public void gallery(View view) {
-        // ����ϵͳͼ�⣬ѡ��һ��ͼƬ
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         /*intent.putExtra("crop", "true");
@@ -391,7 +458,6 @@ public class RecipePublicActivity extends Activity {
         intent.putExtra("outputX", 800);
         intent.putExtra("outputY", 400);
         intent.putExtra("return-data", true);*/
-        // ����һ�����з���ֵ��Activity��������ΪPHOTO_REQUEST_GALLERY
         startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
     }
 
@@ -427,7 +493,6 @@ public class RecipePublicActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         ContentResolver resolver = getContentResolver();
         if (requestCode == PHOTO_REQUEST_GALLERY) {
-            // ����᷵�ص����
             if (data != null) {
                 Bitmap mBitmap = null;
                 Uri uri = data.getData();
@@ -465,7 +530,7 @@ public class RecipePublicActivity extends Activity {
 
                     }
                 }else
-                    Log.e(tag, "������ȡͼƬʧ��");
+                    Log.e(tag, "error");
             }
 
 
@@ -479,7 +544,6 @@ public class RecipePublicActivity extends Activity {
                                 f.getAbsolutePath(), null, null));
                 if(uri != null){
                     String realPath = getRealPathFromURI(uri);
-                    Log.e(tag, "Huo qu tu pian chenggong��path=" + realPath);
                     Bitmap bmp = BitmapFactory.decodeFile(realPath);
 
                     switch (img_select)
@@ -503,7 +567,7 @@ public class RecipePublicActivity extends Activity {
 
                     }
                 }else
-                    Log.e(tag, "������ȡͼƬʧ��");
+                    Log.e(tag, "error");
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

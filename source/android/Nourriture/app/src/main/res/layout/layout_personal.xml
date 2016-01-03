@@ -118,7 +118,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Public Recipe"
+            android:text="Publish Recipe"
             android:textSize="18dp"
             android:textColor="#333333"
             android:layout_marginLeft="10dp"
@@ -133,7 +133,7 @@
             android:layout_marginRight="5dp"/>
     </RelativeLayout>
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -167,5 +167,5 @@
             android:src="@mipmap/next_img"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"/>
-    </RelativeLayout>
+    </RelativeLayout>-->
 </LinearLayout>
