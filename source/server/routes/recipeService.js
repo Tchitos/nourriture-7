@@ -39,6 +39,21 @@ exports.addRecipe = function(req, res, next) {
     });
 };
 
+exports.findMyRecipes = function(req, res) {
+
+	if (!req.session || !req.session.authorized)
+        return res.status(403).send();
+
+	model.recipe.fetchByAuthor(req.session.user._id, function(err, recipes) {
+
+		if (err != null)
+			return res.status(401).send('An error occured during the search.');
+		else if (recipes == null)
+			return res.status(201).send('No recipe found.');
+		return res.send(recipes);
+	});
+};
+
 function loadRecipeDetailsLoop(res, recipe, tablesToLoad, index) {
 
 	if (tablesToLoad[index] === undefined) {

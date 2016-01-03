@@ -4,6 +4,7 @@ nourritureApp.factory('recipeService', ['$http', 'httpService', '$location', fun
 
 		'addRecipe': addRecipeFunction,
 		'getRecipes': getRecipesFunction,
+		'getMyRecipes': getMyRecipesFunction,
 		'getRecipeByName': getRecipeByNameFunction
 	};
 
@@ -28,6 +29,16 @@ nourritureApp.factory('recipeService', ['$http', 'httpService', '$location', fun
 	function getRecipesFunction(cb) {
 
 		var url = httpService.makeUrl('/getRecipes');
+
+		$http.get(url).then(function(response) {
+
+			cb(response.data);
+		}, httpService.httpError);
+	}
+
+	function getMyRecipesFunction(cb) {
+
+		var url = httpService.makeUrl('/getMyRecipes');
 
 		$http.get(url).then(function(response) {
 

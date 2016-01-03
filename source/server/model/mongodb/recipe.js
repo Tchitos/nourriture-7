@@ -37,6 +37,19 @@ module.exports.add = function(userId, recipeName, recipeDesc, recipeTips, equipe
 	});
 }
 
+module.exports.fetchByAuthor = function(userId, cb) {
+
+	db.collection('recipes', function(err, collection) {
+
+		collection.find({'author': new mongo.ObjectID(userId)}).toArray(function(err, recipe) {
+
+			if (err)
+				return cb(err);
+			return cb(null, recipe);
+		});
+	});
+};
+
 module.exports.fetchAll = function(skip, limit, cb) {
 
 	db.collection('recipes', function(err, collection) {
