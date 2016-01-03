@@ -13,65 +13,96 @@ nourritureApp.controller('AddRecipeController', ['$scope', '$filter', 'viewName'
       recipeName: '',
       recipeDesc: '',
       recipeTips: '',
+      equipements: [
+        {
+          'name': ''
+        }
+      ],
       mainIngredients: [
-        {'searchText': ''}
+        {
+          'searchText': '',
+          'quantity': ''
+        }
       ],
       subIngredients: [
-        {'searchText': ''}
+        {
+          'searchText': '',
+          'quantity': ''
+        }
       ],
       steps: [
         {
-          'title': '',
-          'desc': ''
+          'text': ''
         }
       ]
     };
+
+    getAllIngredients();
   }
 
   initViewScope();
 
-	ingredientService.getIngredients(function(ingredients) {
+	function getAllIngredients() {
+    ingredientService.getIngredients(function(ingredients) {
 		
-    $scope.viewScope.ingredients = [];
-    for (var i in ingredients) {
-      $scope.viewScope.ingredients.push({
-        value: ingredients[i].name.toLowerCase(),
-              display: ingredients[i].name
-      });
-    }
-	});
+      $scope.viewScope.ingredients = [];
+      for (var i in ingredients) {
+        $scope.viewScope.ingredients.push({
+          id: ingredients[i]._id,
+          value: ingredients[i].name.toLowerCase(),
+          display: ingredients[i].name
+        });
+      }
+  	});
+  }
 
   $scope.addRecipe = function() {
 
     var recipeName = $scope.viewScope.recipeName;
     var recipeDesc = $scope.viewScope.recipeDesc;
     var recipeTips = $scope.viewScope.recipeTips;
+    var equipements = $filter('json')($scope.viewScope.equipements);
+
     var ingredients = [];
-    
+
     for (var i in $scope.viewScope.mainIngredients) {
-      if ($scope.viewScope.mainIngredients[i].searchText) {
+      if ($scope.viewScope.mainIngredients[i].id) {
         ingredients.push({
-          'name': $scope.viewScope.mainIngredients[i].searchText,
-          'main': true
+          'ingredient': $scope.viewScope.mainIngredients[i].id,
+          'mandatory': true,
+          'quantity': $scope.viewScope.mainIngredients[i].quantity
         });
       }
     }
 
     for (var i in $scope.viewScope.subIngredients) {
-      if ($scope.viewScope.subIngredients[i].searchText) {        
+      if ($scope.viewScope.subIngredients[i].id) {        
         ingredients.push({
-          'name': $scope.viewScope.subIngredients[i].searchText,
-          'main': false
+          'ingredient': $scope.viewScope.subIngredients[i].id,
+          'mandatory': false,
+          'quantity': $scope.viewScope.subIngredients[i].quantity
         });
       }
     }
 
     ingredients = $filter('json')(ingredients);
     
-    var steps = $filter('json')($scope.viewScope.steps);
+    var steps = [];
 
-    recipeService.addRecipe(recipeName, recipeDesc, recipeTips, ingredients, steps, function() {
+    for (var i in $scope.viewScope.steps) {
 
+      steps.push({
+        'level': parseInt(i) + 1,
+        'text': $scope.viewScope.steps[i].text
+      });
+    };
+
+    steps = $filter('json')(steps);
+
+    recipeService.addRecipe(recipeName, recipeDesc, recipeTips, equipements, ingredients, steps, function(response) {
+
+      if (response.data == "Missing parameters")
+        return;
       initViewScope();
     });
   }
@@ -93,6 +124,16 @@ nourritureApp.controller('AddRecipeController', ['$scope', '$filter', 'viewName'
     	};
   }
 
+  $scope.removeEquipement = function(id) {
+
+    $scope.viewScope.equipements.splice(id, 1);
+  }
+
+  $scope.addEquipement = function() {
+
+    $scope.viewScope.equipements.push({'name': ''});
+  }
+
   $scope.removeMainIngredient = function(id) {
 
     $scope.viewScope.mainIngredients.splice(id, 1);
@@ -101,6 +142,12 @@ nourritureApp.controller('AddRecipeController', ['$scope', '$filter', 'viewName'
   $scope.addMainIngredient = function() {
 
     $scope.viewScope.mainIngredients.push({'searchText': ''});
+  }
+
+  $scope.selectedMainIngredientChange = function(item, key) {
+
+    if (item && item.id)
+      $scope.viewScope.mainIngredients[key].id = item.id;
   }
 
   $scope.removeSubIngredient = function(id) {
@@ -113,6 +160,12 @@ nourritureApp.controller('AddRecipeController', ['$scope', '$filter', 'viewName'
     $scope.viewScope.subIngredients.push({'searchText': ''});
   }
 
+  $scope.selectedSubIngredientChange = function(item, key) {
+
+    if (item && item.id)
+      $scope.viewScope.subIngredients[key].id = item.id;
+  }
+
   $scope.removeStep = function(id) {
 
     $scope.viewScope.steps.splice(id, 1);
@@ -120,6 +173,6 @@ nourritureApp.controller('AddRecipeController', ['$scope', '$filter', 'viewName'
 
   $scope.addStep = function() {
 
-    $scope.viewScope.steps.push({'searchText': ''});
+    $scope.viewScope.steps.push({'text': ''});
   }
 }]);
