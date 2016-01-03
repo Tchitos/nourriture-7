@@ -6,6 +6,16 @@ var ObjectId = require('mongodb').ObjectID;
 var TYPE = 'mongodb';
 var model = require('../model/' + TYPE);
 
+/*
+** Add a recipe
+** POST fields :
+** recipeName: string
+** recipeDesc: string
+** recipeTips: string
+** equipements: JSON Array : [{name: string}]
+** ingredients: JSON Array : [{ingredient: id, mandatory: boolean quantity: string}]
+** steps: JSON Array : [{level: id, text: string}]
+*/
 exports.addRecipe = function(req, res, next) {
 
 	if (!req.session || !req.session.authorized)
