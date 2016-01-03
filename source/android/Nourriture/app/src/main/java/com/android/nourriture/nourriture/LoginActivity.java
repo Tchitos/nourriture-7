@@ -23,6 +23,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,6 +92,16 @@ public class LoginActivity extends Activity {
             api.setPassword(passwordString);
             api.setRequest("login");
             api.execute();
+
+            try {
+                api.get(5, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
+                e.printStackTrace();
+            }
 
             if (api.getSuccess() == false) {
                 Toast toast = Toast.makeText(getApplicationContext(),

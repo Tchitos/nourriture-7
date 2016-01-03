@@ -86,7 +86,9 @@ public class RegistActivity extends Activity {
                         api.getError(), Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                finish();
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Register complete", Toast.LENGTH_SHORT);
+                toast.show();
             }
         }
     }
