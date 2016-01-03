@@ -134,7 +134,7 @@ public class ListViewFragment extends Fragment {
 
         ingredientList.add("pork");
         ingredientList.add("ribs");
-        ingredientList.add("streaky");
+        ingredientList.add("Cabbage");
         ingredientList.add("streaky");
         ingredientList.add("pork");
         ingredientList.add("ribs");

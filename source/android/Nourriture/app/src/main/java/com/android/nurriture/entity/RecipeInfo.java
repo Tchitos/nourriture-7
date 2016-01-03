@@ -7,6 +7,15 @@ public class RecipeInfo {
     private String name;
     private String type;
     private String imgpath;
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getType() {
         return type;
