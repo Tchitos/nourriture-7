@@ -35,9 +35,11 @@ public class PostRequestAPI extends AsyncTask<String, Void, Void> {
     ProgressDialog progressDialog;
     String username;
     String password;
+    String email;
     String url = "http://104.236.38.237";
     Boolean success = false;
     String error = null;
+    String req;
 
     public PostRequestAPI(Activity activity) {
         this.activity = activity;
@@ -57,13 +59,16 @@ public class PostRequestAPI extends AsyncTask<String, Void, Void> {
 
 
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost(url);
+        HttpPost httppost = new HttpPost(url + "/" + req);
 
         try {
             // Add your data
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
             nameValuePairs.add(new BasicNameValuePair("username", username));
             nameValuePairs.add(new BasicNameValuePair("password", password));
+            if (req.compareTo("register") == 0) {
+                nameValuePairs.add(new BasicNameValuePair("email", email));
+            }
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
             // Execute HTTP Post Request
@@ -97,12 +102,16 @@ public class PostRequestAPI extends AsyncTask<String, Void, Void> {
         this.username = username;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
 
     public void setRequest(String req) {
-        url += req;
+        this.req = req;
     }
 
     public boolean getSuccess() {

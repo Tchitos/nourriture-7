@@ -58,7 +58,7 @@ public class NutritionFragment extends Fragment{
         initMineralGV(nutritionView,inflater);
 
        /* DisplayMetrics dm = new DisplayMetrics();
-        //取得窗口属性
+        //
 =======
         DisplayMetrics dm = new DisplayMetrics();
 

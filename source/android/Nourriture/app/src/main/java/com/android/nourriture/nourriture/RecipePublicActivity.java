@@ -68,11 +68,11 @@ public class RecipePublicActivity extends Activity {
 
     private int img_select;
 
-    //´æ·ÅÖ÷ÁÏºÍ¸¨ÁÏidµÄlist
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏºÍ¸ï¿½ï¿½ï¿½idï¿½ï¿½list
     private List<Map<String,Integer>> idMainIngredientList = new ArrayList<Map<String,Integer>>();
     private List<Map<String,Integer>> idSubIngredientList = new ArrayList<Map<String,Integer>>();
 
-    //´æ·ÅÖ÷ÁÏºÍ¸¨ÁÏÄÚÈÝµÄlist
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏºÍ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½list
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +150,7 @@ public class RecipePublicActivity extends Activity {
                 int name_id = ++count_sub;
                 int content_id = ++count_sub;
 
-                Map<String,Integer> mainIngred = new HashMap<>();
+                Map<String,Integer> mainIngred = new HashMap<String, Integer>();
                 mainIngred.put("id", name_id);
                 mainIngred.put("content", content_id);
                 idSubIngredientList.add(mainIngred);
@@ -182,9 +182,9 @@ public class RecipePublicActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            //»ñÈ¡²ËÆ×Ãû³Æ
+            //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             String recipename = String.valueOf(recipe_name.getText());
-            //»ñÈ¡Ö÷ÁÏarray
+            //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½array
             JSONArray mainIngredientArray = new JSONArray();
             try {
                 for(Map map:idMainIngredientList){
@@ -202,7 +202,7 @@ public class RecipePublicActivity extends Activity {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            //»ñÈ¡¸¨ÁÏarray
+            //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½array
             JSONArray subIngredientArray = new JSONArray();
             try {
                 for(Map map:idSubIngredientList){
@@ -221,9 +221,9 @@ public class RecipePublicActivity extends Activity {
                 e.printStackTrace();
             }
 
-            //»ñÈ¡²ËÆ×¼ò½é
+            //ï¿½ï¿½È¡ï¿½ï¿½ï¿½×¼ï¿½ï¿½
             String recipefile = String.valueOf(recipe_profile.getText());
-            //»ñÈ¡²½Öèarray
+            //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½array
             JSONArray stepArray = new JSONArray();
             try {
                 JSONObject step1 = new JSONObject();
@@ -248,7 +248,7 @@ public class RecipePublicActivity extends Activity {
                 e.printStackTrace();
             }
 
-            //·¢ËÍ
+            //ï¿½ï¿½ï¿½ï¿½
             Map<String, String> map = new HashMap<String, String>();
             map.put("menu_cover_name", UUID.randomUUID() + ".JPEG");
             map.put("menu_cover_img", Base64Util.bitmapToBase64(((BitmapDrawable)menu_cover.getDrawable()).getBitmap()));
@@ -372,7 +372,7 @@ public class RecipePublicActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-         //   Toast.makeText(getApplicationContext(), "Ä¬ÈÏµÄToast", Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(getApplicationContext(), "Ä¬ï¿½Ïµï¿½Toast", Toast.LENGTH_SHORT).show();
             new PopupWindows(RecipePublicActivity.this,v);
         }
     }
@@ -382,7 +382,7 @@ public class RecipePublicActivity extends Activity {
     private static final int TAKE_PICTURE = 3023;
 
     public void gallery(View view) {
-        // ¼¤»îÏµÍ³Í¼¿â£¬Ñ¡ÔñÒ»ÕÅÍ¼Æ¬
+        // ï¿½ï¿½ï¿½ï¿½ÏµÍ³Í¼ï¿½â£¬Ñ¡ï¿½ï¿½Ò»ï¿½ï¿½Í¼Æ¬
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         /*intent.putExtra("crop", "true");
@@ -391,7 +391,7 @@ public class RecipePublicActivity extends Activity {
         intent.putExtra("outputX", 800);
         intent.putExtra("outputY", 400);
         intent.putExtra("return-data", true);*/
-        // ¿ªÆôÒ»¸ö´øÓÐ·µ»ØÖµµÄActivity£¬ÇëÇóÂëÎªPHOTO_REQUEST_GALLERY
+        // ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ð·ï¿½ï¿½ï¿½Öµï¿½ï¿½Activityï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªPHOTO_REQUEST_GALLERY
         startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
     }
 
@@ -427,13 +427,13 @@ public class RecipePublicActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         ContentResolver resolver = getContentResolver();
         if (requestCode == PHOTO_REQUEST_GALLERY) {
-            // ´ÓÏà²á·µ»ØµÄÊý¾Ý
+            // ï¿½ï¿½ï¿½ï¿½á·µï¿½Øµï¿½ï¿½ï¿½ï¿½
             if (data != null) {
                 Bitmap mBitmap = null;
                 Uri uri = data.getData();
                 if(uri != null){
                     String realPath = getRealPathFromURI(uri);
-                    Log.e(tag, "Huo qu tu pian chenggong£¬path=" + realPath);
+                    Log.e(tag, "Huo qu tu pian chenggongï¿½ï¿½path=" + realPath);
                     Bitmap bmp = BitmapFactory.decodeFile(realPath);
 
                     /*Bitmap bmp = null;
@@ -465,7 +465,7 @@ public class RecipePublicActivity extends Activity {
 
                     }
                 }else
-                    Log.e(tag, "´ÓÏà²á»ñÈ¡Í¼Æ¬Ê§°Ü");
+                    Log.e(tag, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Í¼Æ¬Ê§ï¿½ï¿½");
             }
 
 
@@ -479,7 +479,7 @@ public class RecipePublicActivity extends Activity {
                                 f.getAbsolutePath(), null, null));
                 if(uri != null){
                     String realPath = getRealPathFromURI(uri);
-                    Log.e(tag, "Huo qu tu pian chenggong£¬path=" + realPath);
+                    Log.e(tag, "Huo qu tu pian chenggongï¿½ï¿½path=" + realPath);
                     Bitmap bmp = BitmapFactory.decodeFile(realPath);
 
                     switch (img_select)
@@ -503,7 +503,7 @@ public class RecipePublicActivity extends Activity {
 
                     }
                 }else
-                    Log.e(tag, "´ÓÏà²á»ñÈ¡Í¼Æ¬Ê§°Ü");
+                    Log.e(tag, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Í¼Æ¬Ê§ï¿½ï¿½");
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -515,7 +515,7 @@ public class RecipePublicActivity extends Activity {
                     toast("zhezhe");
                     String realPath = getRealPathFromURI(uri);
                     toast("zhezhepath:"+realPath);
-                    Log.e(tag, "Huo qu tu pian chenggong£¬path="+realPath);
+                    Log.e(tag, "Huo qu tu pian chenggongï¿½ï¿½path="+realPath);
                     Bitmap bmp = BitmapFactory.decodeFile(realPath);
                     mBitmap = Bitmap.createScaledBitmap(bmp, menu_cover.getWidth(), menu_cover.getHeight(), true);
                     *//*Bitmap bmp = null;
@@ -527,7 +527,7 @@ public class RecipePublicActivity extends Activity {
                     mBitmap = Bitmap.createBitmap(bmp, 0,0,menu_cover.getWidth(), menu_cover.getHeight());*//*
                     this.menu_cover.setImageBitmap(mBitmap);
                 }else
-                    Log.e(tag, "´ÓÏà²á»ñÈ¡Í¼Æ¬Ê§°Ü");
+                    Log.e(tag, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Í¼Æ¬Ê§ï¿½ï¿½");
             }*/
 
         }
