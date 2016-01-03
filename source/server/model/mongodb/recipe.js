@@ -4,11 +4,12 @@ var tokenModel = require('./token');
 var db = commonService.db;
 var recipeIngredientModel = require('./recipeIngredient');
 
-module.exports.add = function(recipeName, recipePhoto, recipeDesc, recipeTips, equipements, ingredients, steps, cb) {
+module.exports.add = function(userId, recipeName, recipePhoto, recipeDesc, recipeTips, equipements, ingredients, steps, cb) {
 
 	db.collection('recipes', function(err, collection) {
 
 		var recipe = {
+			'author': new mongo.ObjectID(userId),
 			'name': recipeName,
 			'image': recipePhoto,
 			'description': recipeDesc,
@@ -41,6 +42,31 @@ module.exports.add = function(recipeName, recipePhoto, recipeDesc, recipeTips, e
         });
 	});
 }
+
+module.exports.delete = function(name, cb) {
+
+	db.collection('recipes', function(err, collection) {
+	
+		collection.remove({'name': name}, {safe:true}, function(err, result) {
+			if (err)
+				return cb(err);
+			return cb();
+		})
+	});
+}
+
+module.exports.fetchByAuthor = function(userId, cb) {
+
+	db.collection('recipes', function(err, collection) {
+
+		collection.find({'author': new mongo.ObjectID(userId)}).toArray(function(err, recipe) {
+
+			if (err)
+				return cb(err);
+			return cb(null, recipe);
+		});
+	});
+};
 
 module.exports.fetchAll = function(skip, limit, cb) {
 

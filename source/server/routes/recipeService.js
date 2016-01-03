@@ -34,7 +34,6 @@ exports.addRecipe = function(req, res, next) {
 	var ingredients = JSON.parse(req.body.ingredients);
 	var steps = JSON.parse(req.body.steps);
 
-
 	addImagesRecurs(req.files, {}, 0, function(err, imageIds) {
 
 		console.log(imageIds);
@@ -57,7 +56,7 @@ exports.addRecipe = function(req, res, next) {
 			}
 		}
 
-		model.recipe.add(recipeName, recipePhoto, recipeDesc, recipeTips, equipements, ingredients, steps, function(err) {
+		model.recipe.add(req.session.user._id, recipeName, recipePhoto, recipeDesc, recipeTips, equipements, ingredients, steps, function(err) {
 
 			if (err)
 				return res.status(500).send('An error occured.');
@@ -94,6 +93,39 @@ function addImagesRecurs(files, filesId, index, cb) {
 		});
 	});
 }
+
+exports.deleteRecipe = function(req, res, next) {
+
+	if (!req.session || !req.session.authorized)
+        return res.status(403).send();
+
+    if (!req.body.name)
+    	return res.send('Missing parameters');
+
+    var name = req.body.name;
+
+    model.recipe.delete(name, function(err) {
+
+    	if (err)
+            return res.status(500).send('An error occured.');
+        res.send('ok');
+    });
+}
+
+exports.findMyRecipes = function(req, res) {
+
+	if (!req.session || !req.session.authorized)
+        return res.status(403).send();
+
+	model.recipe.fetchByAuthor(req.session.user._id, function(err, recipes) {
+
+		if (err != null)
+			return res.status(401).send('An error occured during the search.');
+		else if (recipes == null)
+			return res.status(201).send('No recipe found.');
+		return res.send(recipes);
+	});
+};
 
 function loadRecipeDetailsLoop(res, recipe, tablesToLoad, index) {
 

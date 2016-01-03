@@ -3,7 +3,9 @@ nourritureApp.factory('recipeService', ['$http', 'httpService', '$location', 'Up
 	var recipeServiceInstance = {
 
 		'addRecipe': addRecipeFunction,
+		'deleteRecipe': deleteRecipeFunction,
 		'getRecipes': getRecipesFunction,
+		'getMyRecipes': getMyRecipesFunction,
 		'getRecipeByName': getRecipeByNameFunction
 	};
 
@@ -37,9 +39,33 @@ nourritureApp.factory('recipeService', ['$http', 'httpService', '$location', 'Up
 		// }, httpService.httpError);
 	}
 
+	function deleteRecipeFunction(name, cb) {
+
+		var url = httpService.makeUrl('/recipe/delete');
+		
+		var data = {
+			'name': name
+		};
+
+		$http.post(url, data).then(function(response) {
+
+			cb(response);
+		}, httpService.httpError);
+	}
+
 	function getRecipesFunction(cb) {
 
 		var url = httpService.makeUrl('/getRecipes');
+
+		$http.get(url).then(function(response) {
+
+			cb(response.data);
+		}, httpService.httpError);
+	}
+
+	function getMyRecipesFunction(cb) {
+
+		var url = httpService.makeUrl('/getMyRecipes');
 
 		$http.get(url).then(function(response) {
 
