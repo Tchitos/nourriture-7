@@ -16,19 +16,16 @@ nourritureApp.factory('ingredientService', ['$http', 'httpService', 'Upload', fu
 		}, httpService.httpError);
 	}
 
-	function addIngredientFunction(ingredient, file, cb) {
+	function addIngredientFunction(ingredient, cb) {
 
 		var url = httpService.makeUrl('/ingredient/add');
 
-		console.log(file);
-		console.log(ingredient);
-
-		file.upload = Upload.upload({
+		var upload = Upload.upload({
 		  url: url,
-		  data: {photo: file, name: ingredient['Name']},
+		  data: {photo: ingredient['Photo'], name: ingredient['Name']},
 		});
 
-		file.upload.then(function(response) {
+		upload.then(function(response) {
 
 			cb(response);
 		}, httpService.httpError);

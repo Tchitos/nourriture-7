@@ -7,6 +7,10 @@
 				<input type="text" value="" ng-model="viewScope.recipeName">
 			</div>
 			<div>
+				<h5>Recipe Image:</h5>	
+				<input type="file" value="" ngf-select ng-model="viewScope.recipePhoto" name="file" accept="image/*" ngf-max-size="2MB">
+			</div>
+			<div>
 				<h5>Recipe Description:</h5>	
 				<textarea ng-model="viewScope.recipeDesc" placeholder="Recipe description"></textarea>
 			</div>
@@ -96,6 +100,7 @@
 			<div class="autocomplete row" ng-repeat="(key, step) in viewScope.steps">
 				<div class="col-xs-10">
 					<textarea ng-model="step.text" placeholder="Step description"></textarea>
+					<input type="file" value="" ngf-select ng-model="step.photo" name="file" accept="image/*" ngf-max-size="2MB">
 				</div>
 				<div class="col-xs-2">
 					<div class="btn btn-danger" ng-click="removeStep(key)">Remove step</div>
