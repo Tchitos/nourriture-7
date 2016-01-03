@@ -1,7 +1,16 @@
-nourritureApp.controller('NutritionsController', ['$scope', 'viewName', 'loginService', function ($scope, viewName, loginService) {
+nourritureApp.controller('NutritionsController', ['$scope', 'viewName', 'loginService', 'nutritionService', function ($scope, viewName, loginService, nutritionService) {
 
-	$scope.view = viewName;
-	$scope.tab = 'nutrition';
 	loginService.init($scope);
+	$scope.view = viewName;
+	$scope.tab = 'nutritions';
+	$scope.viewScope = {
+		nutritions: [],
+		types: [],
+		perPage: 8,
+		offset: 0
+	};
 
+	nutritionService.getNutritions(function(nutritions) {
+		$scope.viewScope.nutritions = nutritions;
+	});
 }]);

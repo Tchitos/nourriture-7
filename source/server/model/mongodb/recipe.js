@@ -2,7 +2,6 @@ var mongo = require('mongodb');
 var commonService = require('../../routes/commonService');
 var tokenModel = require('./token');
 var db = commonService.db;
-var TYPE = 'mongodb';
 var recipeIngredientModel = require('./recipeIngredient');
 
 module.exports.add = function(recipeName, recipeDesc, recipeTips, equipements, ingredients, steps, cb) {

@@ -8,25 +8,26 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000000"
+        android:textColor="#f5b230"
         android:text="Ingredient"
-        android:layout_marginTop="20px"
         android:textSize="20dp"
+        android:paddingTop="10dp"
         android:gravity="center"
-        android:textStyle="bold"/>
-    <View
+        android:paddingBottom="10dp"
+        android:background="#f8f8f8" />
+    <!--<View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="#cdcdcd" />
+        android:background="#cdcdcd" />-->
 
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/search_linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
-        android:background="#cfcfcf">
+        android:background="#ececec">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,11 +51,11 @@
                 android:textSize="12dp"
                 android:layout_marginLeft="10dp"/>
         </LinearLayout>
-    </LinearLayout>
-    <View
+    </LinearLayout>-->
+    <!--<View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="#cdcdcd" />
+        android:background="#cdcdcd" />-->
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -67,7 +68,7 @@
             android:layout_height="match_parent"
             android:scrollbars="none"
             android:layout_weight="1.0"
-            android:background="#f4f4f4" />
+            android:background="#f1f1f1" />
 
 
         <FrameLayout

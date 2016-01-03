@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -20,9 +21,14 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.android.nourriture.nourriture.NutritionDetailActivity;
 import com.android.nourriture.nourriture.R;
+import com.android.nourriture.nourriture.RecipeActivity;
 import com.android.nourriture.nourriture.SearchResultActivity;
 import com.android.nuttriture.adapter.ListViewAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2015/12/9.
@@ -36,13 +42,27 @@ public class NutritionFragment extends Fragment{
 
     private Context context;
     private int screenWidth;
+
+    private MyGridView gv_nutrition;
+    private MyGridView gv_mineral;
+    private List<String> nutritionList;
+    private List<String> mineralList;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         this.context = container.getContext();
         View nutritionView = (View)inflater.inflate(R.layout.layout_nutrition, container, false);
+
+        initNutritionGV(nutritionView,inflater);
+        initMineralGV(nutritionView,inflater);
+
+       /* DisplayMetrics dm = new DisplayMetrics();
+        //取得窗口属性
+=======
         DisplayMetrics dm = new DisplayMetrics();
 
+>>>>>>> origin/master
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 
         screenWidth = dm.widthPixels;
@@ -88,12 +108,113 @@ public class NutritionFragment extends Fragment{
             linearLayout.addView(deView);
 
         }
-        ViewGroup vg = (ViewGroup)nutritionView;
+        ViewGroup vg = (ViewGroup)nutritionView;*/
         return nutritionView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    private void initNutritionGV(View view,LayoutInflater inflater)
+    {
+        gv_nutrition = (MyGridView)view.findViewById(R.id.gv_nutrition);
+        nutritionList = new ArrayList<String>();
+        nutritionList.add("Vitamin A");
+        nutritionList.add("Vitamin B1");
+        nutritionList.add("Vitamin B2");
+        nutritionList.add("Vitamin B3");
+        nutritionList.add("Vitamin B4");
+        nutritionList.add("Vitamin B5");
+        nutritionList.add("Vitamin B6");
+        nutritionList.add("Vitamin C");
+        nutritionList.add("Vitamin D");
+        nutritionList.add("Vitamin E");
+        nutritionList.add("Vitamin H");
+        nutritionList.add("Vitamin K");
+        nutritionList.add("Vitamin P");
+        nutritionList.add("Vitamin B11");
+        nutritionList.add("Vitamin B12");
+        gv_nutrition.setAdapter(new MyGridViewAdapter(nutritionList, inflater));
+        gv_nutrition.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent;
+
+                    intent = new Intent(getActivity(), NutritionDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("NutritionName", "Vitamin A");
+                    intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void initMineralGV(View view,LayoutInflater inflater)
+    {
+        gv_mineral = (MyGridView)view.findViewById(R.id.gv_mineral);
+        mineralList = new ArrayList<String>();
+        mineralList.add("Vitamin A");
+        mineralList.add("Vitamin B1");
+        mineralList.add("Vitamin B2");
+        mineralList.add("Vitamin B3");
+        mineralList.add("Vitamin B4");
+        mineralList.add("Vitamin B5");
+        mineralList.add("Vitamin B6");
+        mineralList.add("Vitamin C");
+        mineralList.add("Vitamin D");
+        mineralList.add("Vitamin E");
+        mineralList.add("Vitamin H");
+        mineralList.add("Vitamin K");
+        mineralList.add("Vitamin P");
+        mineralList.add("Vitamin B11");
+        mineralList.add("Vitamin B12");
+        gv_mineral.setAdapter(new MyGridViewAdapter(nutritionList, inflater));
+        gv_mineral.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent;
+
+                intent = new Intent(getActivity(), NutritionDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("NutritionName", "Vitamin A");
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private class MyGridViewAdapter extends BaseAdapter
+    {
+        List<String> stringList;
+        LayoutInflater inflater;
+        public MyGridViewAdapter(List<String> stringList,LayoutInflater inflater) {
+            this.stringList = stringList;
+            this.inflater = inflater;
+        }
+
+        @Override
+        public int getCount() {
+            return stringList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return stringList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = (View)inflater.inflate(R.layout.gridview_nutrition,parent,false);
+            TextView recipeType = (TextView)convertView.findViewById(R.id.recipe_type);
+            recipeType.setText(stringList.get(position));
+            return convertView;
+        }
     }
 }

@@ -10,6 +10,7 @@ var
 	typeService					= require('./routes/typeService'),
 	subtypeService				= require('./routes/subtypeService'),
 	imageService				= require('./routes/imageService'),
+	nutritionService			= require('./routes/nutritionService'),
 	oauth20						= require('./oauth20.js')(TYPE),
 	model						= require('./model/' + TYPE),
 	config						= require('./config'),
@@ -147,6 +148,9 @@ server.get('/getRecipes', recipeService.findAllRecipes);
 server.get('/getRecipesCount', recipeService.countAllRecipes);
 server.get('/getRecipesByPage/:nbPage?', recipeService.findAllRecipesPaginate);
 server.post('/getRecipeByName', recipeService.findRecipeByName);
+
+server.get('/getNutritions', nutritionService.findAllNutritions);
+server.post('/getNutritionByName', nutritionService.findNutritionByName);
 
 server.get('/image/:imageName', imageService.findImageByName);
 

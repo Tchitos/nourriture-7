@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:paddingBottom="10dp">
+
+    <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:paddingLeft="10dp"
+       android:paddingTop="10dp"
+       android:paddingBottom="10dp"
+       android:background="#f5f5f5">
+
+       <ImageView
+           android:id="@+id/back_img"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginRight="10dp"
+           android:src="@mipmap/search_back"
+           android:layout_alignParentLeft="true"/>
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Vitamin A(retinol)"
+           android:textColor="#000000"
+           android:textSize="20dp"
+           android:layout_centerInParent="true"/>
+
+   </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#e8e8e8">
+    </View>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="20dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Effect of vitamin A："
+            android:textColor="#000000"
+            android:textSize="20dp"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" In the general population are edible.Suitable for the growth and development, and postoperative disease aftercare and gas after Cain, "
+            android:textColor="#555555"
+            android:textSize="16dp"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vitamin A recommended daily intake："
+            android:textColor="#000000"
+            android:textSize="20dp"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" All rotten, rotten or buds more potatoes, because of excessive solanine, easily cause poisoning, are not edible."
+            android:textColor="#555555"
+            android:textSize="16dp"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vitamin A supplements cycle："
+            android:textColor="#000000"
+            android:textSize="20dp"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Sweet potatoes, flat, cool, spleen, stomach, large intestine; and a stomach, invigorating spleen to remove dampness, detoxification anti-inflammatory, wide intestinal catharsis, lipid-lowering, hypoglycemic, Huoxue swelling, Qi physical, beauty, anti-aging old effect. "
+            android:textColor="#555555"
+            android:textSize="16dp"
+            android:layout_marginTop="10dp"/>
+    </LinearLayout>
+    </LinearLayout>
+</ScrollView>

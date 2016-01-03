@@ -10,14 +10,20 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.android.nourriture.nourriture.NutritionDetailActivity;
 import com.android.nourriture.nourriture.R;
 import com.android.nourriture.nourriture.SearchResultActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -31,17 +37,23 @@ public class ListViewFragment extends Fragment {
     private String[] types = {"pork","beef","mutton"};
     private String[] partOfPork = {"pork","ribs","streaky","streaky","streaky","streaky","streaky","streaky","streaky"};
     private String[] partOfMutton = {"mutton","lamb"};
+
+    private List<String> ingredientList = new ArrayList<String>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
         View view = inflater.inflate(R.layout.listview_fragment,container,false);
 
-        TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
+        //TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
         ScrollView scrollView = (ScrollView)view.findViewById(R.id.ingredientScroll);
 
         str = getArguments().getString(TAG);
         Log.v("this is the str:%s",str);
         LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.ingredientTypeView);
-        tv_title.setText(str);
+        //tv_title.setText(str);
+
+        initData();
+
         for (int i = 0; i < types.length; i++){
             Log.v("for:%d", i + "1");
             View deView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.listview_fragement_layout,null);
@@ -50,7 +62,21 @@ public class ListViewFragment extends Fragment {
             Log.v("for:%d", i + "3");
             title.setText(types[i]);
             Log.v("for:%d", types[i]);
-            TableLayout tableLayout = (TableLayout)deView.findViewById(R.id.ingredientTypeTable);
+
+            MyGridView gridView = (MyGridView)deView.findViewById(R.id.gv_ingredient);
+            gridView.setAdapter(new MyGridViewAdapter(ingredientList,inflater));
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(getActivity(), SearchResultActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("SEARCHCONTEXT", ingredientList.get(position));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
+
+            /*TableLayout tableLayout = (TableLayout)deView.findViewById(R.id.ingredientTypeTable);
             TableLayout.LayoutParams tablelayout = new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
             tablelayout.setMargins(10,10,10,10);
             TableRow.LayoutParams tablerowlayout =
@@ -92,7 +118,7 @@ public class ListViewFragment extends Fragment {
                     tablerow.setGravity(Gravity.CENTER);
                 }
             }
-
+*/
             deView.setVisibility(View.VISIBLE);
             linearLayout.addView(deView);
 
@@ -101,4 +127,55 @@ public class ListViewFragment extends Fragment {
         return vg;
     }
 
+    private void initData()
+    {
+
+        ingredientList.add("pork");
+        ingredientList.add("ribs");
+        ingredientList.add("streaky");
+        ingredientList.add("streaky");
+        ingredientList.add("pork");
+        ingredientList.add("ribs");
+        ingredientList.add("streaky");
+        ingredientList.add("streaky");
+        ingredientList.add("pork");
+        ingredientList.add("ribs");
+        ingredientList.add("streaky");
+        ingredientList.add("streaky");
+
+    }
+
+    private class MyGridViewAdapter extends BaseAdapter
+    {
+        List<String> stringList;
+        LayoutInflater inflater;
+        public MyGridViewAdapter(List<String> stringList,LayoutInflater inflater) {
+            this.stringList = stringList;
+            this.inflater = inflater;
+        }
+
+        @Override
+        public int getCount() {
+            return stringList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return stringList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = (View)inflater.inflate(R.layout.gridview_ingredient,parent,false);
+            TextView recipeType = (TextView)convertView.findViewById(R.id.recipe_type);
+            recipeType.setText(stringList.get(position));
+            return convertView;
+        }
+    }
 }
+
