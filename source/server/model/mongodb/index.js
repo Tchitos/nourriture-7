@@ -8,6 +8,7 @@ module.exports = {
 	recipeIngredient:	require('./recipeIngredient.js'),
 	equipment:			require('./equipment.js'),
 	image:				require('./image.js'),
+	nutrition:			require('./nutrition.js'),
 	type:				require('./type.js'),
 	subtype:			require('./subtype.js')
 };
