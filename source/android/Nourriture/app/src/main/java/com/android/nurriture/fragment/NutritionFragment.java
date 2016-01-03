@@ -20,15 +20,25 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.nourriture.nourriture.NutritionDetailActivity;
 import com.android.nourriture.nourriture.R;
 import com.android.nourriture.nourriture.RecipeActivity;
 import com.android.nourriture.nourriture.SearchResultActivity;
+import com.android.nurriture.entity.NutritionInfo;
+import com.android.nurriture.util.HttpMethod;
+import com.android.nurriture.util.HttpUtil;
 import com.android.nuttriture.adapter.ListViewAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2015/12/9.
@@ -48,6 +58,10 @@ public class NutritionFragment extends Fragment{
     private List<String> nutritionList;
     private List<String> mineralList;
 
+    private List<NutritionInfo> nutritionInfoList;
+
+    private MyGridViewAdapter myAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -55,60 +69,8 @@ public class NutritionFragment extends Fragment{
         View nutritionView = (View)inflater.inflate(R.layout.layout_nutrition, container, false);
 
         initNutritionGV(nutritionView,inflater);
-        initMineralGV(nutritionView,inflater);
+        initMineralGV(nutritionView, inflater);
 
-       /* DisplayMetrics dm = new DisplayMetrics();
-        //取得窗口属性
-=======
-        DisplayMetrics dm = new DisplayMetrics();
-
->>>>>>> origin/master
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-        screenWidth = dm.widthPixels;
-
-        ScrollView scrollView = (ScrollView)nutritionView.findViewById(R.id.ingredientScroll);
-
-        LinearLayout linearLayout = (LinearLayout)nutritionView.findViewById(R.id.ingredientTypeView);
-        for (int i = 0; i < nutrition.length; i++){
-            View deView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.listview_fragement_layout,null);
-            TextView title= (TextView)deView.findViewById(R.id.ingredientTypetitle);
-            title.setText(nutrition[i]);
-            Log.v("for:%d", nutrition[i]);
-            TableLayout tableLayout = (TableLayout)deView.findViewById(R.id.ingredientTypeTable);
-            TableLayout.LayoutParams tablelayout = new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
-            tablelayout.setMargins(10, 10, 10, 10);
-            TableRow tablerow = new TableRow(this.getActivity().getApplicationContext());
-            tablerow.setLayoutParams(tablelayout);
-            tablerow.setGravity(Gravity.CENTER);
-            tableLayout.addView(tablerow);
-
-            TableRow.LayoutParams tablerowlayout =
-                    new TableRow.LayoutParams((screenWidth-120)/3,TableRow.LayoutParams.WRAP_CONTENT);
-            Log.v("the width is :",tablerow.getWidth()+"");
-            tablerowlayout.setMargins(10, 10, 10, 10);
-            for(int j = 0; j < Nutrient.length; j++){
-                final TextView tv = new TextView(this.getActivity().getApplicationContext());
-                tv.setGravity(Gravity.CENTER);
-                tv.setBackgroundResource(R.drawable.rounded_outer3);
-                tv.setPadding(15, 15, 10, 10);
-                tv.setText(Nutrient[j]);
-                tv.setTextColor(android.graphics.Color.parseColor("#666666"));
-                tv.setLayoutParams(tablerowlayout);
-                tablerow.addView(tv);
-                if(((j+1) % 3 == 0)&&(j != Nutrient.length-1)){
-                    tablerow = new TableRow(this.getActivity());
-                    tableLayout.addView(tablerow);
-                    tablerow.setLayoutParams(tablelayout);
-                    tablerow.setGravity(Gravity.CENTER);
-                }
-            }
-
-            deView.setVisibility(View.VISIBLE);
-            linearLayout.addView(deView);
-
-        }
-        ViewGroup vg = (ViewGroup)nutritionView;*/
         return nutritionView;
     }
 
@@ -119,34 +81,60 @@ public class NutritionFragment extends Fragment{
 
     private void initNutritionGV(View view,LayoutInflater inflater)
     {
+        nutritionInfoList = new ArrayList<NutritionInfo>();
         gv_nutrition = (MyGridView)view.findViewById(R.id.gv_nutrition);
         nutritionList = new ArrayList<String>();
-        nutritionList.add("Vitamin A");
-        nutritionList.add("Vitamin B1");
-        nutritionList.add("Vitamin B2");
-        nutritionList.add("Vitamin B3");
-        nutritionList.add("Vitamin B4");
-        nutritionList.add("Vitamin B5");
-        nutritionList.add("Vitamin B6");
-        nutritionList.add("Vitamin C");
-        nutritionList.add("Vitamin D");
-        nutritionList.add("Vitamin E");
-        nutritionList.add("Vitamin H");
-        nutritionList.add("Vitamin K");
-        nutritionList.add("Vitamin P");
-        nutritionList.add("Vitamin B11");
-        nutritionList.add("Vitamin B12");
-        gv_nutrition.setAdapter(new MyGridViewAdapter(nutritionList, inflater));
+        myAdapter = new MyGridViewAdapter(nutritionList, inflater);
+        gv_nutrition.setAdapter(myAdapter);
+
+        HttpUtil connectNet2 = new HttpUtil("/getNutritions", HttpMethod.GET) {
+
+            @Override
+            protected void getResult(String result) {
+                try{
+                JSONObject jsonObject = new JSONObject(result);
+                    String statusCode = jsonObject.getString("statusCode");
+                    String value = jsonObject.getString("value");
+
+                    JSONArray jsonArray = new JSONArray(value);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jb = jsonArray.getJSONObject(i);
+                        String name = jb.getString("name");
+                        String effect = jb.getString("effects");
+                        String dailyIntake = jb.getString("dailyIntake");
+                        String supplementCycle = jb.getString("supplementCycle");
+
+
+                        nutritionList.add(name);
+                        myAdapter.notifyDataSetChanged();
+                        JSONObject jo = new JSONObject(effect);
+                        NutritionInfo nutritionInfo = new NutritionInfo();
+                        nutritionInfo.setName(name);
+                        nutritionInfo.setEffect(jo.getString("0"));
+                        nutritionInfo.setDailyIntake(dailyIntake);
+                        nutritionInfo.setSupplementCycle(supplementCycle);
+                        nutritionInfoList.add(nutritionInfo);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        connectNet2.execute();
+
+
         gv_nutrition.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent;
-
-                    intent = new Intent(getActivity(), NutritionDetailActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("NutritionName", "Vitamin A");
-                    intent.putExtras(bundle);
+               // Toast.makeText(getActivity(), "jinrudetail", Toast.LENGTH_SHORT).show();
+                NutritionInfo nutritionInfo = nutritionInfoList.get(position);
+                Intent intent = new Intent(getActivity(), NutritionDetailActivity.class);
+                Bundle mBundle = new Bundle();
+                mBundle.putSerializable("nutrition",nutritionInfo);
+                intent.putExtras(mBundle);
                 startActivity(intent);
+
             }
         });
     }

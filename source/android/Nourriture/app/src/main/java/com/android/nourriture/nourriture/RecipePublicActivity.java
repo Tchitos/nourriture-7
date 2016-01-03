@@ -150,7 +150,7 @@ public class RecipePublicActivity extends Activity {
                 int name_id = ++count_sub;
                 int content_id = ++count_sub;
 
-                Map<String,Integer> mainIngred = new HashMap<>();
+                Map<String,Integer> mainIngred = new HashMap<String,Integer>();
                 mainIngred.put("id", name_id);
                 mainIngred.put("content", content_id);
                 idSubIngredientList.add(mainIngred);

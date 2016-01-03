@@ -30,6 +30,7 @@
            android:layout_alignParentLeft="true"/>
 
        <TextView
+           android:id="@+id/nutritionName"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="Vitamin A(retinol)"
@@ -55,6 +56,7 @@
 
 
         <TextView
+            android:id="@+id/nutrition_effect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Effect of vitamin A："
@@ -63,6 +65,7 @@
             android:layout_marginTop="20dp"/>
 
         <TextView
+            android:id="@+id/effect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" In the general population are edible.Suitable for the growth and development, and postoperative disease aftercare and gas after Cain, "
@@ -71,6 +74,7 @@
             android:layout_marginTop="10dp"/>
 
         <TextView
+            android:id="@+id/nutritionRecommand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vitamin A recommended daily intake："
@@ -79,6 +83,7 @@
             android:layout_marginTop="20dp"/>
 
         <TextView
+            android:id="@+id/recommend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" All rotten, rotten or buds more potatoes, because of excessive solanine, easily cause poisoning, are not edible."
@@ -87,6 +92,7 @@
             android:layout_marginTop="10dp"/>
 
         <TextView
+            android:id="@+id/nutrition_supply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vitamin A supplements cycle："
@@ -95,6 +101,7 @@
             android:layout_marginTop="20dp"/>
 
         <TextView
+            android:id="@+id/supplement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" Sweet potatoes, flat, cool, spleen, stomach, large intestine; and a stomach, invigorating spleen to remove dampness, detoxification anti-inflammatory, wide intestinal catharsis, lipid-lowering, hypoglycemic, Huoxue swelling, Qi physical, beauty, anti-aging old effect. "
