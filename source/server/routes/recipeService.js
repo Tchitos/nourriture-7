@@ -187,10 +187,6 @@ exports.findRecipeByName = function(req, res) {
 		return;
 	}
 
-	if (req.body.search.length < 3) {
-		return res.status(201).send('Search start after 3 character.');
-	}
-
 	var name = req.body.name;
 
 	console.log('Get a recipe: ' + name);
@@ -214,6 +210,10 @@ exports.findRecipesBySearch = function(req, res) {
 	if (req.body.search === undefined) {
 		res.status(401).send('No search given.');
 		return;
+	}
+
+	if (req.body.search.length < 3) {
+		return res.status(201).send('Search start after 3 character.');
 	}
 
 	var search = req.body.search;
