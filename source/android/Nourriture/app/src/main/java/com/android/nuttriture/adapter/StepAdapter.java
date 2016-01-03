@@ -58,7 +58,11 @@ public class StepAdapter extends BaseAdapter {
         des.setText(StepInfoList.get(position).getDesc());
         Log.v("desc:", StepInfoList.get(position).getDesc());
         ImageView img = (ImageView)convertView.findViewById(R.id.step_img);
-        img.setImageResource(R.mipmap.home_recipe);
+        String image = StepInfoList.get(position).getImg();
+        if(image==null || image =="" ||image.equals("")){
+            img.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 //    private String number[];
