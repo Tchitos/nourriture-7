@@ -9,14 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.nourriture.nourriture.R;
 import com.android.nurriture.entity.RecipeInfo;
 import com.android.nurriture.fragment.MyListView;
 import com.android.nurriture.util.Config;
-//import com.android.nurriture.util.ImageLoader;
 import com.android.nurriture.util.SyncImageLoader;
 
 import java.util.List;
@@ -68,7 +66,13 @@ public class HomeRecipeAdapter extends BaseAdapter {
         convertView.setTag(position);
         ImageView imageView = (ImageView)convertView.findViewById(R.id.recipe_img);
         String imagepath = recipeInfoList.get(position).getImgpath();
-        String path = Config.SERVER_URL+"/public/images/"+imagepath;
+        String path ="";
+        if(imagepath.length()>12){
+            path= Config.SERVER_URL+"/images/:"+imagepath;
+        }else{
+            path = Config.SERVER_URL+"/public/images/"+imagepath;
+        }
+
         Log.v("image path:",path);
 
         if(imagepath!="" && !imagepath.equals("") && imagepath!=null){

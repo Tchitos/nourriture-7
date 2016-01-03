@@ -59,8 +59,10 @@ public class StepAdapter extends BaseAdapter {
         Log.v("desc:", StepInfoList.get(position).getDesc());
         ImageView img = (ImageView)convertView.findViewById(R.id.step_img);
         String image = StepInfoList.get(position).getImg();
+        img.setImageResource(R.mipmap.home_recipe);
         if(image==null || image =="" ||image.equals("")){
-            img.setVisibility(View.GONE);
+            //img.setVisibility(View.GONE);
+            //img.setImageResource(R.mipmap.home_recipe);
         }
 
         return convertView;
