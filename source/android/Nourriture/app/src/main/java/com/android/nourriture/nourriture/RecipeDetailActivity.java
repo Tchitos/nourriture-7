@@ -61,17 +61,14 @@ public class RecipeDetailActivity extends Activity{
         DisplayMetrics  dm = new DisplayMetrics();
 
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-
         screenWidth = dm.widthPixels;
         getBundle();
-        getData();
         init();
+        getData();
         initTable();
         initList();
     }
     private void getData(){
-        stepAdapter = new StepAdapter(stepList,this.getLayoutInflater());
         Map<String, String> map = new HashMap<String, String>();
         map.put("name", recipename);
         HttpUtil connectNet = new HttpUtil(
@@ -107,17 +104,18 @@ public class RecipeDetailActivity extends Activity{
                                 JSONObject user = users.getJSONObject(0);
                                 username = user.getString("username");
                                 Log.v("username:", username);
-                                nameOfrecipe = (TextView)findViewById(R.id.recipe_name);
+
                                 nameOfrecipe.setText(recipename);
                                 //author_name = (TextView)findViewById(R.id.author_name);
                                 //author_name.setText(username);
-                                recipe_intro = (TextView)findViewById(R.id.recipe_intro);
+
                                 recipe_intro.setText(desc);
-                                recipe_tips = (TextView)findViewById(R.id.recipe_tips);
+
                                 recipe_tips.setText(tips);
-                                JSONArray stpes = new JSONArray(recipe.getString("step"));
+                                JSONArray stpes = new JSONArray(recipe.getString("steps"));
                                 if(stpes.length()>0){
                                     for(int i = 0;i<stpes.length();i++){
+                                        Log.v("stepvalue:",recipe.getString("steps"));
                                         Log.v("number length:",i+"");
                                         StepInfo stepInfo = new StepInfo();
                                         stepInfo.setNumber(number[i]);
@@ -145,6 +143,11 @@ public class RecipeDetailActivity extends Activity{
 
     private void init()
     {
+        stepList = new ArrayList<StepInfo>();
+        stepAdapter = new StepAdapter(stepList,this.getLayoutInflater());
+        nameOfrecipe = (TextView)findViewById(R.id.recipe_name);
+        recipe_intro = (TextView)findViewById(R.id.recipe_intro);
+        recipe_tips = (TextView)findViewById(R.id.recipe_tips);
         back_img = (ImageView)findViewById(R.id.back_img);
         back_img.setOnClickListener(new View.OnClickListener() {
             @Override

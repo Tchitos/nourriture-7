@@ -84,37 +84,7 @@ public class LoginActivity extends Activity {
                     "Please enter the password!", Toast.LENGTH_SHORT);
             toast.show();
         } else {
-/*wzz*/
-            //urlConn();
-        /*Map<String, String> map = new HashMap<String, String>();
-        map.put("username", usernameString);
-        map.put("password", passwordString);
-        HttpUtil connectNet = new HttpUtil("/login", HttpMethod.POST, map) {
-            @Override
-            protected void getResult(String result) {
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    String statusCode = jsonObject.getString("statusCode");
-                    String value = jsonObject.getString("value");
-                    Toast.makeText(getApplicationContext(), "statusCode="+statusCode+" value:"+value,
-                            Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        connectNet.execute();
-            sp = getSharedPreferences("userinfo", Context.MODE_PRIVATE);
-            sp.edit().putString("username", usernameString).commit();
-            sp.edit().putString("password", passwordString).commit();
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-            intent.putExtra("currentIndex",3);
-            startActivity(intent);
-            finish();*/
-        }
-/*wzz*/
-
-            /*PostRequestAPI api = new PostRequestAPI();
+            PostRequestAPI api = new PostRequestAPI(this);
             api.setUsername(usernameString);
             api.setPassword(passwordString);
             api.setRequest("/login");
@@ -128,65 +98,12 @@ public class LoginActivity extends Activity {
                 sp = getSharedPreferences("userinfo", Context.MODE_PRIVATE);
                 sp.edit().putString("username", usernameString).commit();
                 sp.edit().putString("password", passwordString).commit();
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                intent.putExtra("currentIndex",3);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra("currentIndex", 3);
                 startActivity(intent);
                 finish();
             }
-        }*/
-/*
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("username", usernameString);
-        map.put("password", passwordString);
-*/
-
-/*>>>>>>> origin/master*/
+        }
         return true;
-    }
-
-    protected void urlConn()
-    {
-        try{
-            String urlString = "http://104.236.38.237:3000/login";
-            URL url = new URL(urlString);
-            HttpURLConnection httpconn = (HttpURLConnection) url.openConnection();
-            httpconn.setRequestMethod("POST");
-            httpconn.setDoOutput(true);
-            httpconn.setDoInput(true);
-            httpconn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            httpconn.connect();
-
-            DataOutputStream out = new DataOutputStream(httpconn
-                    .getOutputStream());
-            String content = "username=hlh";
-            content +="&password=hlh";
-            out.writeBytes(content);
-
-            out.flush();
-            out.close();
-            if (httpconn.getResponseCode() == 200) {
-                Toast.makeText(getApplicationContext(), "Connect Server API success!",
-                        Toast.LENGTH_SHORT).show();
-                InputStream is = httpconn.getInputStream();
-                byte[] data = readStream(is);
-                String json = new String(data);
-            }
-            }catch (Exception e){
-            Toast.makeText(getApplicationContext(), "Connect Server Failed!", Toast.LENGTH_SHORT)
-                    .show();
-            e.printStackTrace();
-        }
-    }
-
-    private static byte[] readStream(InputStream inputStream) throws Exception {
-        ByteArrayOutputStream bout = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len = 0;
-        while ((len = inputStream.read(buffer)) != -1) {
-            bout.write(buffer, 0, len);
-        }
-        bout.close();
-        inputStream.close();
-        return bout.toByteArray();
     }
 }
