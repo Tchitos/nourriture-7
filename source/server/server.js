@@ -143,16 +143,20 @@ server.get('/getIngredients', ingredientsService.findAllIngredients)
 
 server.get('/getTypesDetails', typeService.findAllTypesDetails);
 
-server.post('/recipe/add', recipeService.addRecipe);
+server.post('/recipe/add', upload.any(), recipeService.addRecipe);
+server.post('/recipe/delete', recipeService.deleteRecipe);
 server.get('/getRecipes', recipeService.findAllRecipes);
 server.get('/getRecipesCount', recipeService.countAllRecipes);
 server.get('/getRecipesByPage/:nbPage?', recipeService.findAllRecipesPaginate);
+server.get('/getMyRecipes', recipeService.findMyRecipes);
 server.post('/getRecipeByName', recipeService.findRecipeByName);
+server.post('/getRecipesByIngredient', recipeService.findRecipesByIngredient);
+server.post('/getRecipesBySearch', recipeService.findRecipesBySearch);
 
 server.get('/getNutritions', nutritionService.findAllNutritions);
 server.post('/getNutritionByName', nutritionService.findNutritionByName);
 
-server.get('/image/:imageName', imageService.findImageByName);
+server.get('/image/:imageId', imageService.findImageById);
 
 // /***************************
 // *     END OAUTH SERVICE

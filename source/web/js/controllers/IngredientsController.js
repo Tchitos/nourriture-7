@@ -5,16 +5,14 @@ nourritureApp.controller('IngredientsController', ['$scope', 'viewName', 'loginS
 	loginService.init($scope);
 	$scope.viewScope = {};
 
-	$scope.addIngredient = function(file) {
+	$scope.addIngredient = function() {
 
 		var ingredient = [];
 
-		ingredientService.addIngredient($scope.viewScope.ingredient, file, function(response) {
+		ingredientService.addIngredient($scope.viewScope.ingredient, function(response) {
 			$scope.viewScope.ingredient['Name'] = '';
-			$scope.viewScope.ingredient['Photo'] = '';
 			$scope.viewScope.message = 'Ingredient added';
 		});
-
 	}
 
 }]);

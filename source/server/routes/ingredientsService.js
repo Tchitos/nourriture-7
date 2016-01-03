@@ -34,7 +34,7 @@ exports.addIngredient = function(req, res, next) {
 					function(err, image) {
 
 		if (err)
-			return res.status(500).send("The image could'nt be uploaded.");
+			return res.status(500).send("The image couldn't be uploaded.");
 	});
 
 	model.ingredient.add(ingredientName, image._id, function(err, ingredient) {
