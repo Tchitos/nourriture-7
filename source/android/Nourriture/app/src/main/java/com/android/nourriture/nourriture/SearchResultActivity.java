@@ -1,6 +1,7 @@
 package com.android.nourriture.nourriture;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -63,15 +64,43 @@ public class SearchResultActivity extends FragmentActivity {
         editText.setText(searchcontext);
     }
 
+    @Override
+    protected void onResume() {
+        int id = getIntent().getExtras().getInt("currentIndex",0);
+
+        viewPager.setCurrentItem(id, false);
+
+        super.onResume();
+    }
+
     private void init()
     {
         back_img = (ImageView)findViewById(R.id.back_img);
         back_img.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(SearchResultActivity.this, MainActivity.class);
+                if (search_type.equals("ingredient_type")) {
+                    intent.putExtra("currentIndex", 1);
+                } else {
+                    intent.putExtra("currentIndex", 0);
+                }
+                startActivity(intent);
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(SearchResultActivity.this, MainActivity.class);
+        if (search_type.equals("ingredient_type")) {
+            intent.putExtra("currentIndex", 1);
+        } else {
+            intent.putExtra("currentIndex", 0);
+        }
+        startActivity(intent);
+        finish();
     }
 
     private void initViewPager()
@@ -165,5 +194,6 @@ public class SearchResultActivity extends FragmentActivity {
     private void getBundle() {
         Bundle bundle = this.getIntent().getExtras();
         searchcontext = bundle.getString("SEARCHCONTEXT");
+        search_type = bundle.getString("search_type");
     }
 }

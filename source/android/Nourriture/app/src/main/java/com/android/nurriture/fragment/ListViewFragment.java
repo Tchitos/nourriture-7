@@ -71,6 +71,8 @@ public class ListViewFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), SearchResultActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("SEARCHCONTEXT", ingredientList.get(position));
+                    bundle.putString("search_type","ingredient_type");
+                    bundle.putInt("currentIndex",0);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
