@@ -379,6 +379,8 @@ public class HomeFragment extends Fragment {
                     intent = new Intent(getActivity(), SearchResultActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("SEARCHCONTEXT", "search");
+                    bundle.putString("search_type","recipe_classification");
+                    bundle.putInt("currentIndex",1);
                     intent.putExtras(bundle);
                 }
 
