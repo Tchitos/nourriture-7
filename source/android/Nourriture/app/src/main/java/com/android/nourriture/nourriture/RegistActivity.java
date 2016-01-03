@@ -103,6 +103,10 @@ public class RegistActivity extends Activity {
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "Register complete", Toast.LENGTH_SHORT);
                 toast.show();
+                Intent intent = new Intent(RegistActivity.this, LoginActivity.class);
+                //intent.putExtra("currentIndex", 3);
+                startActivity(intent);
+                finish();
             }
         }
     }

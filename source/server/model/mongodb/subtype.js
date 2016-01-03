@@ -58,3 +58,17 @@ module.exports.fetchByName = function(name, cb) {
 		});
 	});
 };
+
+module.exports.fetchBySearch = function(search, cb) {
+
+	db.collection('subtypes', function(err, collection) {
+
+		collection.find({'name': new RegExp(search, 'i')}).toArray(function(err, subtype) {
+
+			if (err)
+				return cb();
+
+			return cb(null, subtype);
+		});
+	});
+};

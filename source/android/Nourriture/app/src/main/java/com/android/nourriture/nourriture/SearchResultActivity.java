@@ -29,6 +29,8 @@ import java.util.List;
  */
 public class SearchResultActivity extends FragmentActivity {
 
+    private String search_type = "recipe";
+
     private MyViewPager viewPager;
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private FragmentAdapter mFragmentAdapter;
@@ -76,10 +78,10 @@ public class SearchResultActivity extends FragmentActivity {
     {
         tab[0] = (TextView)findViewById(R.id.ingredient_tv);
         tab[1]  = (TextView)findViewById(R.id.recipe_tv);
-        tab[2]  = (TextView)findViewById(R.id.mutualsuit_tv);
+       // tab[2]  = (TextView)findViewById(R.id.mutualsuit_tv);
         tab[0].setOnClickListener(new myTabClickListener(0));
         tab[1].setOnClickListener(new myTabClickListener(1));
-        tab[2].setOnClickListener(new myTabClickListener(2));
+       // tab[2].setOnClickListener(new myTabClickListener(2));
 
         mTabLineIv = (ImageView) this.findViewById(R.id.id_tab_line_iv);
 
@@ -134,10 +136,10 @@ public class SearchResultActivity extends FragmentActivity {
                     lp.leftMargin = 60;
                     break;
                 case 1:
-                    lp.leftMargin = 60 + screenWidth / 4;
+                    lp.leftMargin = screenWidth / 2;
                     break;
                 case 2:
-                    lp.leftMargin = 100 + (screenWidth / 4)*2;
+                    lp.leftMargin = 100 + (screenWidth / 2)*2;
                     break;
             }
             mTabLineIv.setLayoutParams(lp);

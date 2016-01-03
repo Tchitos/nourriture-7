@@ -4,13 +4,14 @@ var tokenModel = require('./token');
 var db = commonService.db;
 var recipeIngredientModel = require('./recipeIngredient');
 
-module.exports.add = function(userId, recipeName, recipeDesc, recipeTips, equipements, ingredients, steps, cb) {
+module.exports.add = function(userId, recipeName, recipePhoto, recipeDesc, recipeTips, equipements, ingredients, steps, cb) {
 
 	db.collection('recipes', function(err, collection) {
 
 		var recipe = {
 			'author': new mongo.ObjectID(userId),
 			'name': recipeName,
+			'image': recipePhoto,
 			'description': recipeDesc,
 			'tips': recipeTips,
 			'steps': steps,
@@ -21,15 +22,20 @@ module.exports.add = function(userId, recipeName, recipeDesc, recipeTips, equipe
 		collection.insert(recipe, {safe:true}, function(err, result) {
             if (err)
 				return cb(err);
-			recipeIngredientModel.add(result.ops[0]._id, ingredients, function(recipeIngredientsIds) {
+
+			var recipeId = result.ops[0]._id;
+
+
+			recipeIngredientModel.add(recipeId, ingredients, function(recipeIngredientsIds) {
 
 				var recipeIngredients = [];
 				for (var i in recipeIngredientsIds) {
 					recipeIngredients.push(new mongo.ObjectID(recipeIngredientsIds[i]));
 				}
-				collection.update({_id: result.ops[0]._id}, {$set: {'recipeIngredients': recipeIngredients}}, {safe: true}, function(err, result) {
+				collection.update({_id: recipeId}, {$set: {'recipeIngredients': recipeIngredients}}, {safe: true}, function(err, result) {
 					if (err)
 						return cb(err);
+
 					return cb();
 				});
 			});
@@ -114,6 +120,48 @@ module.exports.countAll = function(cb) {
 				return cb(err);   
 
 			return cb(null, nbRecipes);
+		});
+	});
+};
+
+module.exports.fetchByIds = function(ids, cb) {
+
+	db.collection('recipes', function(err, collection) {
+
+		collection.find({"_id": {$in: ids}}).toArray(function(err, recipes) {
+
+			if (err)
+				return cb();   
+
+			return cb(null, recipes);
+		});
+	});
+};
+
+module.exports.fetchBySearch = function(search, cb) {
+
+	db.collection('recipes', function(err, collection) {
+
+		collection.find({'name': new RegExp(search, 'i')}).toArray(function(err, recipes) {
+
+			if (err)
+				return cb();
+
+			return cb(null, recipes);
+		});
+	});
+};
+
+module.exports.fetchBySubtypes = function(subtypeIds, cb) {
+
+	db.collection('recipes', function(err, collection) {
+
+		collection.find({"subtypes": {$in: subtypeIds}}).toArray(function(err, recipes) {
+
+			if (err)
+				return cb();
+
+			return cb(null, recipes);
 		});
 	});
 };

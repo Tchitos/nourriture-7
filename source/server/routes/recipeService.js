@@ -5,6 +5,8 @@ var db = commonService.db;
 var ObjectId = require('mongodb').ObjectID;
 var TYPE = 'mongodb';
 var model = require('../model/' + TYPE);
+var	fs				= require('fs-extra');
+var getPath			= require('path');
 
 /*
 ** Add a recipe
@@ -19,25 +21,78 @@ var model = require('../model/' + TYPE);
 exports.addRecipe = function(req, res, next) {
 
 	if (!req.session || !req.session.authorized)
-        return res.status(403).send();
+		return res.status(403).send();
 
-    if (!req.body.recipeName || !req.body.recipeDesc || !req.body.recipeTips || !req.body.equipements || !req.body.ingredients || !req.body.steps)
-        return res.send('Missing parameters');
+	if (!req.body.recipeName || !req.body.recipeDesc || !req.body.recipeTips || !req.body.equipements || !req.body.ingredients || !req.body.steps)
+		return res.send('Missing parameters');
 
-    var recipeName = req.body.recipeName;
-    var recipeDesc = req.body.recipeDesc;
-    var recipeTips = req.body.recipeTips;
-    var equipements = JSON.parse(req.body.equipements);
-    var ingredients = JSON.parse(req.body.ingredients);
-    var steps = JSON.parse(req.body.steps);
+	var recipePhoto = null;
+	var recipeName = req.body.recipeName;
+	var recipeDesc = req.body.recipeDesc;
+	var recipeTips = req.body.recipeTips;
+	var equipements = JSON.parse(req.body.equipements);
+	var ingredients = JSON.parse(req.body.ingredients);
+	var steps = JSON.parse(req.body.steps);
 
-    model.recipe.add(req.session.user._id, recipeName, recipeDesc, recipeTips, equipements, ingredients, steps, function(err) {
+	addImagesRecurs(req.files, {}, 0, function(err, imageIds) {
 
-        if (err)
-            return res.status(500).send('An error occured.');
-        res.send('ok');
-    });
+		console.log(imageIds);
+
+		for (var key in imageIds) {
+			if (key == 'recipePhoto')
+				recipePhoto = imageIds[key];
+			else {
+				console.log('tmp');
+				var tmp = key.split('][step');
+				if (!tmp)
+					continue;
+
+				level = tmp[1].substr(0, 1);
+
+				if (!steps[level-1])
+					continue;
+
+				steps[level-1]['image'] = imageIds[key];
+			}
+		}
+
+		model.recipe.add(req.session.user._id, recipeName, recipePhoto, recipeDesc, recipeTips, equipements, ingredients, steps, function(err) {
+
+			if (err)
+				return res.status(500).send('An error occured.');
+			res.send('ok');
+		});
+	});
 };
+
+function addImagesRecurs(files, filesId, index, cb) {
+
+	var path = './uploads/'+files[index].filename;
+	path = getPath.resolve(process.cwd(), path);
+
+	fs.move(files[index].path, path, function (err) {
+
+		if (err)
+			cb(err);
+
+		model.image.add(files[index].originalname,
+						path,
+						files[index].mimetype,
+						files[index].size,
+						function(err, image) {
+
+			if (err)
+				cb(err);
+
+			filesId[files[index].fieldname] = image._id;
+
+			if (files[index + 1] === undefined)
+				cb(null, filesId);
+			else
+				addImagesRecurs(files, filesId, index + 1, cb);
+		});
+	});
+}
 
 exports.deleteRecipe = function(req, res, next) {
 
@@ -136,7 +191,6 @@ exports.findRecipeByName = function(req, res) {
 
 	console.log('Get a recipe: ' + name);
 
-
 	model.recipe.fetchByName(name, function(err, recipeRes) {
 		var recipe = null;
 
@@ -148,6 +202,32 @@ exports.findRecipeByName = function(req, res) {
 			recipe = recipeRes;
 
 		recipe = loadRecipeDetails(res, recipe);
+	});
+};
+
+exports.findRecipesBySearch = function(req, res) {
+
+	if (req.body.search === undefined) {
+		res.status(401).send('No search given.');
+		return;
+	}
+
+	if (req.body.search.length < 3) {
+		return res.status(201).send('Search start after 3 character.');
+	}
+
+	var search = req.body.search;
+
+	console.log('Get a recipe by search: ' + search);
+
+	model.recipe.fetchBySearch(search, function(err, recipe) {
+
+		if (err != null)
+			return res.status(401).send('An error occured during the search.');
+		else if (!recipe)
+			return res.status(201).send('No recipe found.');
+		else
+			return res.send(recipe);
 	});
 };
 
@@ -196,82 +276,99 @@ exports.findAllRecipesPaginate = function(req, res) {
 	});
 };
 
-// var findMatch = function(ingredients, id) {
-// 	var res = [{}];
-// 	var i = 0;
-// 	var j = 0;
-// 	var h = 0;
-
-// 	while (ingredients[i]) {
-// 		while (ingredients[i].recipes[j]) {
-// 			if (ingredients[i].recipes[j] == id) {
-// 				res[h] = ingredients[i];
-// 				h += 1;
-// 			}
-// 			j += 1;
-// 		}
-// 		j = 0;
-// 		i += 1;
-// 	}
-// 	return (res);
-// }
-
-// exports.getRecipeIngredient = function(req, res) {
-// 	var id = req.params.id;
-
-// 	db.collection('ingredients', function(err, collection) {
-// 		collection.find().toArray(function(err, items) {
-// 			res.send(findMatch(items, id));
-// 		});
-// 	});
-// }
-
-// var userRecipes = function(recipes, id) {
-// 	var res = [{}];
-// 	var i = 0;
-// 	var h = 0;
-
-// 	while (recipes[i]) {
-// 		if (recipes[i].user == id){
-// 			res[h] = recipes[i];
-// 			h += 1;
-// 		}
-// 		i += 1;
-// 	}
-// 	return (res);
-// }
-
-// exports.getOwnerRecipes = function(req, res) {
-// 	var id = req.params.id;
+exports.findRecipesByIngredient = function(req, res) {
 	
-// 	db.collection('recipes', function(err, collection) {
-// 		collection.find().toArray(function(err, items){
-// 			res.send(userRecipes(items, id));
-// 		});
-// 	});
-// }
+	console.log('GetRecipesByIngredient');
 
-// exports.addRecipe = function(req, res) {
-// 	var recipe = req.body;
-// 	console.log('Add recipe: ' + JSON.stringify(recipe));
-// 	db.collection('recipes', function(err, collection) {
-// 		collection.insert(recipe, {safe:true}, function(err, result) {
-// 			if (err) {
-// 				res.send({'error':'An error has occurred'});
-// 			} else {
-// 				console.log('Success: ' + JSON.stringify(result[0]));
-// 				res.send(result[0]);
-// 			}
-// 		});
-// 	});
-// }
+	if (req.body.search === undefined) {
+		return res.status(401).send('No search given.');
+	}
 
+	if (req.body.search.length < 3) {
+		return res.status(201).send('Search start after 3 character.');
+	}
 
+	model.ingredient.fetchBySearch(req.body.search, function(err, ingredients) {
 
-// exports.deleteRecipe = function(req, res) {
-// 	var id = req.params.id;
-// 	console.log('Deleting recipe: ' + id);
-// }
+		if (err != null)
+			return res.status(401).send('An error occured during the search.');
+		else if (!ingredients)
+			return res.status(201).send('No ingredient found.');
+
+		var ingredientIds = [];
+
+		for (var index in ingredients) {
+			ingredientIds.push(ingredients[index]['_id']);
+		}
+
+		model.recipeIngredient.fetchByIngredients(ingredientIds, function(err, recipeIngredients) {
+
+			if (err != null)
+				return res.status(401).send('An error occured during the search.');
+			else if (recipeIngredients == null)
+				return res.status(201).send('No ingredient found.');
+			else {
+
+				var recipeIds = [];
+
+				for (var index in recipeIngredients) {
+					recipeIds.push(recipeIngredients[index]['recipe']);
+				}
+
+				model.recipe.fetchByIds(recipeIds, function(err, recipes) {
+
+					if (err != null)
+						return res.status(401).send('An error occured during the search.');
+					else if (recipeIngredients == null)
+						return res.status(201).send('No ingredient found.');
+					else
+						return res.send(recipes);
+
+				});
+			}
+
+		});
+	});
+};
+
+exports.findRecipesBySubtype = function(req, res) {
+	
+	console.log('GetRecipesBySubtype');
+
+	if (req.body.search === undefined) {
+		return res.status(401).send('No search given.');
+	}
+
+	if (req.body.search.length < 3) {
+		return res.status(201).send('Search start after 3 character.');
+	}
+
+	model.subtype.fetchBySearch(req.body.search, function(err, subtypes) {
+
+		if (err != null)
+			return res.status(401).send('An error occured during the search.');
+		else if (!subtypes)
+			return res.status(201).send('No ingredient found.');
+
+		var subtypeIds = [];
+
+		for (var index in subtypes) {
+			subtypeIds.push(subtypes[index]['_id']);
+		}
+
+		model.recipe.fetchBySubtypes(subtypeIds, function(err, recipes) {
+
+			if (err != null)
+				return res.status(401).send('An error occured during the search.');
+			else if (!recipes)
+				return res.status(201).send('No recipes found.');
+			else {
+				res.send(recipes);
+			}
+
+		});
+	});
+};
 
 var populateDB = function() {
 
@@ -322,9 +419,9 @@ var populateDB = function() {
 				new mongo.ObjectID("566d7568e1b9caac0dac79fb"),
 				new mongo.ObjectID("566d75a3e1b9caac0dac79fc")
 			],
-		    "equipments": [
-		        new mongo.ObjectID("5676583a92a6087f7461b010")
-		    ]
+			"equipments": [
+				new mongo.ObjectID("5676583a92a6087f7461b010")
+			]
 		};
 
 
