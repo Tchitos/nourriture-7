@@ -53,15 +53,8 @@ public class RecipeDetailActivity extends Activity{
         DisplayMetrics  dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         screenWidth = dm.widthPixels;
-
         init();
-<<<<<<< HEAD
         initList();
-=======
-        initTable();
-        initList();
-
->>>>>>> origin/master
         getData();
     }
     private void getData(){
@@ -71,7 +64,6 @@ public class RecipeDetailActivity extends Activity{
         HttpUtil connectNet = new HttpUtil("/getRecipeByName", HttpMethod.POST, map) {
             @Override
             protected void getResult(String result) {
-<<<<<<< HEAD
 
                 try {
                     JSONObject jsonObject = new JSONObject(result);
@@ -84,24 +76,6 @@ public class RecipeDetailActivity extends Activity{
                         String value = jsonObject.optString("value");
                         Log.v("value:", value);
                         if (value != "" && value != null && !value.isEmpty()) {
-=======
-                Toast.makeText(getApplicationContext(), "Connect", Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(), "Connect Server API success!=" + result, Toast.LENGTH_SHORT).show();
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    String statusCode = jsonObject.getString("statusCode");
-                    if(statusCode == "401"){
-                        Toast.makeText(getApplicationContext(), "Failed" + result, Toast.LENGTH_SHORT).show();
-                    }else if(statusCode == "201"){
-
-                        Toast.makeText(getApplicationContext(), "Failed" + result, Toast.LENGTH_SHORT).show();
-                    }else{
-                        String value = jsonObject.getString("value");
-                      Log.v("wzzvalue:", value);
-//                    Toast.makeText(getApplicationContext(), "statusCode="+statusCode+" value:"+value,
-//                            Toast.LENGTH_SHORT).show();
-                        if(value!="" && value!=null && !value.isEmpty()){
->>>>>>> origin/master
                             try {
                                 JSONObject recipe = new JSONObject(value);
                                 String name = recipe.optString("name");
@@ -112,35 +86,15 @@ public class RecipeDetailActivity extends Activity{
                                 Log.v("desc:", desc);
                                 tips = recipe.optString("tips");
                                 Log.v("tips:", tips);
-<<<<<<< HEAD
 
                                 nameOfrecipe.setText(name);
                                 recipe_intro.setText(desc);
-=======
-                                /*JSONArray users = new JSONArray(recipe.getString("users"));
-                                Log.v("wzzusername:", users.toString());
-                                JSONObject user = users.getJSONObject(0);
-                                username = user.getString("username");
-                                Log.v("username:", username);*/
 
-                                nameOfrecipe.setText(recipename);
-                                //author_name = (TextView)findViewById(R.id.author_name);
-                                //author_name.setText(username);
-
-                               recipe_intro.setText(desc);
-
->>>>>>> origin/master
                                 recipe_tips.setText(tips);
 
                                 JSONArray stpes = new JSONArray(recipe.getString("steps"));
-<<<<<<< HEAD
                                 Log.v("stepvalue:", stpes.toString());
                                 if (stpes.length() > 0) {
-=======
-                                Toast.makeText(getApplicationContext(), "Connect step", Toast.LENGTH_SHORT).show();
-                                Log.v("wzzstep:",recipe.getString("steps"));
-                                if(stpes.length()>0){
->>>>>>> origin/master
                                     for(int i = 0;i<stpes.length();i++){
                                         Log.v("stpes.getJSONObject:",stpes.getJSONObject(i).toString());
                                         JSONObject step = stpes.getJSONObject(i);
@@ -261,7 +215,8 @@ public class RecipeDetailActivity extends Activity{
             syncImageLoader = new SyncImageLoader();
             syncImageLoader.loadImage(0, path, imageLoadListener);
         }else{
-            recipe_img.setVisibility(View.GONE);
+            //recipe_img.setVisibility(View.GONE);
+            recipe_img.setImageResource(R.mipmap.home_recipe);
         }
 
 

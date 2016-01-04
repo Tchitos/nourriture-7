@@ -35,6 +35,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/recipe_img"
+                android:background="@mipmap/home_recipe"
                 android:src="@mipmap/touming"/>
 
             <RelativeLayout

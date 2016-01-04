@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.nurriture.fragment.IngredientListFragment;
 import com.android.nurriture.fragment.MutualSuitListFragment;
@@ -30,10 +31,10 @@ import java.util.List;
  */
 public class SearchResultActivity extends FragmentActivity {
 
-    private String search_type = "recipe";
+    private String search_type = "recipe_classification";
 
     private MyViewPager viewPager;
-    private List<Fragment> fragmentList = new ArrayList<Fragment>();
+    private List<Fragment> fragmentList ;
     private FragmentAdapter mFragmentAdapter;
 
     private TextView[] tab = new TextView[3];
@@ -52,15 +53,18 @@ public class SearchResultActivity extends FragmentActivity {
 
     private ImageView back_img;
 
+    private TextView search;
+    private EditText editText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result);
+        getBundle();
         init();
         initViewPager();
         initTabLineWidth();
-        getBundle();
-        EditText editText = (EditText)findViewById(R.id.serachContext);
+        editText = (EditText)findViewById(R.id.serachContext);
         editText.setText(searchcontext);
     }
 
@@ -76,6 +80,16 @@ public class SearchResultActivity extends FragmentActivity {
     private void init()
     {
         back_img = (ImageView)findViewById(R.id.back_img);
+        search = (TextView)findViewById(R.id.search);
+        search.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchcontext = String.valueOf(editText.getText());
+                search_type = "both";
+                initViewPager();
+            }
+        });
+
         back_img.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,17 +131,32 @@ public class SearchResultActivity extends FragmentActivity {
         viewPager = (MyViewPager)findViewById(R.id.st_view_pager);
         viewPager.setCanScroll(true);
 
-        ingredientListFragment = new IngredientListFragment();
-        recipeListFragment = new RecipeListFragment();
-        mutualSuitListFragment = new MutualSuitListFragment();
-        fragmentList.add(ingredientListFragment);
-        fragmentList.add(recipeListFragment);
-        fragmentList.add(mutualSuitListFragment);
-
+        fragmentList = new ArrayList<Fragment>();
         mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager(),fragmentList);
         viewPager.setAdapter(mFragmentAdapter);
         viewPager.setCurrentItem(0, false);
         viewPager.setOnPageChangeListener(new MyOnPageChangeListener());
+
+        setViewPager();
+    }
+
+    private void setViewPager()
+    {
+        ingredientListFragment = new IngredientListFragment();
+        recipeListFragment = new RecipeListFragment();
+        mutualSuitListFragment = new MutualSuitListFragment();
+        //Toast.makeText(getApplicationContext(), "aaaaasearchconetxt::" + searchcontext, Toast.LENGTH_SHORT).show();
+        Bundle bundle = new Bundle();
+        bundle.putString("search_type", search_type);
+        bundle.putString("search_text", searchcontext);
+        ingredientListFragment.setArguments(bundle);
+        recipeListFragment.setArguments(bundle);
+
+        fragmentList.add(ingredientListFragment);
+        fragmentList.add(recipeListFragment);
+        fragmentList.add(mutualSuitListFragment);
+        mFragmentAdapter.notifyDataSetChanged();
+
     }
 
     private class myTabClickListener implements OnClickListener{
