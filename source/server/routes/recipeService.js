@@ -36,8 +36,6 @@ exports.addRecipe = function(req, res, next) {
 
 	addImagesRecurs(req.files, {}, 0, function(err, imageIds) {
 
-		console.log(imageIds);
-
 		for (var key in imageIds) {
 			if (key == 'recipePhoto')
 				recipePhoto = imageIds[key];
@@ -66,6 +64,11 @@ exports.addRecipe = function(req, res, next) {
 };
 
 function addImagesRecurs(files, filesId, index, cb) {
+
+	if (files.length == 0) {
+		cb();
+		return;
+	}
 
 	var path = './uploads/'+files[index].filename;
 	path = getPath.resolve(process.cwd(), path);

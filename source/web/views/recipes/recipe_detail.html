@@ -12,7 +12,7 @@
 		<div class="recipe-space">
 			<div class="recipeDetail">
 				<div class="recipe_De_imgBox">
-					<img  width="620" ng-src="/image/{{viewScope.recipe.image}}" alt="{{viewScope.recipe.name}}">
+					<img  width="620" ng-src="/image/{{(viewScope.recipe.image == null) ? 'default' : viewScope.recipe.image }}" alt="{{viewScope.recipe.name}}">
 				</div>
 				<div class="lead recipe_describe">
 					<p><em>{{viewScope.recipe.description}}</em></p>
@@ -55,7 +55,7 @@
 					<div class="recipeStep_title"><strong>Steps of {{viewScope.recipe.name}}:</strong></div>
 					<div ng-repeat="step in viewScope.recipe.steps" class="row recipeStep_sub">
 						<div class="col-md-4 recipeStep_imgBox">
-							<img width="200" ng-src="/image/{{step.image}}">
+							<img width="200" ng-src="/image/{{(step.image == null) ? 'default' : step.image }}">
 						</div>
 						<p class="col-md-8 col-md-offest-4">
 							<span><strong>{{step.level}}.</strong></span>

@@ -19,7 +19,7 @@
 				<div ng-if="key >= viewScope.offset * viewScope.perPage && key < (viewScope.offset + 1) * viewScope.perPage">
 					<div class="image">
 						<a href="#/recipes_detail/{{recipe.name}}">
-							<img ng-src="/image/{{recipe.image}}" alt class="img-responsive">
+							<img ng-src="/image/{{(recipe.image == null) ? 'default' : recipe.image }}" alt class="img-responsive">
 						</a>
 					</div>
 				
